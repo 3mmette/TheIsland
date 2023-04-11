@@ -8,8 +8,7 @@ loc_one = ExplorableLocation(1, 4, 2, 0, 13,
 hex11 = Movable(1, True,
                 "BLOCK ONE",
                 "Near the start of the jetty lies hexagonal BLOCK ONE.",
-                "A hexagonal shaped rock, made of granite. The number one is engraved on it.",
-                "On the ground lies the dropped hexagonal BLOCK ONE.")
+                "A hexagonal shaped rock, made of granite. The number one is engraved on it.")
 
 sign = Item(1, True,
             "SIGN",

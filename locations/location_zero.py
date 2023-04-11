@@ -14,19 +14,17 @@ location_zero = StartLocation(0, 1, 13, 13, 13,
 battery = Movable(0, False,
                   "BATTERY",
                   "Inside the chest is a BATTERY",
-                  "A large Battery with two terminals on top.",
-                  "On the ground lies the dropped BATTERY")
+                  "A large Battery with two terminals on top.")
 
 hex01 = Movable(0, True,
                 "BLOCK ZERO",
                 "On the floor of the boat lies hexagonal BLOCK ZERO.",
-                "A hexagonal shaped rock, made of granite. The number zero is engraved on it.",
-                "On the ground lies the dropped hexagonal ROCK ZERO.")
+                "A hexagonal shaped rock, made of granite. The number zero is engraved on it.")
 
 button = Item(0, False,
               "BUTTON",
-              "On the DASHBOARD there is a BUTTON",
-              "The button says PRESS to start")
+              "On the DASHBOARD there is a BUTTON.",
+              "The button says PRESS to start.")
 
 dashboard = Dashboard(0, True, button,
                       "DASHBOARD",

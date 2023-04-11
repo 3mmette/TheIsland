@@ -9,21 +9,18 @@ coconut = Consumable(2, False, 5, 5,
                      "COCONUT",
                      "On the PALM trees hang a few COCONUT.",
                      "A ripe coconut, ready to be consumed",
-                     "On the ground lies the dropped COCONUT.",
                      "Delicious coconut water and flesh.")
 
 alcohol = Consumable(2, False, 0, -5,
                      "ALCOHOL",
                      "In the chest lies bottles of ALCOHOL",
                      "This stuff is pure, you could run a rocket of it.",
-                     "On the ground lies the dropped ALCOHOL",
                      "It's way too string, making you throw up.")
 
 hex21 = Movable(2, True,
                 "BLOCK TWO",
                 "Under the PALM trees lies hexagonal BLOCK TWO.",
-                "A hexagonal shaped rock, made of granite. The number two is engraved on it.",
-                "On the ground lies the dropped hexagonal BLOCK TWO.")
+                "A hexagonal shaped rock, made of granite. The number two is engraved on it.")
 
 palm = Holds(2, True, coconut, coconut,
              "PALM",

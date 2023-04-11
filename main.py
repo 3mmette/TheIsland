@@ -14,6 +14,9 @@ from backpack import BackPack
 
 backpack = BackPack(None)
 
+def full_location():
+    pass
+
 if __name__ == '__main__':
 
     for location in ExplorableLocation.locations:
@@ -52,7 +55,12 @@ if __name__ == '__main__':
 
                 # Print any dropped items into the location.
                 if len(location.dropped_items) != 0:
-                    print("test")
+                    print("On the ground lies the dropped ", end="")
+                    for item in location.dropped_items:
+                        if len(location.dropped_items) == 1:
+                            print(f"{item.name}.")
+                        else:
+                            print(f"{item.name},")
 
                 # Options for movement and prompt.
                 print(f"\nTo the North {Location.locations[location.north].cardinal_description}")
@@ -66,7 +74,7 @@ if __name__ == '__main__':
                     action = player_input[0]
                     thing = player_input[1]
 
-                    if action == "INSPECT":
+                    if action == "EXAMINE":
                         for item in Item.items:
                             if thing == item.name:
                                 item.Inspect()
@@ -80,6 +88,7 @@ if __name__ == '__main__':
 
                     if action == "OPEN":
                         if thing == "BAG":
+                            print(f"Your BAG currently had {backpack.count()} items.")
                             backpack.list()
                         else:
                             for item in Item.items:
@@ -98,6 +107,11 @@ if __name__ == '__main__':
                         for item in Item.items:
                             if thing == item.name:
                                 backpack.add(item)
+
+                    if action == "DROP":
+                        for item in Item.items:
+                            if thing == item.name:
+                                backpack.remove(item, Location.locations[current_location])
 
                     if action == "MOVE":
                         if thing == "N":

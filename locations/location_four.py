@@ -8,18 +8,15 @@ loc_four = ExplorableLocation(4, 7, 5, 1, 12,
 rock = Movable(4, True,
                "ROCK",
                "The bed of the stream is littered with smooth ROCK.",
-               "A smooth pebble, the perfect size and weight to throw.",
-               "On the ground lies the dropped ROCK")
+               "A smooth pebble, the perfect size and weight to throw.")
 boat_key = Movable(4, False,
                    "BOAT KEY",
                    "The BOAT KEY rests in the water near the start.",
-                   "A medium sized key, with a tag that says 'For Boat'.",
-                   "On the ground lies the dropped BOAT KEY")
+                   "A medium sized key, with a tag that says 'For Boat'.")
 hex41 = Movable(4, True,
                 "BLOCK FOUR",
                 "Under the water in the stream lies hexagonal BLOCK FOUR.",
-                "A hexagonal shaped rock, made of granite. The number four is engraved on it.",
-                "On the ground lies the dropped hexagonal BLOCK FOUR.")
+                "A hexagonal shaped rock, made of granite. The number four is engraved on it.")
 
 water = "New class for this one"
 

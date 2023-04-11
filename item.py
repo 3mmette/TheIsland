@@ -24,16 +24,15 @@ class Reveal(Item):
 
 class Movable(Item):
 
-    def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str, dropped: str):
+    def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
         super().__init__(location, is_visible, name, location_text, description)
-        self.dropped = dropped
         self.moved = False
 
 
 class Consumable(Movable):
     def __init__(self, location: int, is_visible: bool, food: int, drink: int, name, location_text: str,
-                 description: str, dropped: str, consumed: str):
-        super().__init__(location, is_visible, name, location_text, description, dropped)
+                 description: str, consumed: str):
+        super().__init__(location, is_visible, name, location_text, description)
         self.food = food
         self.drink = drink
         self.consumed = consumed

@@ -1,5 +1,10 @@
-Inspect
+Inspect? or examine
+Interact
+    - Give list of interaction options
 Open
 Close
 Move
-Insert / Interact
+Consume
+
+
+Refresh?

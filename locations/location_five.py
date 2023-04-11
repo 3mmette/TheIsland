@@ -8,14 +8,12 @@ loc_five = ExplorableLocation(5, 8, 6, 2, 4,
 key_rake = Movable(5, False,
                    "KEY RAKE",
                    "Stuck into the side of the TREE is a KEY RAKE.",
-                   "A rake that can be used to depress pins in a key chamber.",
-                   "On the ground lies the dropped KEY RAKE")
+                   "A rake that can be used to depress pins in a key chamber.")
 
 hex51 = Movable(5, True,
                 "BLOCK FIVE",
                 "In the centre of the crater lies hexagonal BLOCK FIVE.",
-                "A hexagonal shaped rock, made of granite. The number five is engraved on it.",
-                "On the ground lies the dropped hexagonal BLOCK FIVE.")
+                "A hexagonal shaped rock, made of granite. The number five is engraved on it.")
 
 tree = Reveal(5, True, key_rake, True,
               "TREE",
