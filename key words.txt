@@ -1,0 +1,5 @@
+Inspect
+Open
+Close
+Move
+Insert / Interact

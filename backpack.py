@@ -1,9 +1,6 @@
 class BackPack:
     """
     BackPack Class
-
-
-
     ToDo: [X] Instantiate backpack
     ToDo: [X] Add Item
     ToDo: [ ] Remove Item
@@ -11,14 +8,13 @@ class BackPack:
     ToDo: [X] Count items
     ToDo: [ ] in backpack (Search for Item - Student to do)
     ToDo: [X] Sort Items
-
     """
 
     def __init__(self, items):
         self._backpack = []
         if items is None:
             items = []
-        if type(items) is not "<class 'list'>":
+        if type(items) != "<class 'list'>":
             items = []
         for item in items:
             self._backpack.append(item)
@@ -31,12 +27,21 @@ class BackPack:
         return self._backpack.count()
 
     def list(self):
-        pass
+        for item in self._backpack:
+            print(item.name)
 
     def add(self, item):
         if item is not None:
             self._backpack.append(item)
             self.sort()
+
+    def remove(self, item, current_location):
+        if item is not None:
+            if item in self._backpack:
+                item.moved = True
+                current_location.dropped_items.append(item)
+                self._backpack.remove(item)
+                self.sort()
 
     def in_backpack(self, item):
         """
