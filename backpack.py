@@ -19,17 +19,31 @@ class BackPack:
         for item in items:
             self._backpack.append(item)
         self.sort()
+        self.rock = False
+        self.coconut = False
+
+    def items(self):
+        return self._backpack
 
     def sort(self):
         self._backpack.sort(key=lambda item: item.name)
 
     def count(self):
-        return len(self._backpack)
+        if self.rock and self.coconut:
+            return len(self._backpack) + 2
+        elif self.rock or self.coconut:
+            return len(self._backpack) + 1
+        else:
+            return len(self._backpack)
 
     def list(self):
         for item in self._backpack:
             print(f"You have a {item.name}.")
-
+        if self.rock:
+            print(f"You have a ROCK.")
+        if self.coconut:
+            print(f"You have a COCONUT.")
+            
     def add(self, item):
         if item is not None:
             self._backpack.append(item)
@@ -55,23 +69,23 @@ class BackPack:
                 self._backpack.remove(selected_item)
                 # Resort the backpack.
                 self.sort()
-                return f"{item} removed from backpack and dropped."
+                print(f"{item} removed from backpack and dropped.")
 
             # If -1 was returned, meaning the item was not found and therefor not in the backpack.
             elif item_index < 0:
-                return f"{item} is not in your backpack."
+                print(f"{item} is not in your backpack.")
 
             # Error message if either of the others fail.
             else:
-                f"An error occurred while searching your backpack for {item}."
+                print(f"An error occurred while searching your backpack for {item}.")
 
         # If no item was entered to drop.
         elif item is None:
-            f"You did not enter an item to drop."
+            print(f"You did not enter an item to drop.")
 
         # Error message if either of the others fail.
         else:
-            f"An error occurred. Unable to drop anything."
+            print(f"An error occurred. Unable to drop anything.")
 
     def in_backpack(self, item):
         # Get the initial range for the binary search.
@@ -79,10 +93,10 @@ class BackPack:
         last_index = len(self._backpack) - 1
 
         # While the last index is bigger than the first.
-        while last_index >= first_index:
+        while first_index <= last_index:
 
             # Get the middle.
-            middle_index = (last_index - first_index) // 2
+            middle_index = (first_index + last_index) // 2
 
             # If the middle index contains the item we are looking for
             if self._backpack[middle_index].name == item.name:
@@ -94,7 +108,7 @@ class BackPack:
                 last_index = middle_index - 1
 
             # If the item is higher than the middle index.
-            elif self._backpack[middle_index.name] < item.name:
+            elif self._backpack[middle_index].name < item.name:
                 # Set the first index to the middle index plus 1, as we already searched the middle index.
                 first_index = middle_index + 1
 

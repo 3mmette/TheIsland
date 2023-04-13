@@ -47,14 +47,3 @@ hex_nine_description = "A hexagonal shaped rock, made of granite. The number nin
 hex_nine_one_original = "Next to the shipwreck lies hexagonal ROCK NINE."
 hex_nine_two_original = "Next to the block lies hexagonal ROCK NINE."
 hex_nine_dropped = "On the ground lies the dropped hexagonal ROCK NINE."
-
-
-
-
-
-
-
-
-
-
-

@@ -12,7 +12,8 @@ hex11 = Movable(1, True,
 
 sign = Item(1, True,
             "SIGN",
-            "Large rocks seems to have been placed on the beach to form an 'SOS' SIGN.",
+            "Large rocks seems to have been placed on the beach to form an 'SOS' SIGN.\n"
+            "The corners of the letters are fairly square...",
             "The rocks are too large to move, and are made of granite.")
 
 paper = Item(1, True,
@@ -20,9 +21,8 @@ paper = Item(1, True,
              "Attached to the jetty is a piece of PAPER.",
              "Cryptic Clue...")
 
-metal_box = Requires(1, True, ["Cable"],
-                     "METAL BOX",
-                     "At the start of the jetty there is a METAL BOX on one of the posts.",
-                     "What looks to be an electrical box.",
-                     "There is a power socket.",
-                     "A cable is plugged into the socket.")
+metal_box = RequiresInsert(1, True,
+                           "METAL BOX",
+                           "At the start of the jetty there is a METAL BOX on one of the posts.",
+                           "What looks to be an electrical box as there is a power socket.",
+                           "A cable is plugged into the socket in the electrical box.")

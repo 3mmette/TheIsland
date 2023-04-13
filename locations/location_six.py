@@ -1,5 +1,7 @@
 from location import *
 from item import *
+from locations.location_zero import compartment, fuel_tank
+from locations.location_one import metal_box
 
 loc_six = ExplorableLocation(6, 9, 12, 3, 5,
                              "there is a rocky shoreline.",
@@ -10,13 +12,12 @@ hex61 = Movable(6, True,
                 "Among the things lies hexagonal BLOCK SIX.",
                 "A hexagonal shaped rock, made of granite. The number six is engraved on it.")
 
-# Fix these 3
-jerry_can = "To create"
-electrical_cable = "To create"
-water_bottle = Movable(6, True,
-                       "WATER BOTTLE",
-                       "On the rocks lies a WATER BOTTLE.",
-                       "A full bottle of natural spring water.")
+water_bottle = WaterBottle(6, True, 0, 10,
+                           "WATER BOTTLE",
+                           "On the rocks lies a WATER BOTTLE.",
+                           "A full bottle of natural spring water.",
+                           "Refreshing, it takes your thirst away.",
+                           "The water bottle is empty.")
 
 crackers = Consumable(6, True, 5, 0,
                       "CRACKERS",
@@ -36,8 +37,21 @@ soup = Consumable(6, True, 8, 8,
                   "Hydration and calories, what more do you want.",
                   "Meat, Veg and Soup. What a great meal.")
 
-buoy = HasItem(6, True, ['a', 'b'], ['a', 'b'],
-               "BUOY",
-               "Floats in the water",
-               "",
-               "On the ground lies the dropped")
+buoy = Buoy(6, True, ['a', 'b'],
+            "BUOY",
+            "A BUOY floats in the water just off shore.",
+            "A chain keeps in anchored to the seabed.",
+            "There is a JERRY CAN of fuel near where it's anchored.",
+            "The seabed below it is empty",
+            "A power CABLE is tangled in the chain.",
+            "The chain looks old and rusted.")
+
+cable = RevealedMovable(6, False, buoy,
+                        "CABLE",
+                        "Caught around the BUOY is a CABLE.",
+                        "A power cable, for transferring power from one place to another.")
+
+jerry = RevealedMovable(6, False, buoy,
+                        "JERRY",
+                        "On the seabed lies a JERRY can.",
+                        "Seems to be full of fuel.")

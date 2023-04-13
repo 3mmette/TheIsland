@@ -46,10 +46,9 @@ purple_fruit = Consumable(7, False, -5, -5,
                           "A round, smooth piece of fruit. The skin is purple.",
                           "It makes you sick.")
 
-fruit_trees = Reveal(7, True,
-                     [red_fruit, yellow_fruit, blue_fruit, green_fruit, orange_fruit, purple_fruit],
-                     True,
-                     "FRUIT TREE",
-                     "think of description",
-                     "lots of fruit",
-                     "the trees are empty")
+fruit_trees = RevealsMovable(7, True,
+                             [red_fruit, yellow_fruit, blue_fruit, green_fruit, orange_fruit, purple_fruit],
+                             "FRUIT TREE",
+                             "think of description",
+                             "lots of fruit",
+                             "the trees are empty")

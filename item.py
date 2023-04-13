@@ -14,19 +14,19 @@ class Item:
         return print(self.description)
 
 
-class Reveal(Item):
-    def __init__(self, location, is_visible, reveals, condition, name, location_text, description, empty):
-        super().__init__(location, is_visible, name, location_text, description)
-        self.reveals = reveals
-        self.condition = condition
-        self.empty = empty
-
-
 class Movable(Item):
+    movable_items = list()
 
     def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
         super().__init__(location, is_visible, name, location_text, description)
         self.moved = False
+        self.movable_items.append(self)
+
+
+class Conditional(Item):
+    def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.condition_met = False
 
 
 class Consumable(Movable):
@@ -41,11 +41,102 @@ class Consumable(Movable):
         return print(f"{self.description}\nFood: {self.food}. Drink: {self.drink}.")
 
 
-class Dashboard(Item):
+class WaterBottle(Consumable):
+    def __init__(self, location: int, is_visible: bool, food: int, drink: int, name, location_text: str,
+                 description: str, consumed: str, empty: str):
+        super().__init__(location, is_visible, food, drink, name, location_text, description, consumed)
+        self.is_full = True
+        self.empty = empty
+
+
+class Reveals(Item):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+                 description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.reveals = reveals
+
+
+class RevealsMovable(Reveals):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+                 description: str, empty: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description)
+        self.taken = False
+        self.empty = empty
+
+    def inspect(self):
+        if not self.taken:
+            print(self.description)
+        else:
+            print(self.empty)
+
+
+class Revealed(Item):
+    def __init__(self, location: int, is_visible: bool, revealed_by: type(Item), name: str, location_text: str,
+                 description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.revealed_by = revealed_by
+
+
+class RevealedMovable(Revealed, Movable):
+    def __init__(self, location: int, is_visible: bool, revealed_by: type(Item), name: str, location_text: str,
+                 description: str):
+        super().__init__(location, is_visible, revealed_by, name, location_text, description)
+
+
+class ConditionalReveals(Reveals, Conditional):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+                 description: str, reveal_text: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description)
+        self.reveal_text = reveal_text
+
+    def inspect(self):
+        if not self.condition_met:
+            print(self.description)
+        elif self.condition_met:
+            print(self.reveal_text)
+        else:
+            print("An error occurred.")
+
+
+class ConditionalRevealsMovable(RevealsMovable):
+    def __init__(self, location: int, is_visible: bool, reveals, name, location_text, description, empty):
+        super().__init__(location, is_visible, reveals, name, location_text, description, empty)
+
+
+class RequiresInsert(Item):
+    def __init__(self, location, is_visible, name, location_text, description, full):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.insert = False
+        self.full = full
+
+    def inspect(self):
+        if not self.insert:
+            return print(self.description)
+        else:
+            return print(self.full)
+
+
+class FinalButton(Item):
+    def __init__(self, location, is_visible, name, location_text, description, inactive, active):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.condition = False
+        self.inactive = inactive
+        self.active = active
+
+    def pressed(self):
+        if not self.condition:
+            return print(self.inactive)
+        elif self.condition:
+            return print(self.active)
+        else:
+            return print("Final Button Error")
+
+
+class Dashboard(Reveals):
     def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
                  description: str, key_false: str, key_true: str, power_false: str, power_true: str, fuel_false: str,
                  fuel_true: str):
-        super().__init__(location, is_visible, name, location_text, description)
+        super().__init__(location, is_visible, reveals, name, location_text, description)
         self.reveals = reveals
         self.key_false = key_false
         self.key_true = key_true
@@ -87,33 +178,28 @@ class Dashboard(Item):
 
 
 class Compartment(Item):
-    def __init__(self, location: int, is_visible: bool, insertable: list[Item], name: str, location_text: str,
-                 description: str, description_opened, battery_false, battery_true, power_cable_false, power_cable_true):
+    def __init__(self, location: int, is_visible: bool, name: str, location_text: str,
+                 description: str, battery_false: str, battery_true: str, power_cable_false: str,
+                 power_cable_true: str):
         super().__init__(location, is_visible, name, location_text, description)
-        self.insertable = insertable
-        self.description_opened = description_opened
         self.battery_false = battery_false
         self.battery_true = battery_true
         self.power_cable_false = power_cable_false
         self.power_cable_true = power_cable_true
-        self.open = False
         self.battery = False
         self.cable = False
 
-    def Inspect(self):
-        if not self.open:
-            return print(self.description)
+    def inspect(self):
+        if not self.battery and not self.cable:
+            return print(f"{self.description}\n{self.battery_false}\n{self.power_cable_false}")
+        elif not self.battery and self.cable:
+            return print(f"{self.description}\n{self.battery_false}\n{self.power_cable_true}")
+        elif self.battery and not self.cable:
+            return print(f"{self.description}\n{self.battery_true}\n{self.power_cable_false}")
+        elif self.battery and self.cable:
+            return print(f"{self.description}\n{self.battery_true}\n{self.power_cable_true}")
         else:
-            if not self.battery and not self.cable:
-                return print(f"{self.description_opened}\n{self.battery_false}\n{self.power_cable_false}")
-            elif not self.battery and self.cable:
-                return print(f"{self.description_opened}\n{self.battery_false}\n{self.power_cable_true}")
-            elif self.battery and not self.cable:
-                return print(f"{self.description_opened}\n{self.battery_true}\n{self.power_cable_false}")
-            elif self.battery and self.cable:
-                return print(f"{self.description_opened}\n{self.battery_true}\n{self.power_cable_true}")
-            else:
-                return print("Add more code for this")
+            return print("Error in compartment")
 
 
 class HeavyChest(Item):
@@ -126,123 +212,19 @@ class HeavyChest(Item):
         self.locked = True
 
 
-class Requires(Item):
-    def __init__(self, location, is_visible, insertable, name, location_text, description, empty, full):
-        super().__init__(location, is_visible, name, location_text, description)
-        self.insertable = insertable
-        self.inserted = None
-        self.empty = empty
-        self.full = full
+class Water(Consumable):
+    def __init__(self, location: int, is_visible: bool, food: int, drink: int, name, location_text: str,
+                 description: str, consumed: str):
+        super().__init__(location, is_visible, food, drink, name, location_text, description, consumed)
 
 
-class Holds(Item):
-    def __init__(self, location, is_visible, reveals, holds, name, location_text, description, empty):
-        super().__init__(location, is_visible, name, location_text, description)
-        self.reveals = reveals
-        self.holds = holds
-        self.empty = empty
-
-
-class Container(Holds):
-    def __init__(self, location, is_visible, reveals, holds, name, location_text, description, full, empty):
-        super().__init__(location, is_visible, reveals, holds, name, location_text, description, empty)
-        self.full = full
-        self.open = False
-
-
-
-    def Inspect(self):
-        if not self.open:
-            return print(self.description)
-        elif self.open and self.item is not None:
-            return print(self.description)
-        elif self.open and self.item is None:
-            return print(self.when_empty)
-        else:
-            return print("Error Notice")
-
-    def Open(self):
-        if self.locked:
-            return print(f"{self.name} is locked.")
-        elif self.open:
-            return print(f"{self.name} is already open.")
-        else:
-            self.open = True
-            return print(f"{self.name} opened.")
-
-
-class HasItem(Item):
-    def __init__(self, location, is_visible, child, item, name, location_text, description, when_empty):
-        super().__init__(location, is_visible, name, location_text, description)
-        self.child = child
-        self.when_empty = when_empty
-        self.item = item
-
-    def Inspect(self):
-        if self.item is not None:
-            return print(self.description)
-        else:
-            return print(self.when_empty)
-
-
-class ConditionalHasItem(HasItem):
-    def __init__(self, location, is_visible, child, item, name, location_text, description, when_empty):
-        super().__init__(location, is_visible, child, item, name, location_text, description, when_empty)
-        self.condition_met = False
-
-
-class ContainerHasItem(HasItem):
-    def __init__(self, location, is_visible, child, item, name, location_text, description, when_full, when_empty):
-        super().__init__(location, is_visible, child, item, name, location_text, description, when_empty)
-        self.when_full = when_full
-        self.open = False
-
-    def Inspect(self):
-        if not self.open:
-            return print(self.description)
-        else:
-            if self.item is not None:
-                return print(self.when_full)
-            else:
-                return print(self.when_empty)
-
-    def Open(self):
-        if self.open:
-            return print(f"{self.name} is already open.")
-        else:
-            self.open = True
-            return print(f"{self.name} opened.")
-
-    def Close(self):
-        if not self.open:
-            print(f"{self.name} is already closed.")
-        else:
-            self.open = False
-            return print(f"{self.name} closed.")
-
-
-class ContainerNeedItem(ContainerHasItem):
-    def __init__(self, location, is_visible, child, item, item_needed, name, location_text, description, when_full,
-                 when_empty):
-        super().__init__(location, is_visible, child, item, name, location_text, description, when_full, when_empty)
-        self.when_full = when_full
-        self.when_empty = when_empty
-        self.open = False
-        self.item = item
-        self.item_needed = item_needed
-
-
-
-
-
-
-
-
-'''
-class MobileContainerItem(MobileItem):
-    def __init__(self, name, starting_location, is_visible, description,
-                 location_text, dropped_location_text):
-        super().__init__(name, starting_location, is_visible, description,
-                         location_text, dropped_location_text)
-        self.items = list()
-'''
+class Buoy(Reveals):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+                 description: str, jerry_true: str, jerry_false: str, cable_true: str, cable_false: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description)
+        self.jerry = True
+        self.Cable = True
+        self.jerry_true = jerry_true
+        self.jerry_false = jerry_false
+        self.cable_true = cable_true
+        self.cable_false = cable_false
