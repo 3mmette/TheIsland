@@ -1,23 +1,33 @@
 from location import *
 from item import *
 
-loc_nine = ExplorableLocation(9, 11, 12, 6, 8,
+loc_nine = ExplorableLocation(9, "SHIPWRECK", 11, 12, 6, 8,
                               "there is a shipwreck on the rocks.",
                               "the shipwreck.\nWaves crash violently onto the rocks.")
 
-ship = RevealsMovable(9, True, None,
-                      "SHIP",
-                      "The bow of a SHIP is laying broken on the rocks.",
-                      "Through a small hole, you can see a gold coin that is out of reach.",
-                      "The bow sits empty, there is nothing inside.")
+ship = DualRevealsMovable(9, True, [],
+                          "SHIP",
+                          "The bow of a the SHIP 'Seas The Day' is laying broken on the rocks.",
+                          "Through a small hole you can see inside the hull.",
+                          "A packet of CRACKERS lies just within reach.",
+                          "There is nothing is close inside the hole.",
+                          "A gold COIN can be seen further inside, but it's out of reach.",
+                          "There is nothing deeper inside the hull.")
 
-hex91 = Movable(9, True,
-                "BLOCK NINE",
-                "Near to hull the ship lies hexagonal BLOCK NINE.",
-                "A hexagonal shaped rock, made of granite. The number nine is engraved on it.")
+coin = ConditionalRevealedMovable(9, False, ship,
+                                  "COIN",
+                                  "Laying in a little patch of sunlight in the hull glints a gold COIN",
+                                  "Made of solid gold, and a decent size.")
+ship.reveals.append(coin)
 
-coin = RevealedMovable(9, False, ship,
-                       "GOLD COIN",
-                       "Laying in a little patch of sunlight in the bow glints a GOLD COIN",
-                       "Made of solid gold, and a decent size.")
-ship.reveals = coin
+crackers = RevealedConsumable(9, False, 5, 0, ship,
+                              "CRACKERS",
+                              "Just inside the hull sits a packet of CRACKERS.",
+                              "A small packet of crackers, from the company Polly.",
+                              "A little dry, but still tasty.")
+ship.reveals.append(crackers)
+
+block_nine = Movable(9, True,
+                     "BLOCK 9",
+                     "Near to hull the ship lies hexagonal BLOCK 9.",
+                     "A hexagonal shaped rock, made of granite. The number nine is engraved on it.")

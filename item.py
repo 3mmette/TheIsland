@@ -1,4 +1,5 @@
-class Item:
+# A base item that all inherit off.
+class Base:
     items = list()
 
     def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
@@ -11,10 +12,30 @@ class Item:
         self.items.append(self)
 
     def inspect(self):
-        return print(self.description)
+        return self.description
 
 
-class Movable(Item):
+# Container items.
+class Container(Base):
+    containers = list()
+
+    def __init__(self, location: int, is_visible: bool, locked: bool, name: str, location_text: str, description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.locked = locked
+        self.open = False
+        self.containers.append(self)
+
+
+# If an item requires a condition to be met before it can complete something.
+class Conditional(Base):
+    def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.condition_met = False
+
+
+# Movable items.
+# Basic.
+class Movable(Base):
     movable_items = list()
 
     def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
@@ -23,12 +44,21 @@ class Movable(Item):
         self.movable_items.append(self)
 
 
-class Conditional(Item):
-    def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str):
+# A movable item that has been revealed by another.
+class RevealedMovable(Movable):
+    def __init__(self, location: int, is_visible: bool, revealed_by: type(Base), name: str, location_text: str,
+                 description: str):
         super().__init__(location, is_visible, name, location_text, description)
-        self.condition_met = False
+        self.revealed_by = revealed_by
 
 
+class ConditionalRevealedMovable(RevealedMovable, Conditional):
+    def __init__(self, location: int, is_visible: bool, revealed_by: type(Base), name: str, location_text: str,
+                 description: str):
+        super().__init__(location, is_visible, revealed_by, name, location_text, description)
+
+
+# Food items that can be consumed.
 class Consumable(Movable):
     def __init__(self, location: int, is_visible: bool, food: int, drink: int, name, location_text: str,
                  description: str, consumed: str):
@@ -38,72 +68,108 @@ class Consumable(Movable):
         self.consumed = consumed
 
     def inspect(self):
-        return print(f"{self.description}\nFood: {self.food}. Drink: {self.drink}.")
+        return f"{self.description}\nFood: {self.food}   Drink: {self.drink}."
 
 
-class WaterBottle(Consumable):
-    def __init__(self, location: int, is_visible: bool, food: int, drink: int, name, location_text: str,
-                 description: str, consumed: str, empty: str):
+# A movable item that has been revealed by another.
+class RevealedConsumable(Consumable):
+    def __init__(self, location: int, is_visible: bool, food: int, drink: int, revealed_by: type(Base), name: str,
+                 location_text: str, description: str, consumed):
         super().__init__(location, is_visible, food, drink, name, location_text, description, consumed)
-        self.is_full = True
-        self.empty = empty
+        self.revealed_by = revealed_by
 
 
-class Reveals(Item):
-    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+# An item that when inspected, reveals another.
+# Basic.
+class Reveals(Base):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Base), name: str, location_text: str,
                  description: str):
         super().__init__(location, is_visible, name, location_text, description)
         self.reveals = reveals
 
-
-class RevealsMovable(Reveals):
-    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
-                 description: str, empty: str):
-        super().__init__(location, is_visible, reveals, name, location_text, description)
-        self.taken = False
-        self.empty = empty
-
     def inspect(self):
-        if not self.taken:
-            print(self.description)
-        else:
-            print(self.empty)
+        self.reveals.is_visible = True
+        return self.description
 
 
-class Revealed(Item):
-    def __init__(self, location: int, is_visible: bool, revealed_by: type(Item), name: str, location_text: str,
-                 description: str):
-        super().__init__(location, is_visible, name, location_text, description)
-        self.revealed_by = revealed_by
-
-
-class RevealedMovable(Revealed, Movable):
-    def __init__(self, location: int, is_visible: bool, revealed_by: type(Item), name: str, location_text: str,
-                 description: str):
-        super().__init__(location, is_visible, revealed_by, name, location_text, description)
-
-
+# If there is a condition before the item reveals another.
 class ConditionalReveals(Reveals, Conditional):
-    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+    def __init__(self, location: int, is_visible: bool, reveals: type(Base), name: str, location_text: str,
                  description: str, reveal_text: str):
         super().__init__(location, is_visible, reveals, name, location_text, description)
         self.reveal_text = reveal_text
 
     def inspect(self):
+        self.reveals.is_visible = True
         if not self.condition_met:
-            print(self.description)
+            return self.description
         elif self.condition_met:
-            print(self.reveal_text)
+            return self.reveal_text
         else:
             print("An error occurred.")
 
 
-class ConditionalRevealsMovable(RevealsMovable):
-    def __init__(self, location: int, is_visible: bool, reveals, name, location_text, description, empty):
-        super().__init__(location, is_visible, reveals, name, location_text, description, empty)
+# If the item reveals a movable item.
+class RevealsMovable(Reveals):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Base), name: str, location_text: str,
+                 description: str, item_one_true: str, item_one_false: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description)
+        self.item_one_taken = False
+        self.item_one_true = item_one_true
+        self.item_one_false = item_one_false
+
+    def inspect(self):
+        self.reveals.is_visible = True
+        if not self.item_one_taken:
+            return f"{self.description}\n{self.item_one_true}"
+        else:
+            return self.item_one_false
 
 
-class RequiresInsert(Item):
+# If a condition must be met before a movable item is revealed.
+class ConditionalRevealsMovable(RevealsMovable, Conditional):
+    def __init__(self, location: int, is_visible: bool, reveals: type(Base), name: str, location_text: str,
+                 description: str, item_one_true: str, item_one_false: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description, item_one_true, item_one_false)
+
+    def inspect(self):
+        if not self.condition_met:
+            return f"{self.description}\n{self.item_one_false}"
+        elif self.condition_met and not self.item_one_taken:
+            self.reveals.is_visible = True
+            return f"{self.description}\n{self.item_one_true}"
+        elif self.condition_met and self.item_one_taken:
+            return f"{self.description}\n{self.item_one_false}"
+        else:
+            return "***ERROR MESSAGE***"
+
+
+# If the item reveals two movable items.
+class DualRevealsMovable(RevealsMovable):
+    def __init__(self, location: int, is_visible: bool, reveals: list[type(Base)], name: str, location_text: str,
+                 description: str, item_one_true: str, item_one_false: str, item_two_true: str, item_two_false: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description, item_one_true, item_one_false)
+        self.item_two_taken = False
+        self.item_two_true = item_two_true
+        self.item_two_false = item_two_false
+
+    def inspect(self):
+        for item in self.reveals:
+            item.is_visible = True
+        if not self.item_one_taken and not self.item_two_taken:
+            return f"{self.description}\n{self.item_one_true}\n{self.item_two_true}"
+        elif not self.item_one_taken and self.item_two_taken:
+            return f"{self.description}\n{self.item_one_true}\n{self.item_two_false}"
+        elif self.item_one_taken and not self.item_two_taken:
+            return f"{self.description}\n{self.item_one_false}\n{self.item_two_true}"
+        elif self.item_one_taken and self.item_two_taken:
+            return f"{self.description}\n{self.item_one_false}\n{self.item_two_false}"
+        else:
+            return "An error has occurred. Please report the error code to the game design team."
+
+
+# If the item requires something to be inserted.
+class RequiresInsert(Base):
     def __init__(self, location, is_visible, name, location_text, description, full):
         super().__init__(location, is_visible, name, location_text, description)
         self.insert = False
@@ -111,29 +177,22 @@ class RequiresInsert(Item):
 
     def inspect(self):
         if not self.insert:
-            return print(self.description)
+            return self.description
         else:
-            return print(self.full)
+            return self.full
 
 
-class FinalButton(Item):
-    def __init__(self, location, is_visible, name, location_text, description, inactive, active):
+# Non Player Characters.
+class Npc(Base):
+    def __init__(self, location: int, is_visible: bool, name: str, location_text: str, description: str,
+                 initial_text: str):
         super().__init__(location, is_visible, name, location_text, description)
-        self.condition = False
-        self.inactive = inactive
-        self.active = active
-
-    def pressed(self):
-        if not self.condition:
-            return print(self.inactive)
-        elif self.condition:
-            return print(self.active)
-        else:
-            return print("Final Button Error")
+        self.initial_text = initial_text
 
 
+# Specific classes used only once.
 class Dashboard(Reveals):
-    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
+    def __init__(self, location: int, is_visible: bool, reveals: type(Base), name: str, location_text: str,
                  description: str, key_false: str, key_true: str, power_false: str, power_true: str, fuel_false: str,
                  fuel_true: str):
         super().__init__(location, is_visible, reveals, name, location_text, description)
@@ -149,35 +208,44 @@ class Dashboard(Reveals):
         self.fuel = False
 
     def inspect(self):
+        self.reveals.is_visible = True
         # No items
         if not self.key and not self.power and not self.fuel:
-            return print(f"{self.key_false}\n{self.power_false}\n{self.fuel_false}\n{self.description}")
+            return f"{self.key_false}\n{self.power_false}\n{self.fuel_false}\n{self.description}"
         # Only key
         elif self.key and not self.power and not self.fuel:
-            return print(f"{self.key_true}\n{self.power_false}\n{self.fuel_false}\n{self.description}")
+            return f"{self.key_true}\n{self.power_false}\n{self.fuel_false}\n{self.description}"
         # Only power
         elif not self.key and self.power and not self.fuel:
-            return print(f"{self.key_false}\n{self.power_true}\n{self.fuel_false}\n{self.description}")
+            return f"{self.key_false}\n{self.power_true}\n{self.fuel_false}\n{self.description}"
         # Only fuel
         elif not self.key and not self.power and self.fuel:
-            return print(f"{self.key_false}\n{self.power_false}\n{self.fuel_true}\n{self.description}")
+            return f"{self.key_false}\n{self.power_false}\n{self.fuel_true}\n{self.description}"
         # Key and power
         elif self.key and self.power and not self.fuel:
-            return print(f"{self.key_true}\n{self.power_true}\n{self.fuel_false}\n{self.description}")
+            return f"{self.key_true}\n{self.power_true}\n{self.fuel_false}\n{self.description}"
         # Key and fuel
         elif self.key and not self.power and self.fuel:
-            return print(f"{self.key_true}\n{self.power_false}\n{self.fuel_true}\n{self.description}")
+            return f"{self.key_true}\n{self.power_false}\n{self.fuel_true}\n{self.description}"
         # Power and fuel
         elif not self.key and self.power and self.fuel:
-            return print(f"{self.key_false}\n{self.power_true}\n{self.fuel_true}\n{self.description}")
+            return f"{self.key_false}\n{self.power_true}\n{self.fuel_true}\n{self.description}"
         # Key, Power and Fuel
         elif self.key and self.power and self.fuel:
-            return print(f"{self.key_true}\n{self.power_true}\n{self.fuel_true}\n{self.description}")
+            return f"{self.key_true}\n{self.power_true}\n{self.fuel_true}\n{self.description}"
         else:
-            return print("Write more code for this")
+            return "An Error occurred with the DASHBOARD. Please Report"
 
 
-class Compartment(Item):
+class FinalButton(Base):
+    def __init__(self, location, is_visible, name, location_text, description, inactive, active):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.condition = False
+        self.inactive = inactive
+        self.active = active
+
+
+class Compartment(Base):
     def __init__(self, location: int, is_visible: bool, name: str, location_text: str,
                  description: str, battery_false: str, battery_true: str, power_cable_false: str,
                  power_cable_true: str):
@@ -191,40 +259,110 @@ class Compartment(Item):
 
     def inspect(self):
         if not self.battery and not self.cable:
-            return print(f"{self.description}\n{self.battery_false}\n{self.power_cable_false}")
+            return f"{self.description}\n{self.battery_false}\n{self.power_cable_false}"
         elif not self.battery and self.cable:
-            return print(f"{self.description}\n{self.battery_false}\n{self.power_cable_true}")
+            return f"{self.description}\n{self.battery_false}\n{self.power_cable_true}"
         elif self.battery and not self.cable:
-            return print(f"{self.description}\n{self.battery_true}\n{self.power_cable_false}")
+            return f"{self.description}\n{self.battery_true}\n{self.power_cable_false}"
         elif self.battery and self.cable:
-            return print(f"{self.description}\n{self.battery_true}\n{self.power_cable_true}")
+            return f"{self.description}\n{self.battery_true}\n{self.power_cable_true}"
         else:
-            return print("Error in compartment")
+            return "An Error occurred with the COMPARTMENT. Please Report"
 
 
-class HeavyChest(Item):
-    def __init__(self, location, is_visible, reveals, holds, name, location_text, description, full, empty):
-        super().__init__(location, is_visible, name, location_text, description)
+class HeavyChest(Container):
+    def __init__(self, location, is_visible, reveals, holds, locked, name, location_text, description, locked_text,
+                 full, empty):
+        super().__init__(location, is_visible, locked, name, location_text, description)
         self.reveals = reveals
         self.holds = holds
+        self.locked_text = locked_text
         self.full = full
         self.empty = empty
-        self.locked = True
+
+    def inspect(self):
+        self.reveals.is_visible = True
+        if self.locked:
+            return f"{self.description}\n{self.locked_text}"
+        elif not self.locked:
+            if not self.holds.moved:
+                self.holds.is_visible = True
+                return f"{self.description}\n{self.full}"
+            elif self.holds.moved:
+                return f"{self.description}\n{self.empty}"
 
 
-class Water(Consumable):
+class Keypad(Base):
+    def __init__(self, location, is_visible, code, name, location_text, description):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.code = code
+
+
+# Specific consumable that can be refilled
+class WaterBottle(Consumable):
     def __init__(self, location: int, is_visible: bool, food: int, drink: int, name, location_text: str,
-                 description: str, consumed: str):
+                 description: str, consumed: str, empty: str):
         super().__init__(location, is_visible, food, drink, name, location_text, description, consumed)
+        self.is_full = True
+        self.empty = empty
 
 
-class Buoy(Reveals):
-    def __init__(self, location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
-                 description: str, jerry_true: str, jerry_false: str, cable_true: str, cable_false: str):
-        super().__init__(location, is_visible, reveals, name, location_text, description)
-        self.jerry = True
-        self.Cable = True
-        self.jerry_true = jerry_true
-        self.jerry_false = jerry_false
-        self.cable_true = cable_true
-        self.cable_false = cable_false
+# Specific reveals movable for the fruit trees, as six types of fruit.
+class FruitTree(RevealsMovable):
+    def __init__(self, location: int, is_visible: bool, reveals: list[type(Base)], name: str, location_text: str,
+                 description: str, item_one_true: str, item_one_partial: str, item_one_false: str):
+        super().__init__(location, is_visible, reveals, name, location_text, description, item_one_true, item_one_false)
+        self.item_one_partial = item_one_partial
+
+    def inspect(self):
+        count = 0
+        fruit_trees = ""
+        for fruit in self.reveals:
+            fruit.is_visible = True
+            if not fruit.moved:
+                count += 1
+                fruit_trees += f"{fruit.location_text}\n"
+        if count == 6:
+            return f"{self.description}\n{self.item_one_true}\n{fruit_trees}"
+        elif 0 < count < 6:
+            return f"{self.description}\n{self.item_one_partial}\n{fruit_trees}"
+        elif count == 0:
+            return f"{self.description}\n{self.item_one_false}\n{fruit_trees}"
+        else:
+            return "***ERROR MESSAGE***"
+
+
+class Note(Base):
+    def __init__(self, location, is_visible, linked, name, location_text, description):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.linked = linked
+
+    def inspect(self):
+        self.linked.condition_met = True
+        return f"{self.description}"
+
+
+class Coin(Base):
+    def __init__(self, location: int, is_visible: bool, revealed_by: type(Base), name: str, location_text: str,
+                 description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.revealed_by = revealed_by
+
+
+class Block(Base):
+    def __init__(self, location: int, is_visible: bool, name: str, location_text: str,
+                 description: str):
+        super().__init__(location, is_visible, name, location_text, description)
+        self.slot_one = None
+        self.slot_two = None
+        self.slot_three = None
+
+    def inspect(self):
+        slots = [self.slot_one, self.slot_two, self.slot_three]
+        description = self.description + "\n"
+        for i, item in enumerate(slots, start=1):
+            if item is None:
+                description += f"Slot {i} is empty.\n"
+            else:
+                description += f"Slot {i} contains {item.name}.\n"
+        return description

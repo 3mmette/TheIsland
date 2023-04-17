@@ -48,6 +48,7 @@ class BackPack:
         if item is not None:
             self._backpack.append(item)
             self.sort()
+            return f"{item.name} added to you bag."
 
     def remove(self, item, current_location):
         # if an item was selected to be removed.
@@ -64,20 +65,20 @@ class BackPack:
                 # Change its moved attribute to true.
                 selected_item.moved = True
                 # Add it to the list of dropped items in the current location.
-                current_location.dropped_items.append(selected_item)
+                current_location.items.append(selected_item)
                 # Remove the item from the backpack.
                 self._backpack.remove(selected_item)
                 # Resort the backpack.
                 self.sort()
-                print(f"{item} removed from backpack and dropped.")
+                return f"{item.name} removed from backpack."
 
             # If -1 was returned, meaning the item was not found and therefor not in the backpack.
             elif item_index < 0:
-                print(f"{item} is not in your backpack.")
+                return f"{item.name} is not in your backpack."
 
             # Error message if either of the others fail.
             else:
-                print(f"An error occurred while searching your backpack for {item}.")
+                return f"An error occurred while searching your backpack for {item.name}."
 
         # If no item was entered to drop.
         elif item is None:

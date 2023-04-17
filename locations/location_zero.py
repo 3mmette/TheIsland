@@ -1,10 +1,13 @@
 from location import *
 from item import *
+from backpack import BackPack
 
-location_zero = StartLocation(0, 1, 13, 13, 13,
+backpack = BackPack(None)
+
+location_zero = StartLocation(0, "BOAT", 1, 13, 13, 13,
                               "there is a boat, tied to the small jetty.",
                               "the boat.\nIt slowly rocks back and forth as it bobs on the ocean.",
-                              "*** Create Start Text ***")
+                              "a boat.\nIt slowly rocks back and forth as it bobs on the ocean.")
 
 dashboard = Dashboard(0, True, None,
                       "DASHBOARD",
@@ -19,17 +22,17 @@ dashboard = Dashboard(0, True, None,
 
 compartment = Compartment(0, True,
                           "COMPARTMENT",
-                          "Under the DASHBOARD is a COMPARTMENT.",
+                          "Under the dashboard is a COMPARTMENT.",
                           "Inside the compartment it looks like the boat could be powered in two ways.",
                           "There are two battery leads, not connected to anything.",
                           "A marine battery in connected to the leads.",
                           "There is a socket a power cable could be plugged into.",
-                          "There is a power cable plugged in, ready to jumpstart the boat.")
+                          "There is a power cable plugged in.")
 
-heavy_chest = HeavyChest(0, True, None, None,
+heavy_chest = HeavyChest(0, True, None, None, True,
                          "HEAVY CHEST",
                          "At the rear of the boat is a HEAVY CHEST.",
-                         "The chest appears to be bolted to the floor.\n"
+                         "The chest appears to be bolted to the floor.",
                          "There is a KEYPAD on the front.",
                          "A heavy marine BATTERY lies inside.",
                          "The chest is empty.")
@@ -40,10 +43,11 @@ fuel_tank = RequiresInsert(0, True,
                            "Taking a look inside, you see it is empty.",
                            "Taking a look inside, you see it is now full.")
 
-battery = RevealedMovable(0, False, None,
+battery = RevealedMovable(0, False, heavy_chest,
                           "BATTERY",
                           "Inside the chest is a BATTERY",
                           "A large Battery with two terminals on top.")
+heavy_chest.holds = battery
 
 button = FinalButton(0, False,
                      "BUTTON",
@@ -53,12 +57,13 @@ button = FinalButton(0, False,
                      "The boat starts.")
 dashboard.reveals = button
 
-keypad = Revealed(0, False, dashboard,
-                  "KEYPAD",
-                  "On the HEAVY CHEST is a KEYPAD",
-                  "A typical keypad. It seems to need an input of four digits...")
+keypad = Keypad(0, False, "ISLE",
+                "KEYPAD",
+                "On the heavy chest is a KEYPAD",
+                "It seems to need a four letter password to unlock the chest...")
+heavy_chest.reveals = keypad
 
-hex01 = Movable(0, True,
-                "BLOCK ZERO",
-                "On the floor of the boat lies hexagonal BLOCK ZERO.",
-                "A hexagonal shaped rock, made of granite. The number zero is engraved on it.")
+block_zero = Movable(0, True,
+                     "BLOCK 0",
+                     "On the floor of the boat lies hexagonal BLOCK 0.",
+                     "A hexagonal shaped rock, made of granite. The number zero is engraved on it.")
