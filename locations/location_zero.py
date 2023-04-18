@@ -47,21 +47,20 @@ battery = RevealedMovable(0, False, heavy_chest,
                           "BATTERY",
                           "Inside the chest is a BATTERY",
                           "A large Battery with two terminals on top.")
-heavy_chest.holds = battery
+heavy_chest._holds = battery
 
 button = FinalButton(0, False,
                      "BUTTON",
                      "On the DASHBOARD there is a BUTTON.",
                      "The button says PRESS BUTTON to start.",
-                     "Nothing happens.",
-                     "The boat starts.")
+                     "Nothing happens.")
 dashboard.reveals = button
 
 keypad = Keypad(0, False, "ISLE",
                 "KEYPAD",
                 "On the heavy chest is a KEYPAD",
                 "It seems to need a four letter password to unlock the chest...")
-heavy_chest.reveals = keypad
+heavy_chest._reveals = keypad
 
 block_zero = Movable(0, True,
                      "BLOCK 0",

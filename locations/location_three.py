@@ -16,7 +16,7 @@ tension_rod = RevealedMovable(3, False, driftwood,
                               "TENSION ROD",
                               "Amongst the DRIFTWOOD lies a TENSION ROD.",
                               "A rod that can be used to apply pressure to a key chamber.")
-driftwood.reveals = tension_rod
+driftwood._reveals = tension_rod
 
 merman = Npc(3, True,
              "MERMAN",

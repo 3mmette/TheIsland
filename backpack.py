@@ -19,36 +19,27 @@ class BackPack:
         for item in items:
             self._backpack.append(item)
         self.sort()
-        self.rock = False
-        self.coconut = False
 
     def items(self):
         return self._backpack
 
     def sort(self):
-        self._backpack.sort(key=lambda item: item.name)
+        self._backpack.sort(key=lambda item: item.get_name())
 
     def count(self):
-        if self.rock and self.coconut:
-            return len(self._backpack) + 2
-        elif self.rock or self.coconut:
-            return len(self._backpack) + 1
-        else:
-            return len(self._backpack)
+        return len(self._backpack)
 
     def list(self):
+        items = ""
         for item in self._backpack:
-            print(f"You have a {item.name}.")
-        if self.rock:
-            print(f"You have a ROCK.")
-        if self.coconut:
-            print(f"You have a COCONUT.")
-            
+            items += f"You have a {item.get_name()}.\n"
+        return items
+
     def add(self, item):
         if item is not None:
             self._backpack.append(item)
             self.sort()
-            return f"{item.name} added to you bag."
+            return f"{item.get_name()} added to you bag."
 
     def remove(self, item, current_location):
         # if an item was selected to be removed.
@@ -65,20 +56,20 @@ class BackPack:
                 # Change its moved attribute to true.
                 selected_item.moved = True
                 # Add it to the list of dropped items in the current location.
-                current_location.items.append(selected_item)
+                current_location.remove_location_item(selected_item)
                 # Remove the item from the backpack.
                 self._backpack.remove(selected_item)
                 # Resort the backpack.
                 self.sort()
-                return f"{item.name} removed from backpack."
+                return f"{item.get_name()} removed from backpack."
 
             # If -1 was returned, meaning the item was not found and therefor not in the backpack.
             elif item_index < 0:
-                return f"{item.name} is not in your backpack."
+                return f"{item.get_name()} is not in your backpack."
 
             # Error message if either of the others fail.
             else:
-                return f"An error occurred while searching your backpack for {item.name}."
+                return f"An error occurred while searching your backpack for {item.get_name()}."
 
         # If no item was entered to drop.
         elif item is None:
@@ -100,16 +91,16 @@ class BackPack:
             middle_index = (first_index + last_index) // 2
 
             # If the middle index contains the item we are looking for
-            if self._backpack[middle_index].name == item.name:
+            if self._backpack[middle_index].get_name() == item.get_name():
                 return middle_index
 
             # If the item is lower than the middle index.
-            elif self._backpack[middle_index].name > item.name:
+            elif self._backpack[middle_index].get_name() > item.get_name():
                 # Set the last index to the middle index minus 1, as we already searched the middle index.
                 last_index = middle_index - 1
 
             # If the item is higher than the middle index.
-            elif self._backpack[middle_index].name < item.name:
+            elif self._backpack[middle_index].get_name() < item.get_name():
                 # Set the first index to the middle index plus 1, as we already searched the middle index.
                 first_index = middle_index + 1
 

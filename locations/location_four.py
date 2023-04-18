@@ -12,21 +12,22 @@ spring = ConditionalRevealsMovable(4, True, None,
                                    "Just under the sand rests the BOAT KEY.",
                                    "A few small fish swim in the area.")
 
-water = Base(4, True,
-             "WATER",
-             "The WATER makes its was down to the ocean.",
-             "It looks clean enough to drink.")
+water = Consumable(4, True, 0, 10,
+                   "WATER",
+                   "The WATER makes its was down to the ocean.",
+                   "It looks clean enough to drink.",
+                   "Refreshing, it takes your thirst away.")
 
-rock = Base(4, True,
-            "ROCK",
-            "The bed of the stream is littered with smooth ROCK.",
-            "A smooth pebble, the perfect size and weight to throw.")
+rock = Movable(4, True,
+               "ROCK",
+               "The bed of the stream is littered with smooth ROCK.",
+               "A smooth pebble, the perfect size and weight to throw.")
 
 boat_key = Movable(4, False,
                    "BOAT KEY",
                    "The BOAT KEY rests in the water near the start.",
                    "A medium sized key, with a tag that says 'For Boat'.")
-spring.reveals = boat_key
+spring._reveals = boat_key
 
 block_four = Movable(4, True,
                      "BLOCK 4",
