@@ -30,20 +30,20 @@ buoy = DualRevealsMovable(6, True, [],
                           "A chain keeps in anchored to the seabed.",
                           "A power CABLE is tangled in the chain.",
                           "The chain looks old and rusted.",
-                          "There is a JERRY CAN of fuel near where it's anchored.",
+                          "There is a JERRY can of fuel near where it's anchored.",
                           "The seabed below it is empty")
 
 cable = ConditionalRevealedMovable(6, False, buoy,
                                    "CABLE",
                                    "Caught around the BUOY is a CABLE.",
                                    "A power cable, for transferring power from one place to another.")
-buoy._reveals.append(cable)
+buoy._reveals_item.append(cable)
 
 jerry = ConditionalRevealedMovable(6, False, buoy,
                                    "JERRY",
                                    "On the seabed lies a JERRY can.",
                                    "Seems to be full of fuel.")
-buoy._reveals.append(jerry)
+buoy._reveals_item.append(jerry)
 
 block_six = Movable(6, True,
                     "BLOCK 6",

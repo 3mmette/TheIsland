@@ -5,10 +5,10 @@ loc_five = ExplorableLocation(5, "ATOP HILL", 8, 6, 2, 4,
                               "there is a hill rising in front of you.",
                               "the top of the hill.\nThere is a crater in the centre and the ground feels warm.")
 
-key_rake = RevealedMovable(5, False, None,
-                           "KEY RAKE",
-                           "Stuck into the side of the TREE is a KEY RAKE.",
-                           "A rake that can be used to depress pins in a key chamber.")
+key_rake = Movable(5, False,
+                   "KEY RAKE",
+                   "Stuck into the side of the TREE is a KEY RAKE.",
+                   "A rake that can be used to depress pins in a key chamber.")
 
 tree = RevealsMovable(5, True, key_rake,
                       "TREE",
@@ -16,7 +16,7 @@ tree = RevealsMovable(5, True, key_rake,
                       "The dead limbs stretch up towards the sky.",
                       "Stuck in the truck is a KEY RAKE.",
                       "It creates a beautiful silhouette.")
-key_rake.revealed_by = tree
+key_rake._revealed_by = tree
 
 parrot = Npc(5, True,
              "PARROT",

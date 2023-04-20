@@ -2,12 +2,13 @@ from location import *
 from item import *
 from backpack import BackPack
 
-backpack = BackPack(None)
+backpack = BackPack()
 
 location_zero = StartLocation(0, "BOAT", 1, 13, 13, 13,
                               "there is a boat, tied to the small jetty.",
                               "the boat.\nIt slowly rocks back and forth as it bobs on the ocean.",
-                              "a boat.\nIt slowly rocks back and forth as it bobs on the ocean.")
+                              "a boat.\nIt slowly rocks back and forth as it bobs on the ocean.\n"
+                              "It is tied to a small jetty and beyond is The Island.")
 
 dashboard = Dashboard(0, True, None,
                       "DASHBOARD",
@@ -29,13 +30,13 @@ compartment = Compartment(0, True,
                           "There is a socket a power cable could be plugged into.",
                           "There is a power cable plugged in.")
 
-heavy_chest = HeavyChest(0, True, None, None, True,
-                         "HEAVY CHEST",
-                         "At the rear of the boat is a HEAVY CHEST.",
-                         "The chest appears to be bolted to the floor.",
-                         "There is a KEYPAD on the front.",
-                         "A heavy marine BATTERY lies inside.",
-                         "The chest is empty.")
+heavy_chest = Container(0, True, None, None, True,
+                        "HEAVY CHEST",
+                        "At the rear of the boat is a HEAVY CHEST.",
+                        "The chest appears to be bolted to the floor.\n"
+                        "There is a KEYPAD on the front.",
+                        "A heavy marine BATTERY lies inside.",
+                        "The chest is empty.")
 
 fuel_tank = RequiresInsert(0, True,
                            "FUEL TANK",
@@ -47,14 +48,14 @@ battery = RevealedMovable(0, False, heavy_chest,
                           "BATTERY",
                           "Inside the chest is a BATTERY",
                           "A large Battery with two terminals on top.")
-heavy_chest._holds = battery
+heavy_chest._holds_item = battery
 
 button = FinalButton(0, False,
                      "BUTTON",
                      "On the DASHBOARD there is a BUTTON.",
                      "The button says PRESS BUTTON to start.",
                      "Nothing happens.")
-dashboard.reveals = button
+dashboard._reveals_item = button
 
 keypad = Keypad(0, False, "ISLE",
                 "KEYPAD",

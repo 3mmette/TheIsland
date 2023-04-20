@@ -27,7 +27,7 @@ boat_key = Movable(4, False,
                    "BOAT KEY",
                    "The BOAT KEY rests in the water near the start.",
                    "A medium sized key, with a tag that says 'For Boat'.")
-spring._reveals = boat_key
+spring._reveals_item = boat_key
 
 block_four = Movable(4, True,
                      "BLOCK 4",

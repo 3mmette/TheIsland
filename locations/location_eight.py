@@ -13,7 +13,7 @@ trident = Movable(8, True,
 sword = Movable(8, True,
                 "SWORD",
                 "Glinting in the sun is a SWORD.",
-                "The blade is shiny as sharp as a razor.")
+                "The blade is shiny and as sharp as a razor.")
 
 shovel = Movable(8, True,
                  "SHOVEL",

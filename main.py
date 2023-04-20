@@ -24,34 +24,21 @@ def Introduction():
     typing("'Any callsign. This is Coastguard. Are you receiving. Over'\n")
     time.sleep(1)
     typing("'Any callsign. Any callsign'\n")
-    time.sleep(0.5)
     typing("'This is. This is'\n")
-    time.sleep(0.5)
     typing("'Coastguard. Coastguard'\n")
-    time.sleep(0.5)
     typing("'Are you receiving. Are you receiving'\n")
-    time.sleep(0.5)
     typing("'Over'\n\n")
-    time.sleep(0.5)
     print("You open your eyes, the bright sun blinds you for a moment.")
     print("You grab the radio.\n")
-    time.sleep(2)
     typing("'Coastguard. This is...'\n")
-    time.sleep(0.5)
     print("Who am I again?")
     player_name_input = input("- ").capitalize().strip()
     typing(f"'Coastguard. This is {player_name_input}. Receiving. Over'\n")
-    time.sleep(0.5)
     typing(f"'Coastguard. Glad we found you {player_name_input}. We have been looking for you for days. Break'\n")
-    time.sleep(0.5)
     typing("'We can't make it to The Island, you're going to have to get to us. Break'\n")
-    time.sleep(0.5)
     typing("'We're anchored twenty nautical miles to the South. Over'\n")
-    time.sleep(0.5)
     typing(f"'{player_name_input}. Acknowledged. I will let you know when I'm on the way. Over'\n")
-    time.sleep(0.5)
     typing("'Coastguard. Roger. If you need any help, type 'help' and press [ENTER]. Out'\n")
-    time.sleep(0.5)
     return player_name_input
 
 
@@ -64,7 +51,7 @@ def load_location_items(load_location):
         # Display movable items that haven't been moved.
         elif location_item.get_visibility_status() and isinstance(location_item, Movable) \
                 and not location_item.get_moved_status():
-            location_item._is_discovered = True
+            location_item._discovery_status = True
             print(location_item.get_location_description_text())
         # Display movable items that have been moved and dropped in a location.
         elif location_item.get_visibility_status() and isinstance(location_item, Movable) \
@@ -74,10 +61,10 @@ def load_location_items(load_location):
     print(f"\nYou currently have enough energy for {energy} moves.")
     print(f"You currently have enough hydration for {hydration} moves")
     # Options for movement.
-    print(f"\nTo the North {Location.locations[location.north].get_cardinal_description_text()}")
-    print(f"To the East {Location.locations[location.east].get_cardinal_description_text()}")
-    print(f"To the South {Location.locations[location.south].get_cardinal_description_text()}")
-    print(f"To the West {Location.locations[location.west].get_cardinal_description_text()}")
+    print(f"\nTo the North {Location.locations[location.get_north_id()].get_cardinal_description_text()}")
+    print(f"To the East {Location.locations[location.get_east_id()].get_cardinal_description_text()}")
+    print(f"To the South {Location.locations[location.get_south_id()].get_cardinal_description_text()}")
+    print(f"To the West {Location.locations[location.get_west_id()].get_cardinal_description_text()}")
 
 
 if __name__ == '__main__':
@@ -99,8 +86,8 @@ if __name__ == '__main__':
 
     # Load all the items into their respective locations.
     for location in ExplorableLocation.locations:
-        for item in Base.items:
-            if item.get_location() == location.get_location_id():
+        for item in Item.items:
+            if item.get_initial_location_id() == location.get_location_id():
                 location.add_item_to_location(item)
 
     # Start
@@ -290,12 +277,12 @@ if __name__ == '__main__':
                                 move = True
                                 moves += 1
                                 # If North goes to sea location and death.
-                                if type(Location.locations[location.north]) is SeaLocation:
-                                    print(Location.locations[location.north].get_location_description_text())
+                                if type(Location.locations[location.get_north_id()]) is SeaLocation:
+                                    print(Location.locations[location.get_north_id()].get_location_description_text())
                                     ocean_death_end = True
                                 # If North goes to an explorable location.
                                 else:
-                                    current_location_index = location.north
+                                    current_location_index = location._north_id
                                     current_location = Location.locations[current_location_index]
                                     energy -= 1
                                     hydration -= 1
@@ -306,13 +293,13 @@ if __name__ == '__main__':
                                 move = True
                                 moves += 1
                                 # If East goes to sea location and death.
-                                if type(Location.locations[location.east]) is SeaLocation:
-                                    print(Location.locations[location.east].get_location_description_text())
+                                if type(Location.locations[location.get_east_id()]) is SeaLocation:
+                                    print(Location.locations[location.get_east_id()].get_location_description_text())
                                     ocean_death_end = True
 
                                 # If East goes to an explorable location.
                                 else:
-                                    current_location_index = location.east
+                                    current_location_index = location.get_east_id()
                                     current_location = Location.locations[current_location_index]
                                     energy -= 1
                                     hydration -= 1
@@ -323,13 +310,13 @@ if __name__ == '__main__':
                                 move = True
                                 moves += 1
                                 # If South goes to sea location and death.
-                                if type(Location.locations[location.south]) is SeaLocation:
-                                    print(Location.locations[location.south].get_location_description_text())
+                                if type(Location.locations[location.get_south_id()]) is SeaLocation:
+                                    print(Location.locations[location.get_south_id()].get_location_description_text())
                                     ocean_death_end = True
 
                                 # If South goes to an explorable location.
                                 else:
-                                    current_location_index = location.south
+                                    current_location_index = location.get_south_id()
                                     current_location = Location.locations[current_location_index]
                                     energy -= 1
                                     hydration -= 1
@@ -340,13 +327,13 @@ if __name__ == '__main__':
                                 move = True
                                 moves += 1
                                 # If West goes to sea location and death.
-                                if type(Location.locations[location.west]) is SeaLocation:
-                                    print(Location.locations[location.west].get_location_description_text())
+                                if type(Location.locations[location.get_west_id()]) is SeaLocation:
+                                    print(Location.locations[location.get_west_id()].get_location_description_text())
                                     ocean_death_end = True
 
                                 # If West goes to an explorable location.
                                 else:
-                                    current_location_index = location.west
+                                    current_location_index = location.get_west_id()
                                     current_location = Location.locations[current_location_index]
                                     energy -= 1
                                     hydration -= 1
@@ -359,7 +346,7 @@ if __name__ == '__main__':
                         # If the player wants to inspect something.
                         elif action == "INSPECT":
                             # Is the noun an item?
-                            if noun in [item.get_name() for item in Base.items]:
+                            if noun in [item.get_name() for item in Item.items]:
                                 # Is the noun located in the current location?
                                 if noun in [item.get_name() for item in
                                             Location.locations[current_location_index].get_location_items()]:
@@ -390,7 +377,7 @@ if __name__ == '__main__':
                         # If the player wants to take something and put it in their bag.
                         elif action == "TAKE":
                             # Is the noun an item that can be moved?
-                            if noun in [item.get_name() for item in Movable.movable_items]:
+                            if noun in [item.get_name() for item in Movable.movable_nouns]:
                                 # Is the subject located in the current location?
                                 if noun in [item.get_name() for item in current_location.get_location_items()]:
                                     # Find the item.
@@ -407,7 +394,7 @@ if __name__ == '__main__':
                                                         current_location.remove_location_item(item)
                                                         # If it was revealed by another item.
                                                         if isinstance(item, RevealedMovable):
-                                                            taken_from = item.revealed_by
+                                                            taken_from = item.get_item_revealed_by()
                                                             taken_from.item_one_taken()
                                                     else:
                                                         # New text against what happens
@@ -456,7 +443,7 @@ if __name__ == '__main__':
                                                     # If it was revealed by another item.
                                                     if isinstance(item, RevealedMovable) or \
                                                             isinstance(item, RevealedConsumable):
-                                                        taken_from = item.revealed_by
+                                                        taken_from = item.get_item_revealed_by()
                                                         taken_from.item_one_taken()
                                                         if isinstance(item, DualRevealsMovable):
                                                             taken_from.item_one_taken()
@@ -522,7 +509,7 @@ if __name__ == '__main__':
                                         print(f"{cable.get_name()} plugged in!\n"
                                               f"{compartment.get_power_cable_true_text()}")
                                         # If the cable is plugged into the metal box.
-                                        if metal_box.insert_status():
+                                        if metal_box.get_insert_status():
                                             dashboard.dashboard_powered()
                                             # Removes item from the game.
                                             backpack.remove(cable, current_location)
@@ -754,10 +741,10 @@ if __name__ == '__main__':
                                                 if kraken_block_attempts < 2:
                                                     kraken_block_attempts += 1
                                                     move = True
-                                                    current_location_index = location.south
+                                                    current_location_index = location.get_south_id()
                                                     current_location = Location.locations[current_location_index]
                                                     print("I giant tentacle knocks you back into another location")
-                                                    loc_nine.add_item_to_location(block.set_slot_one_item())
+                                                    loc_nine.add_item_to_location(block.get_slot_one_item())
                                                     loc_nine.add_item_to_location(block.get_slot_two_item())
                                                     loc_nine.add_item_to_location(block.get_slot_three_item())
                                                     block.set_slot_one_item(None)
@@ -817,31 +804,38 @@ if __name__ == '__main__':
                         # If the player wants to eat or drink something
                         elif action == "CONSUME":
                             # Is the noun an item.
-                            if noun in [item.get_name() for item in Base.items]:
+                            if noun in [item.get_name() for item in Item.items]:
                                 # Is the noun here?
                                 if noun in [item.get_name() for item in current_location.get_location_items()] or \
                                         noun in [item.get_name() for item in backpack.items()]:
                                     # Is the noun consumable?
-                                    if noun in [item.get_name() for item in Consumable.consumables]:
+                                    if noun in [item.get_name() for item in Consumable.consumable_nouns]:
                                         # Get consumable.
                                         consumable = None
-                                        for item in Consumable.consumables:
+                                        for item in Consumable.consumable_nouns:
                                             if item.get_name() == noun:
                                                 consumable = item
-                                        # Remove consumable
-                                        if consumable in current_location.get_location_items():
-                                            current_location.remove_location_item(consumable)
-                                        elif consumable in backpack.items():
-                                            backpack.remove(consumable, current_location)
-                                            current_location.remove_location_item(consumable)
+                                        # If it's a coconut not in players bag.
+                                        if consumable is coconut and coconut not in backpack.items():
+                                            coconut.make_invisible()
+                                        # If it's not water.
+                                        elif consumable is not water:
+                                            # Remove consumable
+                                            if consumable in current_location.get_location_items():
+                                                current_location.remove_location_item(consumable)
+                                            elif consumable in backpack.items():
+                                                backpack.remove(consumable, current_location)
+                                                current_location.remove_location_item(consumable)
                                         print(consumable.item_consumed())
                                         # Apply consumable values.
-                                        energy += consumable.get_food_value()
+                                        energy += consumable.get_energy_value()
                                         if energy > 10:
                                             energy = 10
-                                        hydration += consumable.get_drink_value()
+                                        hydration += consumable.get_hydration_value()
                                         if hydration > 10:
                                             hydration = 10
+                                        print(f"You now have enough energy for {energy} moves.")
+                                        print(f"You now have enough hydration for {hydration} moves.")
                                     # Invalid.
                                     else:
                                         print(f"{noun} can not be {action}")
@@ -861,7 +855,7 @@ if __name__ == '__main__':
                             # Anything else.
                             else:
                                 # Is the noun an item.
-                                if noun in [item.get_name() for item in Base.items]:
+                                if noun in [item.get_name() for item in Item.items]:
                                     # Is the noun here?
                                     if noun in [item.get_name() for item in current_location.get_location_items()]:
                                         # Is noun a container?
@@ -889,7 +883,7 @@ if __name__ == '__main__':
                         # If the player wants to drop something from their bag.
                         elif action == "DROP":
                             # Is the noun an item?
-                            if noun in [item.get_name() for item in Base.items]:
+                            if noun in [item.get_name() for item in Item.items]:
                                 # Is the noun in the bag?
                                 if noun in [item.get_name() for item in backpack.items()]:
                                     # Find item.

@@ -9,14 +9,14 @@ driftwood = RevealsMovable(3, True, None,
                            "DRIFTWOOD",
                            "A line of DRIFTWOOD mark the high tide line.",
                            "An assortment of wood in all shapes and sizes.",
-                           "Amongst them is a TENSION ROD.",
+                           "Amongst them is a piece of metal that is a TENSION ROD.",
                            "They are bleached white by the sun and sea.")
 
 tension_rod = RevealedMovable(3, False, driftwood,
                               "TENSION ROD",
                               "Amongst the DRIFTWOOD lies a TENSION ROD.",
                               "A rod that can be used to apply pressure to a key chamber.")
-driftwood._reveals = tension_rod
+driftwood._reveals_item = tension_rod
 
 merman = Npc(3, True,
              "MERMAN",

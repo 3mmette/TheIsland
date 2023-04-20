@@ -22,4 +22,4 @@ kraken = Npc(10, False,
              "In your head you hear a voice...\n"
              "Get the BLOCK right, and help you I might.\n"
              "Get it wrong, and in the depths you'll belong.")
-shadow._reveals = kraken
+shadow._reveals_item = kraken

@@ -18,14 +18,14 @@ coin = ConditionalRevealedMovable(9, False, ship,
                                   "COIN",
                                   "Laying in a little patch of sunlight in the hull glints a gold COIN",
                                   "Made of solid gold, and a decent size.")
-ship._reveals.append(coin)
+ship._reveals_item.append(coin)
 
 crackers = RevealedConsumable(9, False, 5, 0, ship,
                               "CRACKERS",
                               "Just inside the hull sits a packet of CRACKERS.",
                               "A small packet of crackers, from the company Polly.",
                               "A little dry, but still tasty.")
-ship._reveals.append(crackers)
+ship._reveals_item.append(crackers)
 
 block_nine = Movable(9, True,
                      "BLOCK 9",
