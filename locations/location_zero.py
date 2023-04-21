@@ -12,7 +12,7 @@ location_zero = StartLocation(0, "BOAT", 1, 13, 13, 13,
 
 dashboard = Dashboard(0, True, None,
                       "DASHBOARD",
-                      "At the front there is a DASHBOARD.",
+                      "At the front of the boat there is a DASHBOARD.",
                       "There is a BUTTON to start the boat",
                       "There is a slot to insert a key.",
                       "You are now able to turn the key slot",
@@ -23,7 +23,7 @@ dashboard = Dashboard(0, True, None,
 
 compartment = Compartment(0, True,
                           "COMPARTMENT",
-                          "Under the dashboard is a COMPARTMENT.",
+                          "Under the dashboard is an open COMPARTMENT.",
                           "Inside the compartment it looks like the boat could be powered in two ways.",
                           "There are two battery leads, not connected to anything.",
                           "A marine battery in connected to the leads.",
@@ -44,24 +44,24 @@ fuel_tank = RequiresInsert(0, True,
                            "Taking a look inside, you see it is empty.",
                            "Taking a look inside, you see it is now full.")
 
-battery = RevealedMovable(0, False, heavy_chest,
-                          "BATTERY",
-                          "Inside the chest is a BATTERY",
-                          "A large Battery with two terminals on top.")
-heavy_chest._holds_item = battery
+battery = Movable(0, False,
+                  "BATTERY",
+                  "Inside the chest is a BATTERY",
+                  "A large Battery with two terminals on top.")
+heavy_chest.set_holds_item(battery)
 
 button = FinalButton(0, False,
                      "BUTTON",
                      "On the DASHBOARD there is a BUTTON.",
-                     "The button says PRESS BUTTON to start.",
+                     "The button that could start the boat.",
                      "Nothing happens.")
-dashboard._reveals_item = button
+dashboard.set_revealed_item(button)
 
 keypad = Keypad(0, False, "ISLE",
                 "KEYPAD",
                 "On the heavy chest is a KEYPAD",
                 "It seems to need a four letter password to unlock the chest...")
-heavy_chest._reveals = keypad
+heavy_chest.set_revealed_item(keypad)
 
 block_zero = Movable(0, True,
                      "BLOCK 0",

@@ -90,6 +90,12 @@ if __name__ == '__main__':
             if item.get_initial_location_id() == location.get_location_id():
                 location.add_item_to_location(item)
 
+    # Actions that can be taken.
+    actions = ["LOOK", "MOVE", "INTERACT", "OPEN", "TAKE", "DROP", "SPEAK", "CONSUME"]
+    actions_string = ""
+    for action in actions:
+        actions_string += f"{action} / "
+
     # Start
     player_name = "Bob"
     # player_name = Introduction()
@@ -176,7 +182,7 @@ if __name__ == '__main__':
                                     while True:
                                         # Input what action they need help with.
                                         print("(Refresh / Help / Inspect / Interact / Open / Take / Drop / Talk / "
-                                              "Move / Consume / None)")
+                                              "Move / Consume / No)")
                                         response = input("- ").upper().strip()
                                         typing(f"'{player_name}. {response}. Over'\n")
                                         # Refresh action
@@ -268,611 +274,819 @@ if __name__ == '__main__':
                         action = player_input[0]
                         # And the noun to do it upon.
                         noun = player_input[1]
-
-                        # If the player wants to move to another location.
-                        if action == "MOVE":
-                            # To move to the location to the North.
-                            if noun == "NORTH":
-                                # Movement is true and add one to move tally.
-                                move = True
-                                moves += 1
-                                # If North goes to sea location and death.
-                                if type(Location.locations[location.get_north_id()]) is SeaLocation:
-                                    print(Location.locations[location.get_north_id()].get_location_description_text())
-                                    ocean_death_end = True
-                                # If North goes to an explorable location.
-                                else:
-                                    current_location_index = location._north_id
-                                    current_location = Location.locations[current_location_index]
-                                    energy -= 1
-                                    hydration -= 1
-
-                            # To move to the location to the East.
-                            elif noun == "EAST":
-                                # Movement is true and add one to move tally.
-                                move = True
-                                moves += 1
-                                # If East goes to sea location and death.
-                                if type(Location.locations[location.get_east_id()]) is SeaLocation:
-                                    print(Location.locations[location.get_east_id()].get_location_description_text())
-                                    ocean_death_end = True
-
-                                # If East goes to an explorable location.
-                                else:
-                                    current_location_index = location.get_east_id()
-                                    current_location = Location.locations[current_location_index]
-                                    energy -= 1
-                                    hydration -= 1
-
-                            # To move to the location to the South.
-                            elif noun == "SOUTH":
-                                # Movement is true and add one to move tally.
-                                move = True
-                                moves += 1
-                                # If South goes to sea location and death.
-                                if type(Location.locations[location.get_south_id()]) is SeaLocation:
-                                    print(Location.locations[location.get_south_id()].get_location_description_text())
-                                    ocean_death_end = True
-
-                                # If South goes to an explorable location.
-                                else:
-                                    current_location_index = location.get_south_id()
-                                    current_location = Location.locations[current_location_index]
-                                    energy -= 1
-                                    hydration -= 1
-
-                            # To move to the location to the West.
-                            elif noun == "WEST":
-                                # Movement is true and add one to move tally.
-                                move = True
-                                moves += 1
-                                # If West goes to sea location and death.
-                                if type(Location.locations[location.get_west_id()]) is SeaLocation:
-                                    print(Location.locations[location.get_west_id()].get_location_description_text())
-                                    ocean_death_end = True
-
-                                # If West goes to an explorable location.
-                                else:
-                                    current_location_index = location.get_west_id()
-                                    current_location = Location.locations[current_location_index]
-                                    energy -= 1
-                                    hydration -= 1
-
-                            # Invalid noun with action MOVE.
-                            else:
-                                print(f"The input {noun} is not a valid direction.\n"
-                                      f"Please choose on of the following (North / East / South / West)")
-
-                        # If the player wants to inspect something.
-                        elif action == "INSPECT":
-                            # Is the noun an item?
-                            if noun in [item.get_name() for item in Item.items]:
-                                # Is the noun located in the current location?
-                                if noun in [item.get_name() for item in
-                                            Location.locations[current_location_index].get_location_items()]:
-                                    # Find the item.
-                                    for item in Location.locations[current_location_index].get_location_items():
-                                        if item.get_name() == noun:
-                                            # Is visible.
-                                            if item.get_visibility_status():
+                        if action in actions:
+                            # If the player wants to inspect something.
+                            if action == "LOOK":
+                                # Is the noun an item?
+                                if noun in [item.get_name() for item in Item.items]:
+                                    # Is the noun located in the current location?
+                                    if noun in [item.get_name() for item in current_location.get_location_items()]:
+                                        # Find the item.
+                                        for item in current_location.get_location_items():
+                                            if item.get_name() == noun:
+                                                # Is visible.
+                                                if item.get_visibility_status():
+                                                    # Inspect it.
+                                                    print(item.inspect())
+                                                # Not visible yet.
+                                                else:
+                                                    print(f"{noun} can't be seen in this location yet.")
+                                    # Is the noun located in the players bag?
+                                    elif noun in [item.get_name() for item in backpack.items()]:
+                                        # Find the item.
+                                        for item in backpack.items():
+                                            if item.get_name() == noun:
                                                 # Inspect it.
                                                 print(item.inspect())
-                                            # Not visible yet.
-                                            else:
-                                                print(f"{noun} can't be seen in this location... yet.")
-                                # Is the noun located in the players bag?
-                                elif noun in [item.get_name() for item in backpack.items()]:
-                                    # Find the item.
-                                    for item in backpack.items():
-                                        if item.get_name() == noun:
-                                            # Inspect it.
-                                            print(item.inspect())
-                                # The noun isn't located in the current location or the players bag.
+                                    # The noun isn't located in the current location or the players bag.
+                                    else:
+                                        print(f"{noun} isn't located here or in your bag.")
+                                # The noun isn't a valid item to inspect.
                                 else:
-                                    print(f"{noun} isn't located here or in your bag.")
-                            # The noun isn't a valid item to inspect.
-                            else:
-                                print(f"{noun} is not a valid item to {action}.")
+                                    print(f"{noun} is not a valid item to {action}.")
 
-                        # If the player wants to take something and put it in their bag.
-                        elif action == "TAKE":
-                            # Is the noun an item that can be moved?
-                            if noun in [item.get_name() for item in Movable.movable_nouns]:
-                                # Is the subject located in the current location?
-                                if noun in [item.get_name() for item in current_location.get_location_items()]:
-                                    # Find the item.
-                                    for item in current_location.get_location_items():
-                                        if item.get_name() == noun:
-                                            # If item is visible.
-                                            if item.get_visibility_status():
-                                                # If getting the item has a condition to meet before being taken.
-                                                if isinstance(item, Conditional):
-                                                    if item.get_condition_status():
+                            # If the player wants to move to another location.
+                            elif action == "MOVE":
+                                # To move to the location to the North.
+                                if noun == "NORTH":
+                                    # Movement is true and add one to move tally.
+                                    move = True
+                                    moves += 1
+                                    # If North goes to sea location and death.
+                                    if type(Location.locations[location.get_north_id()]) is SeaLocation:
+                                        print(Location.locations[location.get_north_id()].
+                                              get_location_description_text())
+                                        ocean_death_end = True
+                                    # If North goes to an explorable location.
+                                    else:
+                                        current_location_index = location.get_north_id()
+                                        current_location = Location.locations[current_location_index]
+                                        energy -= 1
+                                        hydration -= 1
+
+                                # To move to the location to the East.
+                                elif noun == "EAST":
+                                    # Movement is true and add one to move tally.
+                                    move = True
+                                    moves += 1
+                                    # If East goes to sea location and death.
+                                    if type(Location.locations[location.get_east_id()]) is SeaLocation:
+                                        print(Location.locations[location.get_east_id()].
+                                              get_location_description_text())
+                                        ocean_death_end = True
+
+                                    # If East goes to an explorable location.
+                                    else:
+                                        current_location_index = location.get_east_id()
+                                        current_location = Location.locations[current_location_index]
+                                        energy -= 1
+                                        hydration -= 1
+
+                                # To move to the location to the South.
+                                elif noun == "SOUTH":
+                                    # Movement is true and add one to move tally.
+                                    move = True
+                                    moves += 1
+                                    # If South goes to sea location and death.
+                                    if type(Location.locations[location.get_south_id()]) is SeaLocation:
+                                        print(Location.locations[location.get_south_id()].
+                                              get_location_description_text())
+                                        ocean_death_end = True
+
+                                    # If South goes to an explorable location.
+                                    else:
+                                        current_location_index = location.get_south_id()
+                                        current_location = Location.locations[current_location_index]
+                                        energy -= 1
+                                        hydration -= 1
+
+                                # To move to the location to the West.
+                                elif noun == "WEST":
+                                    # Movement is true and add one to move tally.
+                                    move = True
+                                    moves += 1
+                                    # If West goes to sea location and death.
+                                    if type(Location.locations[location.get_west_id()]) is SeaLocation:
+                                        print(Location.locations[location.get_west_id()].
+                                              get_location_description_text())
+                                        ocean_death_end = True
+
+                                    # If West goes to an explorable location.
+                                    else:
+                                        current_location_index = location.get_west_id()
+                                        current_location = Location.locations[current_location_index]
+                                        energy -= 1
+                                        hydration -= 1
+
+                                # Invalid noun with action MOVE.
+                                else:
+                                    print(f"The input {noun} is not a valid direction.\n"
+                                          f"Please choose on of the following (North / East / South / West)")
+
+                            # If the player wants to interact with something.
+                            elif action == "INTERACT":
+                                # Insert something to be able to turn the key chamber in the dashboard.
+                                if noun == "DASHBOARD":
+                                    # Is the noun here?
+                                    if dashboard in current_location.get_location_items():
+                                        # Do you have the required item?
+                                        if boat_key in backpack.items():
+                                            print(f"{boat_key.get_name()} inserted!\n{dashboard.get_key_true_text()}")
+                                            dashboard.key_inserted()
+                                            # Removes item from the game.
+                                            print(backpack.remove(boat_key, current_location))
+                                            current_location.remove_location_item(boat_key)
+                                        # Do you have the required items?
+                                        elif tension_rod in backpack.items() and key_rake in backpack.items():
+                                            print(f"{tension_rod.get_name()} applies the force!\n"
+                                                  f"{key_rake.get_name()} depresses the pins!\n"
+                                                  f"{dashboard.get_key_true_text()}")
+                                            dashboard.key_inserted()
+                                            # Removes items from the game.
+                                            backpack.remove(tension_rod, current_location)
+                                            backpack.remove(key_rake, current_location)
+                                            current_location.remove_location_item(key_rake)
+                                            current_location.remove_location_item(tension_rod)
+                                        # Doesn't have the required item.
+                                        else:
+                                            print("I don't have any way to turn the key chamber in my bag...")
+                                    # Wrong location.
+                                    else:
+                                        # Invalid
+                                        print(f"The is no {noun} here.")
+
+                                # Insert something into the compartment to power the boat.
+                                elif noun == "COMPARTMENT":
+                                    # Is the noun here?
+                                    if compartment in current_location.get_location_items():
+                                        # Do you have the required item?
+                                        if battery in backpack.items():
+                                            print(f"{battery.get_name()} inserted!\n"
+                                                  f"{compartment.get_battery_true_text()}")
+                                            compartment.battery_inserted()
+                                            dashboard.dashboard_powered()
+                                            # Removes item from the game.
+                                            backpack.remove(battery, current_location)
+                                            current_location.remove_location_item(battery)
+                                        # Do you have the required item?
+                                        elif cable in backpack.items():
+                                            compartment.cable_inserted()
+                                            print(f"{cable.get_name()} plugged in!\n"
+                                                  f"{compartment.get_power_cable_true_text()}")
+                                            # If the cable is plugged into the metal box.
+                                            if metal_box.get_insert_status():
+                                                dashboard.dashboard_powered()
+                                                # Removes item from the game.
+                                                backpack.remove(cable, current_location)
+                                                current_location.remove_location_item(cable)
+                                            # Hint they need to do that.
+                                            else:
+                                                print(f"Now to find somewhere to plug other other end...")
+                                        # Doesn't have the required item.
+                                        else:
+                                            print("I have any way to supply power in my bag...")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                # Insert something into the fuel tank to fuel the boat.
+                                elif noun == "FUEL TANK":
+                                    # Is the noun here?
+                                    if fuel_tank in current_location.get_location_items():
+                                        # Do you have the required item?
+                                        if jerry in backpack.items():
+                                            dashboard.boat_fueled()
+                                            fuel_tank.item_inserted()
+                                            print(f"{jerry.get_name()} emptied into the fuel tank.\n"
+                                                  f"{fuel_tank.get_full_text()}")
+                                            # Removes item from the game.
+                                            backpack.remove(jerry, current_location)
+                                            current_location.remove_location_item(jerry)
+                                        # Do you have the required item?
+                                        elif alcohol in backpack.items():
+                                            dashboard.boat_fueled()
+                                            fuel_tank.item_inserted()
+                                            print(f"{alcohol.get_name()} emptied into the fuel tank.\n"
+                                                  f"{fuel_tank.get_full_text()}")
+                                            # Removes item from the game.
+                                            backpack.remove(alcohol, current_location)
+                                            current_location.remove_location_item(alcohol)
+                                        # Doesn't have the required item.
+                                        else:
+                                            print(f"I need something to fill the tank with...")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                # Insert something into the metal box to help power the boat.
+                                elif noun == "METAL BOX":
+                                    # Is the noun here?
+                                    if metal_box in current_location.get_location_items():
+                                        # Do you have the required item?
+                                        if cable in backpack.items():
+                                            metal_box.item_inserted()
+                                            print(f"{cable.get_name()} plugged in.\n{metal_box.get_full_text()}")
+                                            # If the cable is plugged in at the other end.
+                                            if compartment.get_cable_status():
+                                                dashboard.dashboard_powered()
+                                                # Removes item from the game.
+                                                backpack.remove(cable, current_location)
+                                                current_location.remove_location_item(cable)
+                                            # Hint to find other place to plug in
+                                            else:
+                                                print(f"Now to find somewhere to plug in other other end...")
+                                        # Doesn't have the required item.
+                                        else:
+                                            print(f"I need to find something to plug in here...")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                # Enter the pass code into the keypad.
+                                elif noun == "KEYPAD":
+                                    # Is the noun here?
+                                    if keypad in current_location.get_location_items():
+                                        # Is it visible?
+                                        if keypad.get_visibility_status():
+                                            print("Please enter the 4 digit code.")
+                                            input_code = input("- ").upper().strip()
+                                            if input_code == keypad.get_access_code():
+                                                print(heavy_chest.unlock_container())
+                                            else:
+                                                print(f"{heavy_chest.get_name()} remains locked.")
+                                        # Invalid.
+                                        else:
+                                            print(f"{noun} can't be seen in this location... yet.")
+                                    # Invalid.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                elif noun == "BUTTON":
+                                    if button in current_location.get_location_items():
+                                        # All conditions met to start boat.
+                                        if dashboard.get_key_status() and dashboard.get_power_status() \
+                                                and dashboard.get_fuel_status():
+                                            boat_end = True
+                                        else:
+                                            print("Nothing happens...")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                # Throw a rock at the hanging coconut.
+                                elif noun == "HANGING COCONUT":
+                                    # Is the noun here?
+                                    if hanging_coconut in current_location.get_location_items():
+                                        # Is it visible?
+                                        if hanging_coconut.get_visibility_status():
+                                            # Do you have the required item?
+                                            if rock in backpack.items():
+                                                coconut.make_visible()
+                                                print(f"A perfect hit.\n{coconut.get_location_description_text()}")
+                                                # Removes item from the game.
+                                                backpack.remove(rock, current_location)
+                                                current_location.remove_location_item(rock)
+                                            # Hint
+                                            else:
+                                                print(
+                                                    "The COCONUT is out of reach.\n"
+                                                    "You need something to throw at them...")
+                                        # Not visible.
+                                        else:
+                                            print(f"{noun} can't be seen in this location... yet.")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                # Dig in the sand.
+                                elif noun == "SAND":
+                                    # Is the noun here?
+                                    if sand in current_location.get_location_items():
+                                        # Do you have the required item?
+                                        if shovel in backpack.items():
+                                            sand.condition_met()
+                                            print(f"What have we here.\n{sand.get_reveal_text()}")
+                                            revealed_item = sand.get_revealed_item()
+                                            revealed_item.make_visible()
+                                            revealed_item.item_discovered()
+                                            # Removes item from the game.
+                                            backpack.remove(shovel, current_location)
+                                            current_location.remove_location_item(shovel)
+                                        # Hint
+                                        else:
+                                            print("The sharp shells cut your hands.\nYou need something to dig with...")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                # Insert numbered blocks into the block.
+                                elif noun == "BLOCK":
+                                    # Is the noun here?
+                                    if block in current_location.get_location_items():
+                                        # Loop to do multiple inserts or takes at a time.
+                                        while True:
+                                            # Get available and occupied slots.
+                                            slots = block.list_slot_items()
+                                            available_slots = []
+                                            available_slots_string = ""
+                                            occupied_slots = []
+                                            occupied_slots_string = ""
+                                            for i, slot in enumerate(slots, start=1):
+                                                if slot is None:
+                                                    available_slots.append(str(i))
+                                                    available_slots_string += f"{str(i)} / "
+                                                else:
+                                                    occupied_slots.append(str(i + 1))
+                                                    occupied_slots_string = f"{str(i + 1)} / "
+                                            # Get numbered blocks in bag.
+                                            numbered_blocks = []
+                                            for item in backpack.items():
+                                                if item.get_name().startswith("BLOCK"):
+                                                    numbered_blocks.append(item)
+                                            numbered_blocks_string = " / ".join(
+                                                numbered_block.get_name().split()[1]
+                                                for numbered_block in numbered_blocks)
+                                            # Initial options
+                                            print(f"Would you like to insert or take a BLOCK? "
+                                                  f"(Insert / Take / Leave)")
+                                            action_choice = input("- ").upper().strip()
+                                            # Insert
+                                            if action_choice == "INSERT":
+                                                # Slot options
+                                                print(f"Into which slot would you like to insert a block? "
+                                                      f"({available_slots_string}Leave)")
+                                                slot_choice = input("- ").upper().strip()
+                                                # Valid.
+                                                if slot_choice in available_slots:
+                                                    # Option to insert
+                                                    print(f"Which block would you like to insert? "
+                                                          f"({numbered_blocks_string} / Leave)")
+                                                    numbered_block_choice = input("- ").upper().strip()
+                                                    # Valid.
+                                                    if numbered_block_choice in [numbered_block.get_name().split()[1]
+                                                                                 for numbered_block in numbered_blocks]:
+                                                        for numbered_block in numbered_blocks:
+                                                            if numbered_block_choice == \
+                                                                    numbered_block.get_name().split()[1]:
+                                                                # Insert into slot 1.
+                                                                if slot_choice == "1":
+                                                                    print(backpack.remove
+                                                                          (numbered_block, current_location))
+                                                                    block.set_slot_one_item(numbered_block)
+                                                                    print("Slot 1 now contains "
+                                                                          f"{numbered_block.get_name()}")
+                                                                    break
+                                                                # Insert into slot 2.
+                                                                elif slot_choice == "2":
+                                                                    print(backpack.remove
+                                                                          (numbered_block, current_location))
+                                                                    block.set_slot_two_item(numbered_block)
+                                                                    print("Slot 2 now contains "
+                                                                          f"{numbered_block.get_name()}")
+                                                                    break
+                                                                # Insert into slot 3.
+                                                                elif slot_choice == "3":
+                                                                    print(backpack.remove
+                                                                          (numbered_block, current_location))
+                                                                    block.set_slot_three_item(numbered_block)
+                                                                    print("Slot 3 now contains "
+                                                                          f"{numbered_block.get_name()}")
+                                                                    break
+                                                                # Break loop
+                                                                elif slot_choice == "LEAVE":
+                                                                    break
+                                                                else:
+                                                                    pass
+                                                    # Break loop.
+                                                    elif numbered_block_choice == "LEAVE":
+                                                        break
+                                                    # Invalid.
+                                                    else:
+                                                        print(f"Block {numbered_block_choice} is not a valid option.")
+                                                # Break loop.
+                                                elif slot_choice == "LEAVE":
+                                                    break
+                                                # Invalid.
+                                                else:
+                                                    print(f"Slot {slot_choice} is not a valid option.")
+                                                # After block insert
+                                                # If three blocks inserted and correct.
+                                                if block.get_slot_one_item() == block_six and \
+                                                        block.get_slot_two_item() == block_zero and \
+                                                        block.get_slot_three_item() == block_five:
+                                                    # Complete puzzle and game. Break loop.
+                                                    kraken_end = True
+                                                    break
+                                                # If three blocks inserted and incorrect.
+                                                elif all(slot is not None for slot in block.list_slot_items()):
+                                                    # Still has attempts left.
+                                                    if kraken_block_attempts < 2:
+                                                        kraken_block_attempts += 1
+                                                        move = True
+                                                        current_location_index = location.get_south_id()
+                                                        current_location = Location.locations[current_location_index]
+                                                        print("I giant tentacle knocks you back into another location")
+                                                        loc_nine.add_item_to_location(block.get_slot_one_item())
+                                                        loc_nine.add_item_to_location(block.get_slot_two_item())
+                                                        loc_nine.add_item_to_location(block.get_slot_three_item())
+                                                        block.set_slot_one_item(None)
+                                                        block.set_slot_two_item(None)
+                                                        block.set_slot_three_item(None)
+                                                        print("The blocks you had previously inserted land around you.")
+                                                        break
+                                                    # Too many attempts and lose game.
+                                                    else:
+                                                        print("This time the giant tentacle pulls you forward.\n"
+                                                              "You're plunged into the endless abyss below the cliff.\n"
+                                                              "Descending fast, the light soon disappears.\n"
+                                                              "You lose consciousness surrounded by darkness...")
+                                                        ocean_death_end = True
+                                                        break
+                                            # Take
+                                            elif action_choice == "TAKE":
+                                                # Slot option
+                                                print(block.get_slot_items())
+                                                print(f"Which slot do you want to take a BLOCK from? "
+                                                      f"({occupied_slots_string}Leave)")
+                                                take_choice = input("- ").upper().strip()
+                                                # From slot 1.
+                                                if take_choice == "1":
+                                                    print(backpack.add(block.get_slot_one_item()))
+                                                    block.set_slot_one_item(None)
+                                                    print(f"Slot 1 is now empty")
+                                                # From slot 2.
+                                                elif take_choice == "2":
+                                                    print(backpack.add(block.get_slot_two_item()))
+                                                    block.set_slot_two_item(None)
+                                                    print(f"Slot 2 is now empty")
+                                                # From slot 3.
+                                                elif take_choice == "3":
+                                                    print(backpack.add(block.get_slot_three_item()))
+                                                    block.set_slot_three_item(None)
+                                                    print(f"Slot 3 is now empty")
+                                                # Break loop
+                                                elif take_choice == "LEAVE":
+                                                    break
+                                                # Invalid.
+                                                else:
+                                                    print(f"Slot {take_choice} is not a valid option.")
+                                            # Break loop
+                                            elif action_choice == "LEAVE":
+                                                break
+                                            # Invalid
+                                            else:
+                                                print(f"{action_choice} is not a valid input.")
+                                    # Wrong location.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                else:
+                                    print(f"{noun} is not a valid item to {action} with.")
+
+                            # If the player wants to open something.
+                            elif action == "OPEN":
+                                # Open their bag and display contents.
+                                if noun == "BAG":
+                                    print(f"Your BAG currently had {backpack.count()} items.")
+                                    print(backpack.list())
+                                # Anything else.
+                                else:
+                                    # Is the noun an item.
+                                    if noun in [item.get_name() for item in Item.items]:
+                                        # Is the noun here?
+                                        if noun in [item.get_name() for item in current_location.get_location_items()]:
+                                            # Is noun a container?
+                                            if noun in [item.get_name() for item in Container.containers]:
+                                                # Get the container.
+                                                for container in Container.containers:
+                                                    if noun == container.get_name():
+                                                        # If locked
+                                                        if container.get_locked_status():
+                                                            print(f"The {container.get_name()} is locked.")
+                                                        # If not locked
+                                                        else:
+                                                            container.open_container()
+                                                            print(f"{container.get_name()} opened.")
+                                            # Invalid
+                                            else:
+                                                print(f"{noun} cannot be opened..")
+                                        # Invalid.
+                                        else:
+                                            print(f"There is no {noun} here.")
+                                    # Invalid.
+                                    else:
+                                        print(f"{noun} is not a valid item.")
+
+                            # If the player wants to take something and put it in their bag.
+                            elif action == "TAKE":
+                                # Is the noun an item that can be moved?
+                                if noun in [item.get_name() for item in Movable.movable_nouns]:
+                                    # Is the subject located in the current location?
+                                    if noun in [item.get_name() for item in current_location.get_location_items()]:
+                                        # Find the item.
+                                        for item in current_location.get_location_items():
+                                            if item.get_name() == noun:
+                                                # If item is visible.
+                                                if item.get_visibility_status():
+                                                    # If getting the item has a condition to meet before being taken.
+                                                    if isinstance(item, Conditional):
+                                                        if item.get_condition_status():
+                                                            # Add it to your bag.
+                                                            print(backpack.add(item))
+                                                            # Remove it from the location.
+                                                            current_location.remove_location_item(item)
+                                                            # If it was revealed by another item.
+                                                            if isinstance(item, RevealedMovable):
+                                                                taken_from = item.get_item_revealed_by()
+                                                                taken_from.item_one_taken()
+                                                        else:
+                                                            # New text against what happens
+                                                            print(f"{item.get_name()} is out of reach.")
+                                                    # Trying to take water.
+                                                    elif item.get_name() == "WATER":
+                                                        # Does the player have a water bottle?
+                                                        if water_bottle in backpack.items():
+                                                            # If the water bottle is already full.
+                                                            if water_bottle.get_water_bottle_status():
+                                                                print("The water bottle is already full")
+                                                            # If the water bottle is empty.
+                                                            else:
+                                                                # Fill up the water bottle.
+                                                                print(water_bottle.fill_water_bottle())
+                                                        # No water bottle.
+                                                        else:
+                                                            # Give clue.
+                                                            print("I can't just put water in my bag...\n"
+                                                                  "If only I had a water bottle.")
+                                                    # Trying to take a rock.
+                                                    elif item.get_name() == "ROCK":
+                                                        # If the player already has a rock.
+                                                        if rock in backpack.items():
+                                                            print(f"You already have a {noun} in your bag")
+                                                        # Add rock to backpack.
+                                                        else:
+                                                            print(backpack.add(item))
+                                                    # Trying to take a coconut.
+                                                    elif item.get_name() == "COCONUT":
+                                                        # If the player already has a coconut.
+                                                        if coconut in backpack.items():
+                                                            print("You already have a COCONUT in your bag")
+                                                        # Add coconut to backpack.
+                                                        else:
+                                                            print(backpack.add(item))
+                                                            # Make coconut invisible again.
+                                                            coconut.make_invisible()
+                                                    # Take the item.
+                                                    else:
                                                         # Add it to your bag.
+                                                        item.item_moved()
                                                         print(backpack.add(item))
                                                         # Remove it from the location.
                                                         current_location.remove_location_item(item)
                                                         # If it was revealed by another item.
-                                                        if isinstance(item, RevealedMovable):
+                                                        if isinstance(item, RevealedMovable) or \
+                                                                isinstance(item, RevealedConsumable):
                                                             taken_from = item.get_item_revealed_by()
                                                             taken_from.item_one_taken()
-                                                    else:
-                                                        # New text against what happens
-                                                        print(f"{item.get_name()} is out of reach.")
-                                                # Trying to take water.
-                                                elif item.get_name() == "WATER":
-                                                    # Does the player have a water bottle?
-                                                    if water_bottle in backpack.items():
-                                                        # If the water bottle is already full.
-                                                        if water_bottle.get_water_bottle_status():
-                                                            print("The water bottle is already full")
-                                                        # If the water bottle is empty.
-                                                        else:
-                                                            # Fill up the water bottle.
-                                                            print(water_bottle.fill_water_bottle())
-                                                    # No water bottle.
-                                                    else:
-                                                        # Give clue.
-                                                        print("I can't just put water in my bag...\n"
-                                                              "If only I had a water bottle.")
-                                                # Trying to take a rock.
-                                                elif item.get_name() == "ROCK":
-                                                    # If the player already has a rock.
-                                                    if rock in backpack.items():
-                                                        print(f"You already have a {noun} in your bag")
-                                                    # Add rock to backpack.
-                                                    else:
-                                                        print(backpack.add(item))
-                                                # Trying to take a coconut.
-                                                elif item.get_name() == "COCONUT":
-                                                    # If the player already has a coconut.
-                                                    if coconut in backpack.items():
-                                                        print("You already have a COCONUT in your bag")
-                                                    # Add coconut to backpack.
-                                                    else:
-                                                        print(backpack.add(item))
-                                                        # Make coconut invisible again.
-                                                        coconut.make_invisible()
-                                                # Take the item.
+                                                            if isinstance(item, DualRevealsMovable):
+                                                                taken_from.item_one_taken()
+                                                        break
                                                 else:
-                                                    # Add it to your bag.
-                                                    item.item_moved()
-                                                    print(backpack.add(item))
-                                                    # Remove it from the location.
-                                                    current_location.remove_location_item(item)
-                                                    # If it was revealed by another item.
-                                                    if isinstance(item, RevealedMovable) or \
-                                                            isinstance(item, RevealedConsumable):
-                                                        taken_from = item.get_item_revealed_by()
-                                                        taken_from.item_one_taken()
-                                                        if isinstance(item, DualRevealsMovable):
-                                                            taken_from.item_one_taken()
-                                                    break
-                                            else:
-                                                print(f"{noun} can't be seen in this location... yet.")
-                                # The noun isn't located in the current location
-                                else:
-                                    # Invalid response.
-                                    print(f"{noun} isn't located here.")
-                            # The noun isn't a valid item to take.
-                            else:
-                                # Invalid
-                                print(f"{noun} is not a valid item to {action}.")
-
-                        # If the player wants to interact with something.
-                        elif action == "INTERACT":
-                            # Insert something to be able to turn the key chamber in the dashboard.
-                            if noun == "DASHBOARD":
-                                # Is the noun here?
-                                if dashboard in current_location.get_location_items():
-                                    # Do you have the required item?
-                                    if boat_key in backpack.items():
-                                        print(f"{boat_key.get_name()} inserted!\n{dashboard.get_key_true_text()}")
-                                        dashboard.key_inserted()
-                                        # Removes item from the game.
-                                        print(backpack.remove(boat_key, current_location))
-                                        current_location.remove_location_item(boat_key)
-                                    # Do you have the required items?
-                                    elif tension_rod in backpack.items() and key_rake in backpack.items():
-                                        print(f"{tension_rod.get_name()} applies the force!\n"
-                                              f"{key_rake.get_name()} depresses the pins!\n"
-                                              f"{dashboard.get_key_true_text()}")
-                                        dashboard.key_inserted()
-                                        # Removes items from the game.
-                                        backpack.remove(tension_rod, current_location)
-                                        backpack.remove(key_rake, current_location)
-                                        current_location.remove_location_item(key_rake)
-                                        current_location.remove_location_item(tension_rod)
-                                    # Doesn't have the required item.
+                                                    print(f"{noun} can't be seen in this location... yet.")
+                                    # The noun isn't located in the current location
                                     else:
-                                        print("I don't have any way to turn the key chamber in my bag...")
-                                # Wrong location.
+                                        # Invalid response.
+                                        print(f"{noun} isn't located here.")
+                                # The noun isn't a valid item to take.
                                 else:
                                     # Invalid
-                                    print(f"The is no {noun} here.")
+                                    print(f"{noun} is not a valid item to {action}.")
 
-                            # Insert something into the compartment to power the boat.
-                            elif noun == "COMPARTMENT":
-                                # Is the noun here?
-                                if compartment in current_location.get_location_items():
-                                    # Do you have the required item?
-                                    if battery in backpack.items():
-                                        print(f"{battery.get_name()} inserted!\n{compartment.get_battery_true_text()}")
-                                        compartment.battery_inserted()
-                                        dashboard.dashboard_powered()
-                                        # Removes item from the game.
-                                        backpack.remove(battery, current_location)
-                                        current_location.remove_location_item(battery)
-                                    # Do you have the required item?
-                                    elif cable in backpack.items():
-                                        compartment.cable_inserted()
-                                        print(f"{cable.get_name()} plugged in!\n"
-                                              f"{compartment.get_power_cable_true_text()}")
-                                        # If the cable is plugged into the metal box.
-                                        if metal_box.get_insert_status():
-                                            dashboard.dashboard_powered()
-                                            # Removes item from the game.
-                                            backpack.remove(cable, current_location)
-                                            current_location.remove_location_item(cable)
-                                        # Hint they need to do that.
-                                        else:
-                                            print(f"Now to find somewhere to plug other other end...")
-                                    # Doesn't have the required item.
-                                    else:
-                                        print("I have any way to supply power in my bag...")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            # Insert something into the fuel tank to fuel the boat.
-                            elif noun == "FUEL TANK":
-                                # Is the noun here?
-                                if fuel_tank in current_location.get_location_items():
-                                    # Do you have the required item?
-                                    if jerry in backpack.items():
-                                        dashboard.boat_fueled()
-                                        fuel_tank.item_inserted()
-                                        print(f"{jerry.get_name()} emptied into the fuel tank.\n"
-                                              f"{fuel_tank.get_full_text()}")
-                                        # Removes item from the game.
-                                        backpack.remove(jerry, current_location)
-                                        current_location.remove_location_item(jerry)
-                                    # Do you have the required item?
-                                    elif alcohol in backpack.items():
-                                        dashboard.boat_fueled()
-                                        fuel_tank.item_inserted()
-                                        print(f"{alcohol.get_name()} emptied into the fuel tank.\n"
-                                              f"{fuel_tank.get_full_text()}")
-                                        # Removes item from the game.
-                                        backpack.remove(alcohol, current_location)
-                                        current_location.remove_location_item(alcohol)
-                                    # Doesn't have the required item.
-                                    else:
-                                        print(f"I need something to fill the tank with...")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            # Insert something into the metal box to help power the boat.
-                            elif noun == "METAL BOX":
-                                # Is the noun here?
-                                if metal_box in current_location.get_location_items():
-                                    # Do you have the required item?
-                                    if cable in backpack.items():
-                                        metal_box.item_inserted()
-                                        print(f"{cable.get_name()} plugged in.\n{metal_box.get_full_text()}")
-                                        # If the cable is plugged in at the other end.
-                                        if compartment.get_cable_status():
-                                            dashboard.dashboard_powered()
-                                            # Removes item from the game.
-                                            backpack.remove(cable, current_location)
-                                            current_location.remove_location_item(cable)
-                                        # Hint to find other place to plug in
-                                        else:
-                                            print(f"Now to find somewhere to plug in other other end...")
-                                    # Doesn't have the required item.
-                                    else:
-                                        print(f"I need to find something to plug in here...")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            # Enter the pass code into the keypad.
-                            elif noun == "KEYPAD":
-                                # Is the noun here?
-                                if keypad in current_location.get_location_items():
-                                    # Is it visible?
-                                    if keypad.get_visibility_status():
-                                        print("Please enter the 4 digit code.")
-                                        input_code = input("- ")
-                                        if input_code == keypad.get_access_code():
-                                            print(heavy_chest.unlock_container())
-                                        else:
-                                            print(f"{heavy_chest.get_name()} remains locked.")
-                                    # Invalid.
-                                    else:
-                                        print(f"{noun} can't be seen in this location... yet.")
-                                # Invalid.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            # Throw a rock at the hanging coconut.
-                            elif noun == "HANGING COCONUT":
-                                # Is the noun here?
-                                if hanging_coconut in current_location.get_location_items():
-                                    # Is it visible?
-                                    if hanging_coconut.get_visibility_status():
-                                        # Do you have the required item?
-                                        if rock in backpack.items():
-                                            coconut.make_visible()
-                                            print(f"A perfect hit.\n{coconut.get_location_description_text()}")
-                                            # Removes item from the game.
-                                            backpack.remove(rock, current_location)
-                                            current_location.remove_location_item(rock)
-                                        # Hint
-                                        else:
-                                            print(
-                                                "The COCONUT is out of reach.\nYou need something to throw at them...")
-                                    # Not visible.
-                                    else:
-                                        print(f"{noun} can't be seen in this location... yet.")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            # Dig in the sand.
-                            elif noun == "SAND":
-                                # Is the noun here?
-                                if sand in current_location.get_location_items():
-                                    # Do you have the required item?
-                                    if shovel in backpack.items():
-                                        sand.condition_met()
-                                        print(f"What have we here.\n{sand.get_reveal_text()}")
-                                        revealed_item = sand.get_revealed_item()
-                                        revealed_item.make_visible()
-                                        revealed_item.item_discovered()
-                                        # Removes item from the game.
-                                        backpack.remove(shovel, current_location)
-                                        current_location.remove_location_item(shovel)
-                                    # Hint
-                                    else:
-                                        print("The sharp shells cut your hands.\nYou need something to dig with...")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            # Insert numbered blocks into the block.
-                            elif noun == "BLOCK":
-                                # Is the noun here?
-                                if block in current_location.get_location_items():
-                                    # Loop to do multiple inserts or takes at a time.
-                                    while True:
-                                        # Get available and occupied slots.
-                                        slots = block.list_slot_items()
-                                        available_slots = []
-                                        available_slots_string = ""
-                                        occupied_slots = []
-                                        occupied_slots_string = ""
-                                        for i, slot in enumerate(slots, start=1):
-                                            if slot is None:
-                                                available_slots.append(str(i))
-                                                available_slots_string += f"{str(i)} / "
-                                            else:
-                                                occupied_slots.append(str(i + 1))
-                                                occupied_slots_string = f"{str(i + 1)} / "
-                                        # Get numbered blocks in bag.
-                                        numbered_blocks = []
+                            # If the player wants to drop something from their bag.
+                            elif action == "DROP":
+                                # Is the noun an item?
+                                if noun in [item.get_name() for item in Item.items]:
+                                    # Is the noun in the bag?
+                                    if noun in [item.get_name() for item in backpack.items()]:
+                                        # Find item.
                                         for item in backpack.items():
-                                            if item.get_name().startswith("BLOCK"):
-                                                numbered_blocks.append(item)
-                                        numbered_blocks_string = " / ".join(
-                                            numbered_block.get_name().split()[1] for numbered_block in numbered_blocks)
-                                        # Initial options
-                                        print(f"Would you like to insert or take a BLOCK? "
-                                              f"(Insert / Take / Leave)")
-                                        action_choice = input("- ").upper().strip()
-                                        # Insert
-                                        if action_choice == "INSERT":
-                                            # Slot options
-                                            print(f"Into which slot would you like to insert a block? "
-                                                  f"({available_slots_string}Leave)")
-                                            slot_choice = input("- ").upper().strip()
-                                            # Valid.
-                                            if slot_choice in available_slots:
-                                                # Option to insert
-                                                print(f"Which block would you like to insert? "
-                                                      f"({numbered_blocks_string} / Leave)")
-                                                numbered_block_choice = input("- ").upper().strip()
-                                                # Valid.
-                                                if numbered_block_choice in [numbered_block.get_name().split()[1] for
-                                                                             numbered_block in numbered_blocks]:
-                                                    for numbered_block in numbered_blocks:
-                                                        if numbered_block_choice == \
-                                                                numbered_block.get_name().split()[1]:
-                                                            # Insert into slot 1.
-                                                            if slot_choice == "1":
-                                                                print(backpack.remove(numbered_block, current_location))
-                                                                block.set_slot_one_item(numbered_block)
-                                                                print("Slot 1 now contains "
-                                                                      f"{numbered_block.get_name()}")
-                                                                break
-                                                            # Insert into slot 2.
-                                                            elif slot_choice == "2":
-                                                                print(backpack.remove(numbered_block, current_location))
-                                                                block.set_slot_two_item(numbered_block)
-                                                                print("Slot 2 now contains "
-                                                                      f"{numbered_block.get_name()}")
-                                                                break
-                                                            # Insert into slot 3.
-                                                            elif slot_choice == "3":
-                                                                print(backpack.remove(numbered_block, current_location))
-                                                                block.set_slot_three_item(numbered_block)
-                                                                print("Slot 3 now contains "
-                                                                      f"{numbered_block.get_name()}")
-                                                                break
-                                                            # Break loop
-                                                            elif slot_choice == "LEAVE":
-                                                                break
-                                                            else:
-                                                                pass
-                                                # Break loop.
-                                                elif numbered_block_choice == "LEAVE":
-                                                    break
-                                                # Invalid.
-                                                else:
-                                                    print(f"Block {numbered_block_choice} is not a valid option.")
-                                            # Break loop.
-                                            elif slot_choice == "LEAVE":
-                                                break
-                                            # Invalid.
-                                            else:
-                                                print(f"Slot {slot_choice} is not a valid option.")
-                                            # After block insert
-                                            # If three blocks inserted and correct.
-                                            if block.get_slot_one_item() == block_six and \
-                                                    block.get_slot_two_item() == block_zero and \
-                                                    block.get_slot_three_item() == block_five:
-                                                # Complete puzzle and game. Break loop.
-                                                kraken_end = True
-                                                break
-                                            # If three blocks inserted and incorrect.
-                                            elif all(slot is not None for slot in block.list_slot_items()):
-                                                # Still has attempts left.
-                                                if kraken_block_attempts < 2:
-                                                    kraken_block_attempts += 1
-                                                    move = True
-                                                    current_location_index = location.get_south_id()
-                                                    current_location = Location.locations[current_location_index]
-                                                    print("I giant tentacle knocks you back into another location")
-                                                    loc_nine.add_item_to_location(block.get_slot_one_item())
-                                                    loc_nine.add_item_to_location(block.get_slot_two_item())
-                                                    loc_nine.add_item_to_location(block.get_slot_three_item())
-                                                    block.set_slot_one_item(None)
-                                                    block.set_slot_two_item(None)
-                                                    block.set_slot_three_item(None)
-                                                    print("The blocks you had previously inserted land around you.")
-                                                    break
-                                                # Too many attempts and lose game.
-                                                else:
-                                                    print("This time the giant tentacle pulls you forward.\n"
-                                                          "You're plunged into the endless abyss below the cliff.\n"
-                                                          "Descending fast, the light soon disappears.\n"
-                                                          "You lose consciousness surrounded by darkness...")
-                                                    ocean_death_end = True
-                                                    break
-                                        # Take
-                                        elif action_choice == "TAKE":
-                                            # Slot option
-                                            print(block.get_slot_items())
-                                            print(f"Which slot do you want to take a BLOCK from? "
-                                                  f"({occupied_slots_string}Leave)")
-                                            take_choice = input("- ").upper().strip()
-                                            # From slot 1.
-                                            if take_choice == "1":
-                                                print(backpack.add(block.get_slot_one_item()))
-                                                block.set_slot_one_item(None)
-                                                print(f"Slot 1 is now empty")
-                                            # From slot 2.
-                                            elif take_choice == "2":
-                                                print(backpack.add(block.get_slot_two_item()))
-                                                block.set_slot_two_item(None)
-                                                print(f"Slot 2 is now empty")
-                                            # From slot 3.
-                                            elif take_choice == "3":
-                                                print(backpack.add(block.get_slot_three_item()))
-                                                block.set_slot_three_item(None)
-                                                print(f"Slot 3 is now empty")
-                                            # Break loop
-                                            elif take_choice == "LEAVE":
-                                                break
-                                            # Invalid.
-                                            else:
-                                                print(f"Slot {take_choice} is not a valid option.")
-                                        # Break loop
-                                        elif action_choice == "LEAVE":
-                                            break
-                                        # Invalid
-                                        else:
-                                            print(f"{action_choice} is not a valid input.")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            else:
-                                print(f"{noun} is not a valid item to {action} with.")
-
-                        # If the player wants to eat or drink something
-                        elif action == "CONSUME":
-                            # Is the noun an item.
-                            if noun in [item.get_name() for item in Item.items]:
-                                # Is the noun here?
-                                if noun in [item.get_name() for item in current_location.get_location_items()] or \
-                                        noun in [item.get_name() for item in backpack.items()]:
-                                    # Is the noun consumable?
-                                    if noun in [item.get_name() for item in Consumable.consumable_nouns]:
-                                        # Get consumable.
-                                        consumable = None
-                                        for item in Consumable.consumable_nouns:
-                                            if item.get_name() == noun:
-                                                consumable = item
-                                        # If it's a coconut not in players bag.
-                                        if consumable is coconut and coconut not in backpack.items():
-                                            coconut.make_invisible()
-                                        # If it's not water.
-                                        elif consumable is not water:
-                                            # Remove consumable
-                                            if consumable in current_location.get_location_items():
-                                                current_location.remove_location_item(consumable)
-                                            elif consumable in backpack.items():
-                                                backpack.remove(consumable, current_location)
-                                                current_location.remove_location_item(consumable)
-                                        print(consumable.item_consumed())
-                                        # Apply consumable values.
-                                        energy += consumable.get_energy_value()
-                                        if energy > 10:
-                                            energy = 10
-                                        hydration += consumable.get_hydration_value()
-                                        if hydration > 10:
-                                            hydration = 10
-                                        print(f"You now have enough energy for {energy} moves.")
-                                        print(f"You now have enough hydration for {hydration} moves.")
-                                    # Invalid.
+                                            if noun == item.get_name():
+                                                # Remove it and drop it in the current location.
+                                                print(backpack.remove(item, current_location))
+                                                print("It now lies on the ground.")
+                                    # Invalid
                                     else:
-                                        print(f"{noun} can not be {action}")
+                                        print(f"You aren't carrying a {noun} in your bag to drop.")
                                 # Invalid.
                                 else:
-                                    print(f"There is no {noun} here.")
-                            # Invalid.
-                            else:
-                                print(f"{noun} is not a valid item.")
+                                    print(f"{noun} is not a valid item.")
 
-                        # If the player wants to open something.
-                        elif action == "OPEN":
-                            # Open their bag and display contents.
-                            if noun == "BAG":
-                                print(f"Your BAG currently had {backpack.count()} items.")
-                                print(backpack.list())
-                            # Anything else.
-                            else:
+                                    # If the player wants to talk to a NPC.
+
+                            # If the player wants to speak to a NPC
+                            elif action == "SPEAK":
+                                if noun == "MERMAN":
+                                    # Is the noun here?
+                                    if merman in current_location.get_location_items():
+                                        # Is it visible?
+                                        if merman.get_visibility_status():
+                                            # Initial dialogue.
+                                            print(f"{merman.get_initial_dialogue()} (Yes / No)")
+                                            response = input().upper().strip()
+                                            # Respond yes.
+                                            if response == "YES":
+                                                # If items he can help get haven't been discovered.
+                                                if not jerry.get_visibility_status() \
+                                                        and not cable.get_visibility_status():
+                                                    print("I can't help you escape this island, "
+                                                          "you're too weak in the water.\n"
+                                                          "If there is something else, come back and see me.")
+                                                # Items discovered.
+                                                else:
+                                                    # Get input.
+                                                    print(f"You want me to get something for you (Yes / No)")
+                                                    response = input().upper().strip()
+                                                    # Respond yes.
+                                                    if response == "YES":
+                                                        print("I can do that, but it will cost you a some gold...")
+                                                        # Nothing in bag to trade.
+                                                        if coin not in backpack.items() \
+                                                                and trident not in backpack.items():
+                                                            print("Come back when you have something to trade")
+                                                        # Item in bag to trade.
+                                                        else:
+                                                            # Get items available to trade.
+                                                            trade_items = []
+                                                            trade_items_string = ""
+                                                            for item in backpack.items():
+                                                                if item is coin or item is trident:
+                                                                    trade_items.append(item)
+                                                                    trade_items_string += \
+                                                                        f"{item.get_name().capitalize()} / "
+                                                            # Get input.
+                                                            print(f"What do you have to trade? "
+                                                                  f"({trade_items_string[:-3]})")
+                                                            payment = input().upper().strip()
+                                                            # Trade coin.
+                                                            if payment == "COIN" and coin in trade_items:
+                                                                print(backpack.remove(coin, current_location))
+                                                                current_location.remove_location_item(coin)
+                                                                # Get input.
+                                                                print(f"Want me to get the CABLE or the JERRY? "
+                                                                      f"(Cable / Jerry)")
+                                                                response = input().upper().strip()
+                                                                # Want cable.
+                                                                if response == "CABLE":
+                                                                    print("I'll be back in a minute.")
+                                                                    print(backpack.add(cable))
+                                                                    loc_six.remove_location_item(cable)
+                                                                    print("Pleasure doing business with you.")
+                                                                # Want jerry.
+                                                                elif response == "JERRY":
+                                                                    print("I'll be back in a minute.")
+                                                                    print(backpack.add(jerry))
+                                                                    loc_six.remove_location_item(jerry)
+                                                                    print("Pleasure doing business with you.")
+                                                                else:
+                                                                    print(f"There isn't a {response} underwater.\n"
+                                                                          f"Take your {payment} back.")
+                                                                    print(backpack.add(coin))
+
+                                                            # Trade trident.
+                                                            elif payment == "TRIDENT" and trident in trade_items:
+                                                                print(backpack.remove(trident, current_location))
+                                                                current_location.remove_location_item(trident)
+
+                                                                # Get input.
+                                                                print(f"Want me to get the CABLE or the JERRY? "
+                                                                      f"(Cable / Jerry)")
+                                                                response = input().upper().strip()
+                                                                # Want cable.
+                                                                if response == "CABLE":
+                                                                    print("I'll be back in a minute.")
+                                                                    print(backpack.add(cable))
+                                                                    loc_six.remove_location_item(cable)
+                                                                    print("Pleasure doing business with you.")
+                                                                # Want jerry.
+                                                                elif response == "JERRY":
+                                                                    print("I'll be back in a minute.")
+                                                                    print(backpack.add(jerry))
+                                                                    loc_six.remove_location_item(jerry)
+                                                                    print("Pleasure doing business with you.")
+                                                                else:
+                                                                    print(f"There isn't a {response} underwater.\n"
+                                                                          f"Take your {payment} back.")
+                                                                    print(backpack.add(trident))
+                                                            else:
+                                                                print(f"{payment} is worthless to me.\n"
+                                                                      f"Return when you have something better.")
+                                                    # Respond no.
+                                                    elif response == "NO":
+                                                        print("Be on your way then.")
+                                                    # Any other response.
+                                                    else:
+                                                        print(f"{response}... Don't play games, leave me in peace.")
+                                            # Respond no.
+                                            elif response == "NO":
+                                                print("Be on your way then.")
+                                            # Any other response.
+                                            else:
+                                                print(f"{response}... Don't play games. Go away then.")
+                                        # Invalid.
+                                        else:
+                                            print(f"{noun} isn't here anymore...")
+                                    # Invalid.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                elif noun == "PARROT":
+                                    # Is the noun here?
+                                    if parrot in current_location.get_location_items():
+                                        # Do you have crackers?
+                                        if crackers in backpack.items():
+                                            # Get input.
+                                            print(f"Give CRACKERS (Yes / No)")
+                                            response = input().upper().strip()
+                                            # Give crackers.
+                                            if response == "YES":
+                                                print(backpack.remove(crackers, current_location))
+                                                current_location.remove_location_item(crackers)
+                                                while True:
+                                                    # Get input.
+                                                    print("How can I help? (Coin)")
+                                                    response = input().upper().strip()
+                                                    if response == "COIN":
+                                                        print("Be right back.")
+                                                        time.sleep(2)
+                                                        print("There you go.")
+                                                        print(backpack.add(coin))
+                                                        ship.item_two_taken()
+                                                        loc_nine.remove_location_item(coin)
+                                                    else:
+                                                        print("I have to repay you.")
+                                            # Any other response.
+                                            else:
+                                                print(f"{parrot.get_initial_dialogue()}")
+                                        # No crackers to give.
+                                        else:
+                                            print(f"{parrot.get_initial_dialogue()}")
+                                    # Invalid.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                                elif noun == "KRAKEN":
+                                    print(f"{kraken.get_initial_dialogue()}\n"
+                                          f"You have {3 - kraken_block_attempts} attempts left.")
+
+                                else:
+                                    # Is the noun here?
+                                    if noun in [item.get_name() for item in current_location.get_location_items()]:
+                                        print(f"{noun} can't talk")
+                                    # Invalid.
+                                    else:
+                                        print(f"The is no {noun} here.")
+
+                            # If the player wants to eat or drink something
+                            elif action == "CONSUME":
                                 # Is the noun an item.
                                 if noun in [item.get_name() for item in Item.items]:
                                     # Is the noun here?
-                                    if noun in [item.get_name() for item in current_location.get_location_items()]:
-                                        # Is noun a container?
-                                        if noun in [item.get_name() for item in Container.containers]:
-                                            # Get the container.
-                                            for container in Container.containers:
-                                                if noun == container.get_name():
-                                                    # If locked
-                                                    if container.get_locked_status():
-                                                        print(f"The {container.get_name()} is locked.")
-                                                    # If not locked
-                                                    else:
-                                                        container.open_container()
-                                                        print(f"{container.get_name()} opened.")
-                                        # Invalid
+                                    if noun in [item.get_name() for item in current_location.get_location_items()] or \
+                                            noun in [item.get_name() for item in backpack.items()]:
+                                        # Is the noun consumable?
+                                        if noun in [item.get_name() for item in Consumable.consumable_nouns]:
+                                            # Get consumable.
+                                            consumable = None
+                                            for item in Consumable.consumable_nouns:
+                                                if item.get_name() == noun:
+                                                    consumable = item
+                                            if consumable.get_visibility_status():
+                                                # If it's a coconut not in players bag.
+                                                if consumable is coconut and coconut not in backpack.items():
+                                                    coconut.make_invisible()
+                                                # If it's not water.
+                                                elif consumable is not water:
+                                                    # Remove consumable
+                                                    if consumable in current_location.get_location_items():
+                                                        current_location.remove_location_item(consumable)
+                                                    elif consumable in backpack.items():
+                                                        backpack.remove(consumable, current_location)
+                                                        current_location.remove_location_item(consumable)
+                                                print(consumable.item_consumed())
+                                                # Apply consumable values.
+                                                energy += consumable.get_energy_value()
+                                                if energy > 10:
+                                                    energy = 10
+                                                hydration += consumable.get_hydration_value()
+                                                if hydration > 10:
+                                                    hydration = 10
+                                                print(f"You now have enough energy for {energy} moves.")
+                                                print(f"You now have enough hydration for {hydration} moves.")
+                                            else:
+                                                print(f"{noun} can be seen... yet.")
+                                        # Invalid.
                                         else:
-                                            print(f"{noun} cannot be opened..")
+                                            print(f"{noun} can not be {action}")
                                     # Invalid.
                                     else:
                                         print(f"There is no {noun} here.")
@@ -880,219 +1094,8 @@ if __name__ == '__main__':
                                 else:
                                     print(f"{noun} is not a valid item.")
 
-                        # If the player wants to drop something from their bag.
-                        elif action == "DROP":
-                            # Is the noun an item?
-                            if noun in [item.get_name() for item in Item.items]:
-                                # Is the noun in the bag?
-                                if noun in [item.get_name() for item in backpack.items()]:
-                                    # Find item.
-                                    for item in backpack.items():
-                                        if noun == item.get_name():
-                                            # Remove it and drop it in the current location.
-                                            print(backpack.remove(item, current_location))
-                                            print("It now lies on the ground.")
-                                # Invalid
-                                else:
-                                    print(f"You aren't carrying a {noun} in your bag to drop.")
-                            # Invalid.
-                            else:
-                                print(f"{noun} is not a valid item.")
-
-                        # If the player wants to talk to a NPC.
-                        elif action == "TALK":
-                            if noun == "MERMAN":
-                                # Is the noun here?
-                                if merman in current_location.get_location_items():
-                                    # Is it visible?
-                                    if merman.get_visibility_status():
-                                        # Initial dialogue.
-                                        print(f"{merman.get_initial_dialogue()} (Yes / No)")
-                                        response = input().upper().strip()
-                                        # Respond yes.
-                                        if response == "YES":
-                                            # If items he can help get haven't been discovered.
-                                            if not jerry.get_visibility_status() and not cable.get_visibility_status():
-                                                print("I can't help you escape this island, "
-                                                      "you're too weak in the water.\n"
-                                                      "If there is something else, come back and see me.")
-                                            # Items discovered.
-                                            else:
-                                                # Get input.
-                                                print(f"You want me to get something for you (Yes / No)")
-                                                response = input().upper().strip()
-                                                # Respond yes.
-                                                if response == "YES":
-                                                    print("I can do that, but it will cost you a some gold...")
-                                                    # Nothing in bag to trade.
-                                                    if coin not in backpack.items() and trident not in backpack.items():
-                                                        print("Come back when you have something to trade")
-                                                    # Item in bag to trade.
-                                                    else:
-                                                        # Get items available to trade.
-                                                        trade_items = []
-                                                        trade_items_string = ""
-                                                        for item in backpack.items():
-                                                            if item is coin or item is trident:
-                                                                trade_items.append(item)
-                                                                trade_items_string += \
-                                                                    f"{item.get_name().capitalize()} / "
-                                                        # Get input.
-                                                        print(f"What do you have to trade? ({trade_items_string}Leave)")
-                                                        payment = input().upper().strip()
-                                                        # Loop for trade.
-                                                        while True:
-                                                            # Trade coin.
-                                                            if payment == "COIN" and coin in trade_items:
-                                                                print(backpack.remove(coin, current_location))
-                                                                current_location.remove_location_item(coin)
-                                                                # Loop for item choice.
-                                                                while True:
-                                                                    # Get input.
-                                                                    print(f"Want me to get the CABLE or the JERRY? "
-                                                                          f"(Cable / Jerry)")
-                                                                    response = input().upper().strip()
-                                                                    # Want cable.
-                                                                    if response == "CABLE":
-                                                                        print("I'll be back in a minute.")
-                                                                        print(backpack.add(cable))
-                                                                        loc_six.remove_location_item(cable)
-                                                                        print("Pleasure doing business with you.\n"
-                                                                              "I'm heading home now. Bye")
-                                                                        merman.make_invisible()
-                                                                        break
-                                                                    # Want jerry.
-                                                                    elif response == "JERRY":
-                                                                        print("I'll be back in a minute.")
-                                                                        print(backpack.add(jerry))
-                                                                        loc_six.remove_location_item(jerry)
-                                                                        print("Pleasure doing business with you.\n"
-                                                                              "I'm heading home now. Bye")
-                                                                        merman.make_invisible()
-                                                                        break
-                                                                    else:
-                                                                        print(f"There isn't a {response} underwater.")
-                                                            # Trade trident.
-                                                            elif payment == "TRIDENT" and trident in trade_items:
-                                                                print(backpack.remove(trident, current_location))
-                                                                current_location.remove_location_item(trident)
-                                                                while True:
-                                                                    # Get input.
-                                                                    print(f"Want me to get the CABLE or the JERRY? "
-                                                                          f"(Cable / Jerry)")
-                                                                    response = input().upper().strip()
-                                                                    # Want cable.
-                                                                    if response == "CABLE":
-                                                                        print("I'll be back in a minute.")
-                                                                        print(backpack.add(cable))
-                                                                        loc_six.remove_location_item(cable)
-                                                                        print("Pleasure doing business with you.\n"
-                                                                              "I'm heading home now. Bye")
-                                                                        merman.make_invisible()
-                                                                        break
-                                                                    # Want jerry.
-                                                                    elif response == "JERRY":
-                                                                        print("I'll be back in a minute.")
-                                                                        print(backpack.add(jerry))
-                                                                        loc_six.remove_location_item(jerry)
-                                                                        print("Pleasure doing business with you.\n"
-                                                                              "I'm heading home now. Bye")
-                                                                        merman.make_invisible()
-                                                                        break
-                                                                    else:
-                                                                        print(f"There isn't a {response} underwater.")
-                                                            # Don't want to trade anything
-                                                            elif payment == "LEAVE":
-                                                                print("Be on your way then.")
-                                                                break
-                                                            # Any other response.
-                                                            else:
-                                                                print(f"{response} is worthless to me.")
-                                                # Respond no.
-                                                elif response == "NO":
-                                                    print("Be on your way then.")
-                                                # Any other response.
-                                                else:
-                                                    print(f"{response}... Don't play games, leave me in peace.")
-                                        # Respond no.
-                                        elif response == "NO":
-                                            print("Be on your way then.")
-                                        # Any other response.
-                                        else:
-                                            print(f"{response}... Don't play games. Go away then.")
-                                    # Invalid.
-                                    else:
-                                        print(f"{noun} isn't here anymore...")
-                                # Invalid.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            elif noun == "PARROT":
-                                # Is the noun here?
-                                if parrot in current_location.get_location_items():
-                                    # Do you have crackers?
-                                    if crackers in backpack.items():
-                                        # Get input.
-                                        print(f"Give CRACKERS (Yes / No)")
-                                        response = input().upper().strip()
-                                        # Give crackers.
-                                        if response == "YES":
-                                            print(backpack.remove(crackers, current_location))
-                                            current_location.remove_location_item(crackers)
-                                            while True:
-                                                # Get input.
-                                                print("How can I help? (Coin)")
-                                                response = input().upper().strip()
-                                                if response == "COIN":
-                                                    print("Be right back.")
-                                                    time.sleep(2)
-                                                    print("There you go.")
-                                                    print(backpack.add(coin))
-                                                    ship.item_two_taken()
-                                                    loc_nine.remove_location_item(coin)
-                                                else:
-                                                    print("I have to repay you.")
-                                        # Any other response.
-                                        else:
-                                            print(f"{parrot.get_initial_dialogue()}")
-                                    # No crackers to give.
-                                    else:
-                                        print(f"{parrot.get_initial_dialogue()}")
-                                # Invalid.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                            elif noun == "KRAKEN":
-                                print(f"{kraken.get_initial_dialogue()}\n"
-                                      f"You have {3 - kraken_block_attempts} attempts left.")
-
-                            else:
-                                # Is the noun here?
-                                if noun in [item.get_name() for item in current_location.get_location_items()]:
-                                    print(f"{noun} can't talk")
-                                # Invalid.
-                                else:
-                                    print(f"The is no {noun} here.")
-
-                        # If the player presses the button to start the boat.
-                        elif action == "PRESS":
-                            if noun == "BUTTON":
-                                if button in current_location.get_location_items():
-                                    # All conditions met to start boat.
-                                    if dashboard.get_key_status() and dashboard.get_power_status() \
-                                            and dashboard.get_fuel_status():
-                                        boat_end = True
-                                    else:
-                                        print("Nothing happens...")
-                                # Wrong location.
-                                else:
-                                    print(f"The is no {noun} here.")
-                            # Invalid.
-                            else:
-                                print(f"{noun} is not a valid item to {action}.")
-
                         else:
-                            print(f"{action} is not a valid ACTION.")
+                            print(f"{action} is not a valid action.\nValid actions are ({actions_string[:-3]})")
 
                         if energy <= 0:
                             land_death_end = True

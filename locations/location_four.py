@@ -23,11 +23,11 @@ rock = Movable(4, True,
                "The bed of the stream is littered with smooth ROCK.",
                "A smooth pebble, the perfect size and weight to throw.")
 
-boat_key = Movable(4, False,
-                   "BOAT KEY",
-                   "The BOAT KEY rests in the water near the start.",
-                   "A medium sized key, with a tag that says 'For Boat'.")
-spring._reveals_item = boat_key
+boat_key = ConditionalRevealedMovable(4, False, spring,
+                                      "BOAT KEY",
+                                      "The BOAT KEY rests in the water near the start.",
+                                      "A medium sized key, with a tag that says 'For Boat'.")
+spring.set_revealed_item(boat_key)
 
 block_four = Movable(4, True,
                      "BLOCK 4",

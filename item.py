@@ -151,15 +151,19 @@ class Container(Item):
         Returns a different string depending on if the container is still locked, not opened, full or empty.
         :return: The string.
         """
+        if self.get_revealed_item() is not None:
+            self.get_revealed_item().make_visible()
+
         if self.get_locked_status():
             return f"{self.get_description_text()}.\nIt's Locked."
         elif not self.get_open_status():
             return f"{self.get_description_text()}.\nIt's Closed."
         else:
             if self.get_item_inside() is not None:
-                return f"{self.get_description_text()}.\n{self.get_full_container_text()}."
+                self.get_item_inside().make_visible()
+                return f"{self.get_description_text()}\n{self.get_full_container_text()}"
             else:
-                return f"{self.get_description_text()}.\n{self.get_empty_container_text()}."
+                return f"{self.get_description_text()}\n{self.get_empty_container_text()}"
 
     def get_revealed_item(self):
         """
@@ -167,6 +171,20 @@ class Container(Item):
         :return: The noun.
         """
         return self._reveals_item
+
+    def set_revealed_item(self, item):
+        """
+        Sets the revealed item.
+        :param item: Item to be revealed.
+        """
+        self._reveals_item = item
+
+    def set_holds_item(self, item):
+        """
+        Sets the item the container holds.
+        :param item: Item the container holds.
+        """
+        self._holds_item = item
 
     def get_item_inside(self):
         """
@@ -217,7 +235,7 @@ class Container(Item):
         :return: The container opened.
         """
         self._open_status = True
-        return f"{self.get_name()} opened."
+        return f"{self.get_name()} opened.\n{self.get_full_container_text()}"
 
 
 class Conditional(Item):
@@ -520,6 +538,13 @@ class Reveals(Item):
         """
         return self._reveals_item
 
+    def set_revealed_item(self, item):
+        """
+        Sets the revealed item.
+        :param item: Item to be revealed.
+        """
+        self._reveals_item = item
+
 
 class ConditionalReveals(Reveals, Conditional):
     """
@@ -775,6 +800,14 @@ class DualRevealsMovable(RevealsMovable):
         """
         self._item_two_status = True
 
+    def set_revealed_item(self, item):
+        """
+        Override as two items need to be set.
+        Sets the revealed item.
+        :param item: Item to be revealed.
+        """
+        self._reveals_item.append(item)
+
 
 class RequiresInsert(Item):
     """
@@ -985,6 +1018,13 @@ class Dashboard(Reveals):
         :return: The noun.
         """
         return self._reveals_item
+
+    def set_revealed_item(self, item):
+        """
+        Sets the revealed item.
+        :param item: Item to be revealed.
+        """
+        self._reveals_item = item
 
     def get_key_true_text(self):
         """
@@ -1353,7 +1393,7 @@ class FruitTree(RevealsMovable):
         count = 0
         fruit_trees = ""
         for fruit in self.get_revealed_item():
-            fruit.get_visibility_status()
+            fruit.make.visible()
             if not fruit.get_moved_status():
                 count += 1
                 fruit_trees += f"{fruit.get_location_description_text()}\n"
@@ -1372,6 +1412,14 @@ class FruitTree(RevealsMovable):
         :return: The description
         """
         return self._item_one_partial_text
+
+    def set_revealed_item(self, item):
+        """
+        Override as two items need to be set.
+        Sets the revealed item.
+        :param item: Item to be revealed.
+        """
+        self._reveals_item.append(item)
 
 
 class Note(Item):

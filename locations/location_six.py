@@ -37,13 +37,13 @@ cable = ConditionalRevealedMovable(6, False, buoy,
                                    "CABLE",
                                    "Caught around the BUOY is a CABLE.",
                                    "A power cable, for transferring power from one place to another.")
-buoy._reveals_item.append(cable)
+buoy.set_revealed_item(cable)
 
 jerry = ConditionalRevealedMovable(6, False, buoy,
                                    "JERRY",
                                    "On the seabed lies a JERRY can.",
                                    "Seems to be full of fuel.")
-buoy._reveals_item.append(jerry)
+buoy.set_revealed_item(jerry)
 
 block_six = Movable(6, True,
                     "BLOCK 6",

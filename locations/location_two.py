@@ -15,7 +15,7 @@ hanging_coconut = Item(2, False,
                        "HANGING COCONUT",
                        "On the PALM trees are a few HANGING COCONUT.",
                        "Ripe and ready, they hang out of reach.")
-palm._reveals_item = hanging_coconut
+palm.set_revealed_item(hanging_coconut)
 
 coconut = Consumable(2, False, 5, 5,
                      "COCONUT",
@@ -42,7 +42,7 @@ alcohol = RevealedConsumable(2, False, 0, -5, wooden_chest,
                              "In the chest lies bottles of ALCOHOL",
                              "This stuff is pure, you could run a rocket of it.",
                              "It's way too string, making you throw up.")
-wooden_chest._reveals_item = alcohol
+wooden_chest.set_revealed_item(alcohol)
 
 block_two = Movable(2, True,
                     "BLOCK 2",
