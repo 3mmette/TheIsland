@@ -634,7 +634,7 @@ class RevealsMovable(Reveals):
         Makes the item it reveals visible and returns a description based on whether the item has been taken or not.
         :return: A description based on taken status.
         """
-        self._reveals_item.make_visibile()
+        self._reveals_item.make_visible()
         if not self.item_one_taken_status():
             return f"{self._description_text}\n{self._item_one_true_text}"
         else:
@@ -1393,7 +1393,7 @@ class FruitTree(RevealsMovable):
         count = 0
         fruit_trees = ""
         for fruit in self.get_revealed_item():
-            fruit.make.visible()
+            fruit.make_visible()
             if not fruit.get_moved_status():
                 count += 1
                 fruit_trees += f"{fruit.get_location_description_text()}\n"
@@ -1455,6 +1455,7 @@ class Note(Item):
         :return: The description.
         """
         self.get_linked_item().condition_met()
+        self.get_linked_item().get_revealed_item().condition_met()
         return f"{self.get_description_text()}"
 
     def get_linked_item(self):

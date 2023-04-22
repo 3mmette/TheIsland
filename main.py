@@ -1,4 +1,5 @@
 import time
+from os import system, name
 from locations.location_zero import *
 from locations.location_one import *
 from locations.location_two import *
@@ -14,32 +15,28 @@ from locations.locations_surrounding import *
 
 
 def typing(string):
+    """
+    Prints a string letter by letter to simulate typing.
+    :param string: The string to print letter by letter
+    """
     for letter in string:
         print(letter, end='', flush=True)
         time.sleep(0.01)
     time.sleep(0.5)
+    print("")
 
 
-def Introduction():
-    typing("'Any callsign. This is Coastguard. Are you receiving. Over'\n")
-    time.sleep(1)
-    typing("'Any callsign. Any callsign'\n")
-    typing("'This is. This is'\n")
-    typing("'Coastguard. Coastguard'\n")
-    typing("'Are you receiving. Are you receiving'\n")
-    typing("'Over'\n\n")
-    print("You open your eyes, the bright sun blinds you for a moment.")
-    print("You grab the radio.\n")
-    typing("'Coastguard. This is...'\n")
-    print("Who am I again?")
-    player_name_input = input("- ").capitalize().strip()
-    typing(f"'Coastguard. This is {player_name_input}. Receiving. Over'\n")
-    typing(f"'Coastguard. Glad we found you {player_name_input}. We have been looking for you for days. Break'\n")
-    typing("'We can't make it to The Island, you're going to have to get to us. Break'\n")
-    typing("'We're anchored twenty nautical miles to the South. Over'\n")
-    typing(f"'{player_name_input}. Acknowledged. I will let you know when I'm on the way. Over'\n")
-    typing("'Coastguard. Roger. If you need any help, type 'help' and press [ENTER]. Out'\n")
-    return player_name_input
+def clear_screen():
+    """
+    When used in the terminal, will clear everything from the screen.
+    """
+    # for Windows
+    if name == 'nt':
+        _ = system('cls')
+    # for mac and linux (here os.name is 'posix')
+    else:
+        _ = system('clear')
+    print()
 
 
 def load_location_items(load_location):
@@ -91,22 +88,48 @@ if __name__ == '__main__':
                 location.add_item_to_location(item)
 
     # Actions that can be taken.
-    actions = ["LOOK", "MOVE", "INTERACT", "OPEN", "TAKE", "DROP", "SPEAK", "CONSUME"]
+    actions = ["LOOK", "MOVE", "INTERACT", "OPEN", "TAKE", "DROP", "SPEAK", "CONSUME",
+               "L", "M", "I", "O", "T", "D", "S", "C"]
     actions_string = ""
     for action in actions:
-        actions_string += f"{action} / "
+        if len(action) > 1:
+            actions_string += f"{action} / "
 
     # Start
-    player_name = "Bob"
-    # player_name = Introduction()
+    typing("'Any callsign. This is Coastguard. Are you receiving. Over'")
+    time.sleep(1)
+    typing("'Any callsign. Any callsign'")
+    typing("'This is. This is'")
+    typing("'Coastguard. Coastguard'")
+    typing("'Are you receiving. Are you receiving'")
+    typing("'Over'\n")
+    time.sleep(1)
+    print("You open your eyes, the bright sun blinds you for a moment.")
+    print("You grab the radio.\n")
+    time.sleep(1)
+    typing("'Coastguard. This is...'")
+    time.sleep(1)
+    print("Who am I again?")
+    time.sleep(1)
+    player_name = input("- ").capitalize().strip()
+    time.sleep(1)
+    typing(f"\n'Coastguard. This is {player_name}. Receiving. Over'")
+    typing(f"'Coastguard. Glad we found you {player_name}. We have been looking for you for days. Break'")
+    typing("'We can't make it to The Island, you're going to have to get to us. Break'")
+    typing("'We're anchored twenty nautical miles to the South. Over'")
+    typing(f"'{player_name}. Acknowledged. I will let you know when I'm on the way. Over'")
+    typing("'Coastguard. Roger. If you need any further instructions on what to do. Break'")
+    typing("'Simply type 'help' and press [ENTER] to call us. Out'")
 
+    print("\nPress [ENTER] to begin your adventure on The Island.")
+    input("- ")
     while boat_end is False and kraken_end is False and ocean_death_end is False and land_death_end is False:
         # Get the current location information.
         for location in Location.locations:
             if location.get_location_id() == current_location_index:
                 # Set or reset move to false.
                 move = False
-
+                clear_screen()
                 # Starting text for first location the first time.
                 if moves == 0:
                     print(f"You look around and realise you're on {location.get_start_text()}")
@@ -127,23 +150,24 @@ if __name__ == '__main__':
                 # Creates a loop for actions until the player moves.
                 while not move:
                     # Ask the player what they want to do.
-                    print("\nWhat do you want to do? (Refresh / Help / Action + Noun)")
+                    print("\nWhat do you want to do now? (Action + Noun / Refresh / Help)")
                     player_input = input("- ").strip().upper().split(" ", 1)
 
                     # If the player didn't enter anything.
                     if player_input[0] == "":
-                        print("Did not enter anything.")
+                        print("You did not enter anything.")
                     # If the player entered one word.
                     elif len(player_input) == 1:
                         # The player wants the items and choices rewritten.
-                        if player_input[0] == "REFRESH":
+                        if player_input[0] == "REFRESH" or player_input[0] == "R":
                             # Reloads and prints all choices for the location.
+                            clear_screen()
                             load_location_items(current_location)
                         # The player needs help.
-                        elif player_input[0] == "HELP":
+                        elif player_input[0] == "HELP" or player_input[0] == "H":
                             # Contact helper.
                             typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'\n")
-                            typing(f"'{player_name}. This is Coastguard. Receiving. What can we help. Over'\n")
+                            typing(f"'{player_name}. This is Coastguard. Receiving. How can we help. Over'\n")
                             # Create a loop while the player still needs help.
                             while True:
                                 # Input what they need help with.
@@ -154,7 +178,7 @@ if __name__ == '__main__':
                                 if response == "BASICS":
                                     # Basics of the game.
                                     typing("'Coastguard. You are currently on The Island. Break'\n")
-                                    typing("'Anything that is of importance will be written in CAPITALS. Break'\n")
+                                    typing("'Anything that is of importance will be written in 'CAPITALS'. Break'\n")
                                     typing("'Do not wander into the water, it's too dangerous. Break'\n")
                                     typing("'You can move around The Island to explore different areas. Break'\n")
                                     typing("'Remember to eat and drink. Don't want you dying on us. Break'\n")
@@ -173,9 +197,11 @@ if __name__ == '__main__':
                                     typing("'Coastguard. You can use the following actions on The Island. Break'\n")
                                     typing("'Refresh / Help. Break'\n")
                                     typing("'These do not require any noun to work with. Break'\n")
-                                    typing("'Inspect / Interact / Open / Close / Take / Drop / Talk / Move / Consume. "
+                                    typing("'Look / Move / Interact / Open / Take / Drop / Speak / Consume. "
                                            "Break''\n")
                                     typing("'These require a noun to work with. Break'\n")
+                                    typing("'Shorthand also works, with just the first letter of the action. Break'\n")
+                                    typing("'So instead of 'Look', use 'L'. Break'\n")
                                     typing("'Simply type what you want to do followed by the [ENTER] key. Break'\n")
                                     typing("'Do you require more information on any of these. Over'\n")
                                     # Create a loop while the player still needs help with actions.
@@ -197,10 +223,10 @@ if __name__ == '__main__':
                                             typing("'We are here whenever you need us. Break'\n")
                                             typing("'Do you need more information on any others. Over'\n")
                                         # Inspect action
-                                        elif response == "INSPECT":
+                                        elif response == "LOOK":
                                             typing("'Coastguard. This gives you information about an item. Break'\n")
                                             typing("'It may reveal more items. Break'\n")
-                                            typing("'It needs a subject ie. Inspect Pole. Break'\n")
+                                            typing("'It needs a subject ie. Look Pole. Break'\n")
                                             typing("'Do you need more information on any others. Over'\n")
                                         # Interact action
                                         elif response == "INTERACT":
@@ -230,10 +256,10 @@ if __name__ == '__main__':
                                             typing("'It needs a subject ie. Drop Hat. Break'\n")
                                             typing("'Do you need more information on any others. Over'\n")
                                         # Talk action
-                                        elif response == "TALK":
+                                        elif response == "SPEAK":
                                             typing("'Coastguard. I hear there are other being on The Island. Break'\n")
                                             typing("'They may be able to help you, so talk to them. Break'\n")
-                                            typing("'It needs a subject ie. Talk Pirate. Break'\n")
+                                            typing("'It needs a subject ie. Speak Pirate. Break'\n")
                                             typing("'Do you need more information on any others. Over'\n")
                                         # Move action
                                         elif response == "MOVE":
@@ -248,7 +274,7 @@ if __name__ == '__main__':
                                             typing("'It needs a subject ie. Consume Apple. Break'\n")
                                             typing("'Do you need more information on any others. Over'\n")
                                         # None to break the help for actions.
-                                        elif response == "NONE":
+                                        elif response == "NO":
                                             typing("'Coastguard. Roger. Anything else I can help you with. Over'\n")
                                             break
                                         # Any other response.
@@ -266,7 +292,7 @@ if __name__ == '__main__':
                                     typing(f"'Coastguard. You are broken and unreadable. Say again. Over'\n")
                         # Any other one word input.
                         else:
-                            print(f"{player_input} is not a valid one word action.\n"
+                            print(f"{player_input[0]} is not a valid one word action.\n"
                                   f"Use one of the following one word actions (Refresh / Help)")
                     # If the player entered more than one word.
                     elif len(player_input) >= 1:
@@ -276,7 +302,7 @@ if __name__ == '__main__':
                         noun = player_input[1]
                         if action in actions:
                             # If the player wants to inspect something.
-                            if action == "LOOK":
+                            if action == "LOOK" or action == "L":
                                 # Is the noun an item?
                                 if noun in [item.get_name() for item in Item.items]:
                                     # Is the noun located in the current location?
@@ -306,9 +332,9 @@ if __name__ == '__main__':
                                     print(f"{noun} is not a valid item to {action}.")
 
                             # If the player wants to move to another location.
-                            elif action == "MOVE":
+                            elif action == "MOVE" or action == "M":
                                 # To move to the location to the North.
-                                if noun == "NORTH":
+                                if noun == "NORTH" or noun == "N":
                                     # Movement is true and add one to move tally.
                                     move = True
                                     moves += 1
@@ -325,7 +351,7 @@ if __name__ == '__main__':
                                         hydration -= 1
 
                                 # To move to the location to the East.
-                                elif noun == "EAST":
+                                elif noun == "EAST" or noun == "E":
                                     # Movement is true and add one to move tally.
                                     move = True
                                     moves += 1
@@ -343,7 +369,7 @@ if __name__ == '__main__':
                                         hydration -= 1
 
                                 # To move to the location to the South.
-                                elif noun == "SOUTH":
+                                elif noun == "SOUTH" or noun == "S":
                                     # Movement is true and add one to move tally.
                                     move = True
                                     moves += 1
@@ -361,7 +387,7 @@ if __name__ == '__main__':
                                         hydration -= 1
 
                                 # To move to the location to the West.
-                                elif noun == "WEST":
+                                elif noun == "WEST" or noun == "W":
                                     # Movement is true and add one to move tally.
                                     move = True
                                     moves += 1
@@ -384,7 +410,7 @@ if __name__ == '__main__':
                                           f"Please choose on of the following (North / East / South / West)")
 
                             # If the player wants to interact with something.
-                            elif action == "INTERACT":
+                            elif action == "INTERACT" or action == "I":
                                 # Insert something to be able to turn the key chamber in the dashboard.
                                 if noun == "DASHBOARD":
                                     # Is the noun here?
@@ -460,7 +486,7 @@ if __name__ == '__main__':
                                             print(f"{jerry.get_name()} emptied into the fuel tank.\n"
                                                   f"{fuel_tank.get_full_text()}")
                                             # Removes item from the game.
-                                            backpack.remove(jerry, current_location)
+                                            print(backpack.remove(jerry, current_location))
                                             current_location.remove_location_item(jerry)
                                         # Do you have the required item?
                                         elif alcohol in backpack.items():
@@ -469,7 +495,7 @@ if __name__ == '__main__':
                                             print(f"{alcohol.get_name()} emptied into the fuel tank.\n"
                                                   f"{fuel_tank.get_full_text()}")
                                             # Removes item from the game.
-                                            backpack.remove(alcohol, current_location)
+                                            print(backpack.remove(alcohol, current_location))
                                             current_location.remove_location_item(alcohol)
                                         # Doesn't have the required item.
                                         else:
@@ -527,6 +553,7 @@ if __name__ == '__main__':
                                         if dashboard.get_key_status() and dashboard.get_power_status() \
                                                 and dashboard.get_fuel_status():
                                             boat_end = True
+                                            break
                                         else:
                                             print("Nothing happens...")
                                     # Wrong location.
@@ -626,31 +653,27 @@ if __name__ == '__main__':
                                                     if numbered_block_choice in [numbered_block.get_name().split()[1]
                                                                                  for numbered_block in numbered_blocks]:
                                                         for numbered_block in numbered_blocks:
-                                                            if numbered_block_choice == \
-                                                                    numbered_block.get_name().split()[1]:
+                                                            if numbered_block_choice == numbered_block.get_name().split()[1]:
                                                                 # Insert into slot 1.
                                                                 if slot_choice == "1":
-                                                                    print(backpack.remove
-                                                                          (numbered_block, current_location))
+                                                                    print(backpack.remove(numbered_block, current_location))
+                                                                    current_location.remove_location_item(numbered_block)
                                                                     block.set_slot_one_item(numbered_block)
-                                                                    print("Slot 1 now contains "
-                                                                          f"{numbered_block.get_name()}")
+                                                                    print(f"Slot 1 now contains {numbered_block.get_name()}")
                                                                     break
                                                                 # Insert into slot 2.
                                                                 elif slot_choice == "2":
-                                                                    print(backpack.remove
-                                                                          (numbered_block, current_location))
+                                                                    print(backpack.remove(numbered_block, current_location))
+                                                                    current_location.remove_location_item(numbered_block)
                                                                     block.set_slot_two_item(numbered_block)
-                                                                    print("Slot 2 now contains "
-                                                                          f"{numbered_block.get_name()}")
+                                                                    print(f"Slot 2 now contains {numbered_block.get_name()}")
                                                                     break
                                                                 # Insert into slot 3.
                                                                 elif slot_choice == "3":
-                                                                    print(backpack.remove
-                                                                          (numbered_block, current_location))
+                                                                    print(backpack.remove(numbered_block, current_location))
+                                                                    current_location.remove_location_item(numbered_block)
                                                                     block.set_slot_three_item(numbered_block)
-                                                                    print("Slot 3 now contains "
-                                                                          f"{numbered_block.get_name()}")
+                                                                    print(f"Slot 3 now contains {numbered_block.get_name()}")
                                                                     break
                                                                 # Break loop
                                                                 elif slot_choice == "LEAVE":
@@ -686,9 +709,9 @@ if __name__ == '__main__':
                                                         current_location_index = location.get_south_id()
                                                         current_location = Location.locations[current_location_index]
                                                         print("I giant tentacle knocks you back into another location")
-                                                        loc_nine.add_item_to_location(block.get_slot_one_item())
-                                                        loc_nine.add_item_to_location(block.get_slot_two_item())
-                                                        loc_nine.add_item_to_location(block.get_slot_three_item())
+                                                        loc_eight.add_item_to_location(block.get_slot_one_item())
+                                                        loc_eight.add_item_to_location(block.get_slot_two_item())
+                                                        loc_eight.add_item_to_location(block.get_slot_three_item())
                                                         block.set_slot_one_item(None)
                                                         block.set_slot_two_item(None)
                                                         block.set_slot_three_item(None)
@@ -744,7 +767,7 @@ if __name__ == '__main__':
                                     print(f"{noun} is not a valid item to {action} with.")
 
                             # If the player wants to open something.
-                            elif action == "OPEN":
+                            elif action == "OPEN" or action == "O":
                                 # Open their bag and display contents.
                                 if noun == "BAG":
                                     print(f"Your BAG currently had {backpack.count()} items.")
@@ -766,7 +789,8 @@ if __name__ == '__main__':
                                                         # If not locked
                                                         else:
                                                             container.open_container()
-                                                            print(f"{container.get_name()} opened.")
+                                                            print(f"{container.get_name()} opened.\n"
+                                                                  f"{container.get_full_container_text()}")
                                             # Invalid
                                             else:
                                                 print(f"{noun} cannot be opened..")
@@ -778,7 +802,7 @@ if __name__ == '__main__':
                                         print(f"{noun} is not a valid item.")
 
                             # If the player wants to take something and put it in their bag.
-                            elif action == "TAKE":
+                            elif action == "TAKE" or action == "T":
                                 # Is the noun an item that can be moved?
                                 if noun in [item.get_name() for item in Movable.movable_nouns]:
                                     # Is the subject located in the current location?
@@ -863,7 +887,7 @@ if __name__ == '__main__':
                                     print(f"{noun} is not a valid item to {action}.")
 
                             # If the player wants to drop something from their bag.
-                            elif action == "DROP":
+                            elif action == "DROP" or action == "D":
                                 # Is the noun an item?
                                 if noun in [item.get_name() for item in Item.items]:
                                     # Is the noun in the bag?
@@ -884,7 +908,7 @@ if __name__ == '__main__':
                                     # If the player wants to talk to a NPC.
 
                             # If the player wants to speak to a NPC
-                            elif action == "SPEAK":
+                            elif action == "SPEAK" or action == "S":
                                 if noun == "MERMAN":
                                     # Is the noun here?
                                     if merman in current_location.get_location_items():
@@ -1036,7 +1060,7 @@ if __name__ == '__main__':
 
                                 elif noun == "KRAKEN":
                                     print(f"{kraken.get_initial_dialogue()}\n"
-                                          f"You have {3 - kraken_block_attempts} attempts left.")
+                                          f"You have {2 - kraken_block_attempts} attempts left.")
 
                                 else:
                                     # Is the noun here?
@@ -1047,7 +1071,7 @@ if __name__ == '__main__':
                                         print(f"The is no {noun} here.")
 
                             # If the player wants to eat or drink something
-                            elif action == "CONSUME":
+                            elif action == "CONSUME" or action == "C":
                                 # Is the noun an item.
                                 if noun in [item.get_name() for item in Item.items]:
                                     # Is the noun here?
@@ -1080,6 +1104,10 @@ if __name__ == '__main__':
                                                 hydration += consumable.get_hydration_value()
                                                 if hydration > 10:
                                                     hydration = 10
+
+                                                if energy < 0 or hydration < 0:
+                                                    land_death_end = True
+                                                    break
                                                 print(f"You now have enough energy for {energy} moves.")
                                                 print(f"You now have enough hydration for {hydration} moves.")
                                             else:
@@ -1104,47 +1132,47 @@ if __name__ == '__main__':
 
     # Complete game by taking boat.
     if boat_end:
-        print("The boat engine roars to life as you cast of the rope.")
-        typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'\n")
-        typing(f"'{player_name}. This is Coastguard. Receiving. Over'\n")
-        typing(f"'{player_name}. I have found a boat and got it started. Break'\n")
-        typing("'Making my way to your position now. Over'\n")
-        typing("'Coastguard. Glad to hear it. We'll be waiting. Over'\n")
-        typing(f"'{player_name}. Roger. Out'\n")
-        print(f"Congratulations {player_name}. You have successfully made it off The Island.")
+        print("\nThe boat engine roars to life as you cast of the rope.")
+        typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'")
+        typing(f"'{player_name}. This is Coastguard. Receiving. Over'")
+        typing(f"'{player_name}. I have found a boat and got it started. Break'")
+        typing("'Making my way to your position now. Over'")
+        typing("'Coastguard. Glad to hear it. We'll be waiting. Over'")
+        typing(f"'{player_name}. Roger. Out'")
+        print(f"\nCongratulations {player_name}. You have successfully made it off The Island.")
     # Complete game by taking kraken.
     elif kraken_end:
-        print("A giant tentacle pulls you forward and over the cliff.\n"
+        print("\nA giant tentacle pulls you forward and over the cliff.\n"
               "It holds you just above the water..\n"
               "In your head you hear a voice...\n"
               "You have solved the puzzle, so shall help you.\n"
               "I know where you need to go, I've been watching them too.\n"
               "You move around The Island and to the South in the Krakens grasp.")
-        typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'\n")
-        typing(f"'{player_name}. This is Coastguard. Receiving. Over'\n")
-        typing(f"'{player_name}. Making my way to your position now. Break'\n")
-        typing("'I'm coming by alternate means. Over'\n")
-        typing("'Coastguard. Acknowledged. We'll see you soon. Over'\n")
-        typing(f"'{player_name}. Roger. Out'\n")
-        print(f"Congratulations {player_name}. You have successfully made it off The Island.")
+        typing(f"\n'Coastguard. This is {player_name}. Are you receiving. Over'")
+        typing(f"'{player_name}. This is Coastguard. Receiving. Over'")
+        typing(f"'{player_name}. Making my way to your position now. Break'")
+        typing("'I'm coming by alternate means. Over'")
+        typing("'Coastguard. Acknowledged. We'll see you soon. Over'")
+        typing(f"'{player_name}. Roger. Out'")
+        print(f"\nCongratulations {player_name}. You have successfully made it off The Island.")
     # Lose game by dying in the ocean.
     elif ocean_death_end:
-        typing("'Zero Alpha. This is Coastguard. Are you receiving. Over'\n")
-        typing("'Coastguard. This is Zero Alpha. Receiving. Over'\n")
-        typing(f"'Coastguard. We have {player_name}. Well what's left of them. Break'\n")
-        typing("'Their body floated past while we were waiting. Over'\n")
-        typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'\n")
-        typing("'Coastguard. Roger. Out'\n")
-        print("GAME OVER. You didn't make it off The Island alive.")
+        typing("'Zero Alpha. This is Coastguard. Are you receiving. Over'")
+        typing("'Coastguard. This is Zero Alpha. Receiving. Over'")
+        typing(f"'Coastguard. We have {player_name}. Well what's left of them. Break'")
+        typing("'Their body floated past while we were waiting. Over'")
+        typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'")
+        typing("'Coastguard. Roger. Out'")
+        print("\nGAME OVER. You didn't make it off The Island alive.")
     # Lose game by dying on land.
     elif land_death_end:
-        typing("'Zero Alpha. This is Coastguard. Are you receiving. Over'\n")
-        typing("'Coastguard. This is Zero Alpha. Receiving. Over'\n")
-        typing("'Coastguard. Seeking permission to return to base. Break'\n")
-        typing("'We have been waiting here a week. Break'\n")
-        typing(f"'{player_name} must have perished on The Island. Over'\n")
-        typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'\n")
-        typing("'Coastguard. Roger. Out'\n")
-        print("GAME OVER. You didn't make it off The Island alive.")
+        typing("'Zero Alpha. This is Coastguard. Are you receiving. Over'")
+        typing("'Coastguard. This is Zero Alpha. Receiving. Over'")
+        typing("'Coastguard. Seeking permission to return to base. Break'")
+        typing("'We have been waiting here a week. Break'")
+        typing(f"'{player_name} must have perished on The Island. Over'")
+        typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'")
+        typing("'Coastguard. Roger. Out'")
+        print("\nGAME OVER. You didn't make it off The Island alive.")
     else:
         "I don't know how you got here..."

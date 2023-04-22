@@ -10,7 +10,7 @@ fruit_tree = FruitTree(7, True, [],
                        "FRUIT TREE",
                        "Most of the vegetation is FRUIT TREE.",
                        "It looks like someone has been cross breeding fruit trees.",
-                       "There is a fruit of every kind.",
+                       "There is a fruit for every color of the rainbow.",
                        "there are still some fruit on the trees.",
                        "All the fruit has been taken.")
 
