@@ -20,7 +20,7 @@ water = Consumable(4, True, 0, 10,
 
 rock = Movable(4, True,
                "ROCK",
-               "The bed of the stream is littered with smooth ROCK.",
+               "The bed of the stream is sand, but there is a smooth ROCK.",
                "A smooth pebble, the perfect size and weight to throw.")
 
 boat_key = ConditionalRevealedMovable(4, False, spring,

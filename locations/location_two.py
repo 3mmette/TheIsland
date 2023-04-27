@@ -9,19 +9,14 @@ palm = Reveals(2, True, None,
                "PALM",
                "A few PALM trees grow in the middle of the area.",
                "A desert island palm, it grows next to the ocean.\n"
-               "It rises tall above you, a few HANGING COCONUT sit out of reach.")
+               "It rises tall above you, a few COCONUT sit out of reach.")
 
-hanging_coconut = Item(2, False,
-                       "HANGING COCONUT",
-                       "On the PALM trees are a few HANGING COCONUT.",
-                       "Ripe and ready, they hang out of reach.")
-palm.set_revealed_item(hanging_coconut)
-
-coconut = Consumable(2, False, 5, 5,
-                     "COCONUT",
-                     "On the ground lays a COCONUT.",
-                     "Ripe and ready to be consumed.",
-                     "Delicious coconut water and flesh, yum yum.")
+coconut = ConditionalRevealedConsumable(2, False, 10, 10, palm,
+                                        "COCONUT",
+                                        "On the ground lays a COCONUT.",
+                                        "Ripe and ready to be consumed.",
+                                        "Delicious coconut water and flesh, yum yum.")
+palm.set_revealed_item(coconut)
 
 sand = ConditionalReveals(2, True, None,
                           "SAND",

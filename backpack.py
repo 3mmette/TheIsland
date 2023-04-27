@@ -1,3 +1,6 @@
+from locations.location_four import rock
+
+
 class BackPack:
     """
     BackPack Class
@@ -11,14 +14,18 @@ class BackPack:
 
     This class represents a backpack where the adventurer can keep items.
     It has the following attributes.
+        _capacity (int): The maximum number of items the player can carry in their bag.
         _backpack (list): Contains the items the player currently has in the backpack.
     """
 
-    def __init__(self):
+    def __init__(self, capacity: int):
         """
         Initialize a new backpack.
         """
+        self._capacity = capacity
         self._backpack = list()
+        self._rock = False
+        self._coconut = False
 
     def items(self):
         """
@@ -46,7 +53,7 @@ class BackPack:
         'You have a ____'
         :return: The string of items.
         """
-        items = ""
+        items = f"Your are currently carrying {self.count()} / {self._capacity} items.\n"
         for item in self._backpack:
             items += f"You have a {item.get_name()}.\n"
         return items
@@ -58,12 +65,14 @@ class BackPack:
         :return: A string stating the item was added.
         """
         if item is not None:
-            # Add to backpack.
-            self._backpack.append(item)
-            # Change its moved attribute to true.
-            item.item_moved()
-            self.sort()
-            return f"{item.get_name()} added to you bag."
+            if len(self._backpack) <= self._capacity:
+                # Add to backpack.
+                item.item_moved()
+                self._backpack.append(item)
+                self.sort()
+                return f"{item.get_name()} added to you bag."
+            else:
+                return "Your bag is full. You cannot take any more items."
 
     def remove(self, item, current_location):
         """

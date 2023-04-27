@@ -463,7 +463,7 @@ class RevealedConsumable(Consumable):
         _is_visible (bool): Whether the consumable can initially be seen or not.
         _energy_value (int): The value of energy points gained from consuming the consumable.
         _hydration_value (int): The value of hydration points gained from consuming the consumable.
-        _revealed_by (type(Noun)): The consumable that reveals movable noun.
+        _revealed_by (type(Noun)): The noun that reveals the consumable.
         _name (str): The name of the consumable.
         _location_text (str): A description of where the consumable is located.
         _description_text (str): A description of the consumable.
@@ -479,6 +479,7 @@ class RevealedConsumable(Consumable):
         :param is_visible: Whether the consumable can initially be seen or not.
         :param energy_value: The value of energy points gained from consuming the consumable.
         :param hydration_value: The value of hydration points gained from consuming the consumable.
+        :param revealed_by: The noun that reveals the consumable.
         :param name: The name of the consumable.
         :param location_text: A description of where the consumable is located.
         :param description_text: A description of the consumable.
@@ -494,6 +495,25 @@ class RevealedConsumable(Consumable):
         :return: The revealing noun.
         """
         return self._revealed_by
+
+
+class ConditionalRevealedConsumable(RevealedConsumable, Conditional):
+    def __init__(self, initial_location: int, is_visible: bool, energy_value: int, hydration_value: int,
+                 revealed_by: type(Item), name: str, location_text: str, description_text: str, consumed_text):
+        """
+        Initialize a new revealed consumable item.
+        :param initial_location: The unique ID of the location the consumable spawns.
+        :param is_visible: Whether the consumable can initially be seen or not.
+        :param energy_value: The value of energy points gained from consuming the consumable.
+        :param hydration_value: The value of hydration points gained from consuming the consumable.
+        :param revealed_by: The noun that reveals the consumable.
+        :param name: The name of the consumable.
+        :param location_text: A description of where the consumable is located.
+        :param description_text: A description of the consumable.
+        :param consumed_text: A description of eating the consumable.
+        """
+        super().__init__(initial_location, is_visible, energy_value, hydration_value, revealed_by, name, location_text,
+                         description_text, consumed_text)
 
 
 class Reveals(Item):
@@ -1348,7 +1368,6 @@ class WaterBottle(Consumable):
         self._is_full = False
 
 
-# Specific reveals movable for the fruit trees, as six types of fruit.
 class FruitTree(RevealsMovable):
     """
     This class represents the fruit trees that reveals a multiple movable items.
@@ -1415,11 +1434,78 @@ class FruitTree(RevealsMovable):
 
     def set_revealed_item(self, item):
         """
-        Override as two items need to be set.
+        Override as six items need to be set.
         Sets the revealed item.
         :param item: Item to be revealed.
         """
         self._reveals_item.append(item)
+
+    def set_reveals_items_list(self, item_list):
+        """
+        Sets a list of fruit to reveal.
+        :param item_list: Items to be revealed.
+        """
+        self._reveals_item = item_list
+
+
+class Fruit(RevealedConsumable):
+    """
+    This class represents a revealed consumable fruit that can be consumed for energy and hydration.
+    It inherits off revealed consumable.
+    It has the following attributes.
+        _initial_location (int): The unique ID of the location the consumable spawns.
+        _is_visible (bool): Whether the consumable can initially be seen or not.
+        _energy_value (int): The value of energy points gained from consuming the consumable.
+        _hydration_value (int): The value of hydration points gained from consuming the consumable.
+        _revealed_by (type(Noun)): The noun that reveals the consumable.
+        _name (str): The name of the consumable.
+        _location_text (str): A description of where the consumable is located.
+        _description_text (str): A description of the consumable.
+        _consumed_text (str): A description of eating the consumable.
+        _discovery_status (bool): Has the player discovered the consumable.
+        _moved_status (bool): Has the consumable been picked up by the player.
+    """
+    def __init__(self, initial_location: int, is_visible: bool, energy_value: int, hydration_value: int,
+                 revealed_by: type(Item), name: str, location_text: str, description_text: str, consumed_text):
+        """
+        Initialize a new revealed consumable item.
+        :param initial_location: The unique ID of the location the consumable spawns.
+        :param is_visible: Whether the consumable can initially be seen or not.
+        :param energy_value: The value of energy points gained from consuming the consumable.
+        :param hydration_value: The value of hydration points gained from consuming the consumable.
+        :param revealed_by: The noun that reveals the consumable.
+        :param name: The name of the consumable.
+        :param location_text: A description of where the consumable is located.
+        :param description_text: A description of the consumable.
+        :param consumed_text: A description of eating the consumable.
+        """
+        super().__init__(initial_location, is_visible, energy_value, hydration_value, revealed_by, name, location_text,
+                         description_text, consumed_text)
+
+    def inspect(self):
+        """
+        Changes the description and doesn't mention the consumables stats.
+        :return: The description.
+        """
+        return f"{self.get_description_text()}\n Unknown if it's edible or not..."
+
+    def set_energy_value(self, value):
+        """
+        Sets the energy value of the consumable to the given value.
+        """
+        self._energy_value = value
+
+    def set_hydration_value(self, value):
+        """
+        Sets the hydration value of the consumable to the given value.
+        """
+        self._hydration_value = value
+
+    def set_consumed_text(self, text):
+        """
+        Sets the consumed text of the consumable to the given text.
+        """
+        self._consumed_text = text
 
 
 class Note(Item):

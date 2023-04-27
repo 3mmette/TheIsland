@@ -25,6 +25,7 @@ class Location:
         self._location_description_text = location_description_text
         self._discovered_status = False
         self.locations.append(self)
+        self.locations.sort(key=lambda x: x._location_id)
 
     def get_location_id(self):
         """

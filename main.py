@@ -94,7 +94,7 @@ if __name__ == '__main__':
     for action in actions:
         if len(action) > 1:
             actions_string += f"{action} / "
-
+    """
     # Start
     typing("'Any callsign. This is Coastguard. Are you receiving. Over'")
     time.sleep(1)
@@ -120,6 +120,8 @@ if __name__ == '__main__':
     typing(f"'{player_name}. Acknowledged. I will let you know when I'm on the way. Over'")
     typing("'Coastguard. Roger. If you need any further instructions on what to do. Break'")
     typing("'Simply type 'help' and press [ENTER] to call us. Out'")
+    """
+    player_name = "Bob"
 
     print("\nPress [ENTER] to begin your adventure on The Island.")
     input("- ")
@@ -207,7 +209,7 @@ if __name__ == '__main__':
                                     # Create a loop while the player still needs help with actions.
                                     while True:
                                         # Input what action they need help with.
-                                        print("(Refresh / Help / Inspect / Interact / Open / Take / Drop / Talk / "
+                                        print("(Refresh / Help / Look / Interact / Open / Take / Drop / Speak / "
                                               "Move / Consume / No)")
                                         response = input("- ").upper().strip()
                                         typing(f"'{player_name}. {response}. Over'\n")
@@ -561,15 +563,15 @@ if __name__ == '__main__':
                                         print(f"The is no {noun} here.")
 
                                 # Throw a rock at the hanging coconut.
-                                elif noun == "HANGING COCONUT":
+                                elif noun == "COCONUT":
                                     # Is the noun here?
-                                    if hanging_coconut in current_location.get_location_items():
+                                    if coconut in current_location.get_location_items():
                                         # Is it visible?
-                                        if hanging_coconut.get_visibility_status():
+                                        if coconut.get_visibility_status():
                                             # Do you have the required item?
                                             if rock in backpack.items():
-                                                coconut.make_visible()
                                                 print(f"A perfect hit.\n{coconut.get_location_description_text()}")
+                                                coconut.condition_met()
                                                 # Removes item from the game.
                                                 backpack.remove(rock, current_location)
                                                 current_location.remove_location_item(rock)
@@ -770,7 +772,6 @@ if __name__ == '__main__':
                             elif action == "OPEN" or action == "O":
                                 # Open their bag and display contents.
                                 if noun == "BAG":
-                                    print(f"Your BAG currently had {backpack.count()} items.")
                                     print(backpack.list())
                                 # Anything else.
                                 else:
@@ -817,7 +818,6 @@ if __name__ == '__main__':
                                                         if item.get_condition_status():
                                                             # Add it to your bag.
                                                             print(backpack.add(item))
-                                                            # Remove it from the location.
                                                             current_location.remove_location_item(item)
                                                             # If it was revealed by another item.
                                                             if isinstance(item, RevealedMovable):
@@ -842,30 +842,10 @@ if __name__ == '__main__':
                                                             # Give clue.
                                                             print("I can't just put water in my bag...\n"
                                                                   "If only I had a water bottle.")
-                                                    # Trying to take a rock.
-                                                    elif item.get_name() == "ROCK":
-                                                        # If the player already has a rock.
-                                                        if rock in backpack.items():
-                                                            print(f"You already have a {noun} in your bag")
-                                                        # Add rock to backpack.
-                                                        else:
-                                                            print(backpack.add(item))
-                                                    # Trying to take a coconut.
-                                                    elif item.get_name() == "COCONUT":
-                                                        # If the player already has a coconut.
-                                                        if coconut in backpack.items():
-                                                            print("You already have a COCONUT in your bag")
-                                                        # Add coconut to backpack.
-                                                        else:
-                                                            print(backpack.add(item))
-                                                            # Make coconut invisible again.
-                                                            coconut.make_invisible()
                                                     # Take the item.
                                                     else:
                                                         # Add it to your bag.
-                                                        item.item_moved()
                                                         print(backpack.add(item))
-                                                        # Remove it from the location.
                                                         current_location.remove_location_item(item)
                                                         # If it was revealed by another item.
                                                         if isinstance(item, RevealedMovable) or \
@@ -1084,32 +1064,39 @@ if __name__ == '__main__':
                                             for item in Consumable.consumable_nouns:
                                                 if item.get_name() == noun:
                                                     consumable = item
+                                            # If it is visible.
                                             if consumable.get_visibility_status():
-                                                # If it's a coconut not in players bag.
-                                                if consumable is coconut and coconut not in backpack.items():
-                                                    coconut.make_invisible()
-                                                # If it's not water.
-                                                elif consumable is not water:
-                                                    # Remove consumable
-                                                    if consumable in current_location.get_location_items():
-                                                        current_location.remove_location_item(consumable)
-                                                    elif consumable in backpack.items():
-                                                        backpack.remove(consumable, current_location)
-                                                        current_location.remove_location_item(consumable)
-                                                print(consumable.item_consumed())
-                                                # Apply consumable values.
-                                                energy += consumable.get_energy_value()
-                                                if energy > 10:
-                                                    energy = 10
-                                                hydration += consumable.get_hydration_value()
-                                                if hydration > 10:
-                                                    hydration = 10
+                                                if consumable is water_bottle and not water_bottle.get_water_bottle_status():
+                                                    print(f"The {water_bottle.get_name()} is empty.")
+                                                else:
+                                                    if consumable is water:
+                                                        continue
+                                                    elif consumable is water_bottle:
+                                                        water_bottle.empty_water_bottle()
+                                                    # If it's not water.
+                                                    elif consumable is not water:
+                                                        # Remove consumable
+                                                        if consumable in current_location.get_location_items():
+                                                            current_location.remove_location_item(consumable)
+                                                        elif consumable in backpack.items():
+                                                            backpack.remove(consumable, current_location)
+                                                            current_location.remove_location_item(consumable)
 
-                                                if energy < 0 or hydration < 0:
-                                                    land_death_end = True
-                                                    break
-                                                print(f"You now have enough energy for {energy} moves.")
-                                                print(f"You now have enough hydration for {hydration} moves.")
+                                                    print(consumable.item_consumed())
+                                                    # Apply consumable values.
+                                                    energy += consumable.get_energy_value()
+                                                    if energy > 10:
+                                                        energy = 10
+                                                    hydration += consumable.get_hydration_value()
+                                                    if hydration > 10:
+                                                        hydration = 10
+                                                    # If the consumable had negative effects.
+                                                    if energy < 0 or hydration < 0:
+                                                        land_death_end = True
+                                                        break
+                                                    # New energy and hydration levels.
+                                                    print(f"You now have enough energy for {energy} moves.")
+                                                    print(f"You now have enough hydration for {hydration} moves.")
                                             else:
                                                 print(f"{noun} can be seen... yet.")
                                         # Invalid.
@@ -1157,7 +1144,7 @@ if __name__ == '__main__':
         print(f"\nCongratulations {player_name}. You have successfully made it off The Island.")
     # Lose game by dying in the ocean.
     elif ocean_death_end:
-        typing("'Zero Alpha. This is Coastguard. Are you receiving. Over'")
+        typing("\n'Zero Alpha. This is Coastguard. Are you receiving. Over'")
         typing("'Coastguard. This is Zero Alpha. Receiving. Over'")
         typing(f"'Coastguard. We have {player_name}. Well what's left of them. Break'")
         typing("'Their body floated past while we were waiting. Over'")
@@ -1166,7 +1153,7 @@ if __name__ == '__main__':
         print("\nGAME OVER. You didn't make it off The Island alive.")
     # Lose game by dying on land.
     elif land_death_end:
-        typing("'Zero Alpha. This is Coastguard. Are you receiving. Over'")
+        typing("\n'Zero Alpha. This is Coastguard. Are you receiving. Over'")
         typing("'Coastguard. This is Zero Alpha. Receiving. Over'")
         typing("'Coastguard. Seeking permission to return to base. Break'")
         typing("'We have been waiting here a week. Break'")
