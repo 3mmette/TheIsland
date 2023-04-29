@@ -18,14 +18,17 @@ class BackPack:
         _backpack (list): Contains the items the player currently has in the backpack.
     """
 
-    def __init__(self, capacity: int):
+    def __init__(self):
         """
         Initialize a new backpack.
         """
-        self._capacity = capacity
+        self._capacity = 5
         self._backpack = list()
         self._rock = False
         self._coconut = False
+
+    def set_capacity(self, capacity):
+        self._capacity = capacity
 
     def items(self):
         """
@@ -56,7 +59,7 @@ class BackPack:
         items = f"Your are currently carrying {self.count()} / {self._capacity} items.\n"
         for item in self._backpack:
             items += f"You have a {item.get_name()}.\n"
-        return items
+        return items.strip()
 
     def add(self, item):
         """
@@ -65,7 +68,7 @@ class BackPack:
         :return: A string stating the item was added.
         """
         if item is not None:
-            if len(self._backpack) <= self._capacity:
+            if len(self._backpack) < self._capacity:
                 # Add to backpack.
                 item.item_moved()
                 self._backpack.append(item)

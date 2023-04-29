@@ -2,7 +2,7 @@ from location import *
 from item import *
 from backpack import BackPack
 
-backpack = BackPack(5)
+backpack = BackPack()
 
 location_zero = StartLocation(0, "BOAT", 1, 13, 13, 13,
                               "there is a boat, tied to the small jetty.",

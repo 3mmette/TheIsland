@@ -73,6 +73,7 @@ if __name__ == '__main__':
     land_death_end = False
 
     # Keep track of player.
+    ability = None
     moves = 0
     energy = 10
     hydration = 10
@@ -119,10 +120,32 @@ if __name__ == '__main__':
     typing("'We're anchored twenty nautical miles to the South. Over'")
     typing(f"'{player_name}. Acknowledged. I will let you know when I'm on the way. Over'")
     typing("'Coastguard. Roger. If you need any further instructions on what to do. Break'")
-    typing("'Simply type 'help' and press [ENTER] to call us. Out'")
+    typing("'Simply type 'HELP' and press [ENTER] to call us. Out'")
+    time.sleep(1)
     """
-    player_name = "Bob"
+    player_name = "A"
+    print("\nMore memories coming flooding back. I remember I was good at something...")
+    print("Strength: You have the strength of an Ox, you can carry 10 items in your backpack instead of 5.")
+    print("Dexterity: You are light on your feet, moving only takes energy and hydration every second turn.")
+    print("Charisma: You speak well and seem to be liked naturally, other want to help you more.")
+    print("Intelligence: You just seem to know more, food and drink items now have statistics.")
 
+    while True:
+        print("What was it again? (Strength / Dexterity / Charisma / Intelligence)")
+        ability = input("- ").strip().upper()
+        if ability == "STRENGTH":
+            backpack.set_capacity(10)
+            break
+        if ability == "DEXTERITY":
+            break
+        if ability == "CHARISMA":
+            kraken_block_attempts = -2
+            break
+        if ability == "INTELLIGENCE":
+            break
+
+    print(f"Ah yes, I have {ability.lower()}.")
+    time.sleep(1)
     print("\nPress [ENTER] to begin your adventure on The Island.")
     input("- ")
     while boat_end is False and kraken_end is False and ocean_death_end is False and land_death_end is False:
@@ -168,130 +191,129 @@ if __name__ == '__main__':
                         # The player needs help.
                         elif player_input[0] == "HELP" or player_input[0] == "H":
                             # Contact helper.
-                            typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'\n")
-                            typing(f"'{player_name}. This is Coastguard. Receiving. How can we help. Over'\n")
+                            typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'")
+                            typing(f"'{player_name}. This is Coastguard. Receiving. How can we help. Over'")
                             # Create a loop while the player still needs help.
                             while True:
                                 # Input what they need help with.
                                 print("What would you like help with? (Basics / Goals / Actions / Nothing)")
                                 response = input("- ").upper().strip()
-                                typing(f"'{player_name}. {response}. Over'\n")
+                                typing(f"'{player_name}. {response}. Over'")
                                 # Need help with the basics of the game.
                                 if response == "BASICS":
                                     # Basics of the game.
-                                    typing("'Coastguard. You are currently on The Island. Break'\n")
-                                    typing("'Anything that is of importance will be written in 'CAPITALS'. Break'\n")
-                                    typing("'Do not wander into the water, it's too dangerous. Break'\n")
-                                    typing("'You can move around The Island to explore different areas. Break'\n")
-                                    typing("'Remember to eat and drink. Don't want you dying on us. Break'\n")
-                                    typing("'And do not wander into the water, it's too dangerous. Break'\n")
-                                    typing("'You need to get to us, we're 20 nautical miles to the South. Break'\n")
-                                    typing("'Can we help you with anything else. Over'\n")
+                                    typing("'Coastguard. You are currently on The Island. Break'")
+                                    typing("'Anything that is of importance will be written in 'CAPITALS'. Break'")
+                                    typing("'Do not wander into the water, it's too dangerous. Break'")
+                                    typing("'You can move around The Island to explore different areas. Break'")
+                                    typing("'Remember to eat and drink. Don't want you dying on us. Break'")
+                                    typing("'You need to get to us, we're 20 nautical miles to the South. Break'")
+                                    typing("'Can we help you with anything else. Over'")
                                 # Need help with the goals of the game.
                                 elif response == "GOALS":
                                     # Goal
-                                    typing("'Coastguard. You need to get to us. Break'\n")
-                                    typing("'Find a boat, get it working or by any other means you can. Break'\n")
-                                    typing("'Can we help you with anything else. Over'\n")
+                                    typing("'Coastguard. You need to get to us. Break'")
+                                    typing("'Find a boat, get it working or by any other means you can. Break'")
+                                    typing("'Can we help you with anything else. Over'")
                                 # Need help with action within the game.
                                 elif response == "ACTIONS":
                                     # Basic actions.
-                                    typing("'Coastguard. You can use the following actions on The Island. Break'\n")
-                                    typing("'Refresh / Help. Break'\n")
-                                    typing("'These do not require any noun to work with. Break'\n")
+                                    typing("'Coastguard. You can use the following actions on The Island. Break'")
+                                    typing("'Refresh / Help. Break'")
+                                    typing("'These do not require any noun to work with. Break'")
                                     typing("'Look / Move / Interact / Open / Take / Drop / Speak / Consume. "
-                                           "Break''\n")
-                                    typing("'These require a noun to work with. Break'\n")
-                                    typing("'Shorthand also works, with just the first letter of the action. Break'\n")
-                                    typing("'So instead of 'Look', use 'L'. Break'\n")
-                                    typing("'Simply type what you want to do followed by the [ENTER] key. Break'\n")
-                                    typing("'Do you require more information on any of these. Over'\n")
+                                           "Break''")
+                                    typing("'These require a noun to work with. Break'")
+                                    typing("'Shorthand also works, with just the first letter of the action. Break'")
+                                    typing("'So instead of 'Look', use 'L'. Break'")
+                                    typing("'Simply type what you want to do followed by the [ENTER] key. Break'")
+                                    typing("'Do you require more information on any of these. Over'")
                                     # Create a loop while the player still needs help with actions.
                                     while True:
                                         # Input what action they need help with.
                                         print("(Refresh / Help / Look / Interact / Open / Take / Drop / Speak / "
                                               "Move / Consume / No)")
                                         response = input("- ").upper().strip()
-                                        typing(f"'{player_name}. {response}. Over'\n")
+                                        typing(f"'{player_name}. {response}. Over'")
                                         # Refresh action
                                         if response == "Refresh":
-                                            typing("'Coastguard. Sometimes there is too much information. Break'\n")
-                                            typing("'Or the screen may become crowded, making you lose track. Break'\n")
-                                            typing("'This will reprint all the information for the location. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. Sometimes there is too much information. Break'")
+                                            typing("'Or the screen may become crowded, making you lose track. Break'")
+                                            typing("'This will reprint all the information for the location. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # Help action
                                         elif response == "HELP":
-                                            typing("'Coastguard. This will get you in touch with us again. Break'\n")
-                                            typing("'We are here whenever you need us. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. This will get you in touch with us again. Break")
+                                            typing("'We are here whenever you need us. Break")
+                                            typing("'Do you need more information on any others. Over")
                                         # Inspect action
                                         elif response == "LOOK":
-                                            typing("'Coastguard. This gives you information about an item. Break'\n")
-                                            typing("'It may reveal more items. Break'\n")
-                                            typing("'It needs a subject ie. Look Pole. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. This gives you information about an item. Break")
+                                            typing("'It may reveal more items. Break")
+                                            typing("'It needs a subject ie. Look Pole. Break")
+                                            typing("'Do you need more information on any others. Over")
                                         # Interact action
                                         elif response == "INTERACT":
-                                            typing("'Coastguard. If you have an item in you bag. Break'\n")
-                                            typing("'And you think you can use it with another item. Break'\n")
-                                            typing("'Or you need to enter a code or something. Break'\n")
-                                            typing("'It needs a subject ie. Interact Ball. Break'\n")
-                                            typing("'and will only work if you have the bat in your bag. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. If you have an item in you bag. Break")
+                                            typing("'And you think you can use it with another item. Break'")
+                                            typing("'Or you need to enter a code or something. Break")
+                                            typing("'It needs a subject ie. Interact Ball. Break")
+                                            typing("'and will only work if you have the bat in your bag. Break")
+                                            typing("'Do you need more information on any others. Over")
                                         # Open action
                                         elif response == "OPEN":
-                                            typing("'Coastguard. Sometimes things will be closed. Break'\n")
-                                            typing("'You can open them with this, if they aren't locked. Break'\n")
-                                            typing("'You can also open your Bag and Map. Break'\n")
-                                            typing("'It needs a subject ie. Open Door. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. Sometimes things will be closed. Break'")
+                                            typing("'You can open them with this, if they aren't locked. Break'")
+                                            typing("'You can also open your Bag and Map. Break'")
+                                            typing("'It needs a subject ie. Open Door. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # Take action
                                         elif response == "TAKE":
-                                            typing("'Coastguard. There are many movable things on The Island. Break'\n")
-                                            typing("'You can pick them up to put in your bag. Break'\n")
-                                            typing("'It needs a subject ie. Take Hat. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. There are many movable things on The Island. Break'")
+                                            typing("'You can pick them up to put in your bag. Break'")
+                                            typing("'It needs a subject ie. Take Hat. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # Drop action
                                         elif response == "DROP":
-                                            typing("'Coastguard. If you need to make room in your bag. Break'\n")
-                                            typing("'Drop a item. It will remain there if you want it again. Break'\n")
-                                            typing("'It needs a subject ie. Drop Hat. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. If you need to make room in your bag. Break'")
+                                            typing("'Drop a item. It will remain there if you want it again. Break'")
+                                            typing("'It needs a subject ie. Drop Hat. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # Talk action
                                         elif response == "SPEAK":
-                                            typing("'Coastguard. I hear there are other being on The Island. Break'\n")
-                                            typing("'They may be able to help you, so talk to them. Break'\n")
-                                            typing("'It needs a subject ie. Speak Pirate. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. I hear there are other being on The Island. Break'")
+                                            typing("'They may be able to help you, so talk to them. Break'")
+                                            typing("'It needs a subject ie. Speak Pirate. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # Move action
                                         elif response == "MOVE":
-                                            typing("'Coastguard. Your going to have to move around. Break'\n")
-                                            typing("'Use cardinal directions to go in that direction. Break'\n")
-                                            typing("'It needs a subject ie. Move North. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. Your going to have to move around. Break'")
+                                            typing("'Use cardinal directions to go in that direction. Break'")
+                                            typing("'It needs a subject ie. Move North. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # Consume action
                                         elif response == "CONSUME":
-                                            typing("'Coastguard. You lose energy and hydration as you move. Break'\n")
-                                            typing("'Eat and drink edible items to replenish this . Break'\n")
-                                            typing("'It needs a subject ie. Consume Apple. Break'\n")
-                                            typing("'Do you need more information on any others. Over'\n")
+                                            typing("'Coastguard. You lose energy and hydration as you move. Break'")
+                                            typing("'Eat and drink edible items to replenish this . Break'")
+                                            typing("'It needs a subject ie. Consume Apple. Break'")
+                                            typing("'Do you need more information on any others. Over'")
                                         # None to break the help for actions.
                                         elif response == "NO":
-                                            typing("'Coastguard. Roger. Anything else I can help you with. Over'\n")
+                                            typing("'Coastguard. Roger. Anything else I can help you with. Over'")
                                             break
                                         # Any other response.
                                         else:
                                             # Invalid
-                                            typing(f"'Coastguard. You are broken and unreadable. Say again. Over'\n")
+                                            typing(f"'Coastguard. You are broken and unreadable. Say again. Over'")
                                 # No longer require help.
                                 elif response == "NOTHING":
                                     # Break help loop
-                                    typing(f"'Coastguard. Roger. Out'\n")
+                                    typing(f"'Coastguard. Roger. Out'")
                                     break
                                 # Did not enter a valid response.
                                 else:
                                     # Invalid response.
-                                    typing(f"'Coastguard. You are broken and unreadable. Say again. Over'\n")
+                                    typing(f"'Coastguard. You are broken and unreadable. Say again. Over'")
                         # Any other one word input.
                         else:
                             print(f"{player_input[0]} is not a valid one word action.\n"
@@ -314,8 +336,13 @@ if __name__ == '__main__':
                                             if item.get_name() == noun:
                                                 # Is visible.
                                                 if item.get_visibility_status():
-                                                    # Inspect it.
-                                                    print(item.inspect())
+                                                    if isinstance(item, Consumable):
+                                                        if ability == "INTELLIGENCE":
+                                                            print(item.intelligent_inspect())
+                                                        else:
+                                                            print(item.inspect())
+                                                    else:
+                                                        print(item.inspect())
                                                 # Not visible yet.
                                                 else:
                                                     print(f"{noun} can't be seen in this location yet.")
@@ -342,6 +369,7 @@ if __name__ == '__main__':
                                     moves += 1
                                     # If North goes to sea location and death.
                                     if type(Location.locations[location.get_north_id()]) is SeaLocation:
+                                        clear_screen()
                                         print(Location.locations[location.get_north_id()].
                                               get_location_description_text())
                                         ocean_death_end = True
@@ -349,8 +377,6 @@ if __name__ == '__main__':
                                     else:
                                         current_location_index = location.get_north_id()
                                         current_location = Location.locations[current_location_index]
-                                        energy -= 1
-                                        hydration -= 1
 
                                 # To move to the location to the East.
                                 elif noun == "EAST" or noun == "E":
@@ -359,6 +385,7 @@ if __name__ == '__main__':
                                     moves += 1
                                     # If East goes to sea location and death.
                                     if type(Location.locations[location.get_east_id()]) is SeaLocation:
+                                        clear_screen()
                                         print(Location.locations[location.get_east_id()].
                                               get_location_description_text())
                                         ocean_death_end = True
@@ -367,8 +394,6 @@ if __name__ == '__main__':
                                     else:
                                         current_location_index = location.get_east_id()
                                         current_location = Location.locations[current_location_index]
-                                        energy -= 1
-                                        hydration -= 1
 
                                 # To move to the location to the South.
                                 elif noun == "SOUTH" or noun == "S":
@@ -377,6 +402,7 @@ if __name__ == '__main__':
                                     moves += 1
                                     # If South goes to sea location and death.
                                     if type(Location.locations[location.get_south_id()]) is SeaLocation:
+                                        clear_screen()
                                         print(Location.locations[location.get_south_id()].
                                               get_location_description_text())
                                         ocean_death_end = True
@@ -385,8 +411,6 @@ if __name__ == '__main__':
                                     else:
                                         current_location_index = location.get_south_id()
                                         current_location = Location.locations[current_location_index]
-                                        energy -= 1
-                                        hydration -= 1
 
                                 # To move to the location to the West.
                                 elif noun == "WEST" or noun == "W":
@@ -395,6 +419,7 @@ if __name__ == '__main__':
                                     moves += 1
                                     # If West goes to sea location and death.
                                     if type(Location.locations[location.get_west_id()]) is SeaLocation:
+                                        clear_screen()
                                         print(Location.locations[location.get_west_id()].
                                               get_location_description_text())
                                         ocean_death_end = True
@@ -403,13 +428,22 @@ if __name__ == '__main__':
                                     else:
                                         current_location_index = location.get_west_id()
                                         current_location = Location.locations[current_location_index]
-                                        energy -= 1
-                                        hydration -= 1
 
                                 # Invalid noun with action MOVE.
                                 else:
                                     print(f"The input {noun} is not a valid direction.\n"
-                                          f"Please choose on of the following (North / East / South / West)")
+                                          f"I you want to move, "
+                                          f"please choose on of the following (North / East / South / West)")
+                                    continue
+
+                                # Minus energy and hydration.
+                                if ability == "DEXTERITY":
+                                    if moves % 2 == 0:
+                                        energy -= 1
+                                        hydration -= 1
+                                else:
+                                    energy -= 1
+                                    hydration -= 1
 
                             # If the player wants to interact with something.
                             elif action == "INTERACT" or action == "I":
@@ -899,6 +933,14 @@ if __name__ == '__main__':
                                             response = input().upper().strip()
                                             # Respond yes.
                                             if response == "YES":
+                                                # Make items visible to help.
+                                                if ability == "CHARISMA":
+                                                    jerry.make_visible()
+                                                    cable.make_visible()
+                                                    print("I can't help you escape this island, "
+                                                          "you're too weak in the water.\n"
+                                                          "I saw a jerry and a cable in the water to the North though.")
+
                                                 # If items he can help get haven't been discovered.
                                                 if not jerry.get_visibility_status() \
                                                         and not cable.get_visibility_status():
@@ -907,89 +949,84 @@ if __name__ == '__main__':
                                                           "If there is something else, come back and see me.")
                                                 # Items discovered.
                                                 else:
-                                                    # Get input.
-                                                    print(f"You want me to get something for you (Yes / No)")
-                                                    response = input().upper().strip()
-                                                    # Respond yes.
-                                                    if response == "YES":
-                                                        print("I can do that, but it will cost you a some gold...")
-                                                        # Nothing in bag to trade.
-                                                        if coin not in backpack.items() \
-                                                                and trident not in backpack.items():
-                                                            print("Come back when you have something to trade")
-                                                        # Item in bag to trade.
+                                                    print("I could help you get the jerry or cable, "
+                                                          "but it will cost you a some gold.")
+                                                    # Nothing in bag to trade.
+                                                    if coin not in backpack.items() \
+                                                            and trident not in backpack.items():
+                                                        if ability == "CHARISMA":
+                                                            print("There is a lost Trident and Coin on The Island.\n"
+                                                                  "If you bring me either of them, I will help you.")
                                                         else:
-                                                            # Get items available to trade.
-                                                            trade_items = []
-                                                            trade_items_string = ""
-                                                            for item in backpack.items():
-                                                                if item is coin or item is trident:
-                                                                    trade_items.append(item)
-                                                                    trade_items_string += \
-                                                                        f"{item.get_name().capitalize()} / "
-                                                            # Get input.
-                                                            print(f"What do you have to trade? "
-                                                                  f"({trade_items_string[:-3]})")
-                                                            payment = input().upper().strip()
-                                                            # Trade coin.
-                                                            if payment == "COIN" and coin in trade_items:
-                                                                print(backpack.remove(coin, current_location))
-                                                                current_location.remove_location_item(coin)
-                                                                # Get input.
-                                                                print(f"Want me to get the CABLE or the JERRY? "
-                                                                      f"(Cable / Jerry)")
-                                                                response = input().upper().strip()
-                                                                # Want cable.
-                                                                if response == "CABLE":
-                                                                    print("I'll be back in a minute.")
-                                                                    print(backpack.add(cable))
-                                                                    loc_six.remove_location_item(cable)
-                                                                    print("Pleasure doing business with you.")
-                                                                # Want jerry.
-                                                                elif response == "JERRY":
-                                                                    print("I'll be back in a minute.")
-                                                                    print(backpack.add(jerry))
-                                                                    loc_six.remove_location_item(jerry)
-                                                                    print("Pleasure doing business with you.")
-                                                                else:
-                                                                    print(f"There isn't a {response} underwater.\n"
-                                                                          f"Take your {payment} back.")
-                                                                    print(backpack.add(coin))
-
-                                                            # Trade trident.
-                                                            elif payment == "TRIDENT" and trident in trade_items:
-                                                                print(backpack.remove(trident, current_location))
-                                                                current_location.remove_location_item(trident)
-
-                                                                # Get input.
-                                                                print(f"Want me to get the CABLE or the JERRY? "
-                                                                      f"(Cable / Jerry)")
-                                                                response = input().upper().strip()
-                                                                # Want cable.
-                                                                if response == "CABLE":
-                                                                    print("I'll be back in a minute.")
-                                                                    print(backpack.add(cable))
-                                                                    loc_six.remove_location_item(cable)
-                                                                    print("Pleasure doing business with you.")
-                                                                # Want jerry.
-                                                                elif response == "JERRY":
-                                                                    print("I'll be back in a minute.")
-                                                                    print(backpack.add(jerry))
-                                                                    loc_six.remove_location_item(jerry)
-                                                                    print("Pleasure doing business with you.")
-                                                                else:
-                                                                    print(f"There isn't a {response} underwater.\n"
-                                                                          f"Take your {payment} back.")
-                                                                    print(backpack.add(trident))
-                                                            else:
-                                                                print(f"{payment} is worthless to me.\n"
-                                                                      f"Return when you have something better.")
-                                                    # Respond no.
-                                                    elif response == "NO":
-                                                        print("Be on your way then.")
-                                                    # Any other response.
+                                                            print("Come back when you have something to trade")
+                                                    # Item in bag to trade.
                                                     else:
-                                                        print(f"{response}... Don't play games, leave me in peace.")
+                                                        # Get items available to trade.
+                                                        trade_items = []
+                                                        trade_items_string = ""
+                                                        for item in backpack.items():
+                                                            if item is coin or item is trident:
+                                                                trade_items.append(item)
+                                                                trade_items_string += \
+                                                                    f"{item.get_name().capitalize()} / "
+                                                        # Get input.
+                                                        print(f"What do you have to trade? "
+                                                              f"({trade_items_string[:-3]})")
+                                                        payment = input("- ").upper().strip()
+                                                        # Trade coin.
+                                                        if payment == "COIN" and coin in trade_items:
+                                                            print(backpack.remove(coin, current_location))
+                                                            current_location.remove_location_item(coin)
+                                                            # Get input.
+                                                            print(f"Want me to get the CABLE or the JERRY? "
+                                                                  f"(Cable / Jerry)")
+                                                            response = input("- ").upper().strip()
+                                                            # Want cable.
+                                                            if response == "CABLE":
+                                                                print("I'll be back in a minute.")
+                                                                print(backpack.add(cable))
+                                                                loc_six.remove_location_item(cable)
+                                                                print("Pleasure doing business with you.")
+                                                            # Want jerry.
+                                                            elif response == "JERRY":
+                                                                print("I'll be back in a minute.")
+                                                                print(backpack.add(jerry))
+                                                                loc_six.remove_location_item(jerry)
+                                                                print("Pleasure doing business with you.")
+                                                            else:
+                                                                print(f"There isn't a {response} underwater.\n"
+                                                                      f"Take your {payment} back.")
+                                                                print(backpack.add(coin))
+
+                                                        # Trade trident.
+                                                        elif payment == "TRIDENT" and trident in trade_items:
+                                                            print(backpack.remove(trident, current_location))
+                                                            current_location.remove_location_item(trident)
+
+                                                            # Get input.
+                                                            print(f"Want me to get the CABLE or the JERRY? "
+                                                                  f"(Cable / Jerry)")
+                                                            response = input("- ").upper().strip()
+                                                            # Want cable.
+                                                            if response == "CABLE":
+                                                                print("I'll be back in a minute.")
+                                                                print(backpack.add(cable))
+                                                                loc_six.remove_location_item(cable)
+                                                                print("Pleasure doing business with you.")
+                                                            # Want jerry.
+                                                            elif response == "JERRY":
+                                                                print("I'll be back in a minute.")
+                                                                print(backpack.add(jerry))
+                                                                loc_six.remove_location_item(jerry)
+                                                                print("Pleasure doing business with you.")
+                                                            else:
+                                                                print(f"There isn't a {response} underwater.\n"
+                                                                      f"Take your {payment} back.")
+                                                                print(backpack.add(trident))
+                                                        else:
+                                                            print(f"{payment} is worthless to me.\n"
+                                                                  f"Return when you have something better.")
+
                                             # Respond no.
                                             elif response == "NO":
                                                 print("Be on your way then.")
@@ -1006,34 +1043,60 @@ if __name__ == '__main__':
                                 elif noun == "PARROT":
                                     # Is the noun here?
                                     if parrot in current_location.get_location_items():
-                                        # Do you have crackers?
-                                        if crackers in backpack.items():
-                                            # Get input.
-                                            print(f"Give CRACKERS (Yes / No)")
-                                            response = input().upper().strip()
-                                            # Give crackers.
-                                            if response == "YES":
-                                                print(backpack.remove(crackers, current_location))
-                                                current_location.remove_location_item(crackers)
-                                                while True:
-                                                    # Get input.
-                                                    print("How can I help? (Coin)")
-                                                    response = input().upper().strip()
-                                                    if response == "COIN":
-                                                        print("Be right back.")
-                                                        time.sleep(2)
-                                                        print("There you go.")
-                                                        print(backpack.add(coin))
-                                                        ship.item_two_taken()
-                                                        loc_nine.remove_location_item(coin)
-                                                    else:
-                                                        print("I have to repay you.")
-                                            # Any other response.
+                                        # If the coin is still there.
+                                        if not ship.item_two_taken_status():
+                                            # Do you have crackers?
+                                            if crackers in backpack.items():
+                                                # Get input.
+                                                print(f"Give CRACKERS (Yes / No)")
+                                                response = input("- ").upper().strip()
+                                                # Give crackers.
+                                                if response == "YES":
+                                                    print(backpack.remove(crackers, current_location))
+                                                    current_location.remove_location_item(crackers)
+                                                    print(" Squawk. Let me give you something in return.")
+                                                    print("Be right back.")
+                                                    time.sleep(2)
+                                                    print("Here, have a gold coin.")
+                                                    print(backpack.add(coin))
+                                                    ship.item_two_taken()
+                                                    loc_nine.remove_location_item(coin)
+                                                # Any other response.
+                                                else:
+                                                    print(f"{parrot.get_initial_dialogue()}")
+                                            elif ability == "CHARISMA":
+                                                consumables = list()
+                                                consumables_string = ""
+                                                for item in backpack.items():
+                                                    if isinstance(item, Consumable):
+                                                        consumables.append(item)
+                                                        consumables_string += f"{item.get_name().capitalize()} / "
+                                                if len(consumables) > 0:
+                                                    print(f"{parrot.get_initial_dialogue()}")
+                                                    print("I don't have any crackers...")
+                                                    print(f"But I do have ({consumables_string[:-3]})")
+                                                    give_parrot = input("- ").strip().upper()
+                                                    for item in consumables:
+                                                        if item.get_name() == give_parrot:
+                                                            print(backpack.remove(item, current_location))
+                                                            current_location.remove_location_item(item)
+                                                            print("Squawk. Let me give you something in return.")
+                                                            print("Be right back.")
+                                                            time.sleep(2)
+                                                            print("Here, have a gold coin.")
+                                                            print(backpack.add(coin))
+                                                            ship.item_two_taken()
+                                                            loc_nine.remove_location_item(coin)
+                                                        else:
+                                                            print(f"Squawk. You don't have a {give_parrot}")
+                                                else:
+                                                    print("I don't have any food to give you, sorry.")
+
+                                            # No crackers to give.
                                             else:
                                                 print(f"{parrot.get_initial_dialogue()}")
-                                        # No crackers to give.
                                         else:
-                                            print(f"{parrot.get_initial_dialogue()}")
+                                            print("Squawk. Thanks for the food.")
                                     # Invalid.
                                     else:
                                         print(f"The is no {noun} here.")
@@ -1070,7 +1133,7 @@ if __name__ == '__main__':
                                                     print(f"The {water_bottle.get_name()} is empty.")
                                                 else:
                                                     if consumable is water:
-                                                        continue
+                                                        pass
                                                     elif consumable is water_bottle:
                                                         water_bottle.empty_water_bottle()
                                                     # If it's not water.
@@ -1112,9 +1175,9 @@ if __name__ == '__main__':
                         else:
                             print(f"{action} is not a valid action.\nValid actions are ({actions_string[:-3]})")
 
-                        if energy <= 0:
+                        if energy < 0:
                             land_death_end = True
-                        if hydration <= 0:
+                        if hydration < 0:
                             land_death_end = True
 
     # Complete game by taking boat.
@@ -1150,7 +1213,7 @@ if __name__ == '__main__':
         typing("'Their body floated past while we were waiting. Over'")
         typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'")
         typing("'Coastguard. Roger. Out'")
-        print("\nGAME OVER. You didn't make it off The Island alive.")
+        print(f"\nGAME OVER {player_name}. You didn't make it off The Island alive.")
     # Lose game by dying on land.
     elif land_death_end:
         typing("\n'Zero Alpha. This is Coastguard. Are you receiving. Over'")
@@ -1160,6 +1223,6 @@ if __name__ == '__main__':
         typing(f"'{player_name} must have perished on The Island. Over'")
         typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'")
         typing("'Coastguard. Roger. Out'")
-        print("\nGAME OVER. You didn't make it off The Island alive.")
+        print(f"\nGAME OVER {player_name}. You didn't make it off The Island alive.")
     else:
         "I don't know how you got here..."

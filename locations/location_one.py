@@ -15,7 +15,7 @@ sign = Item(1, True,
 paper = Item(1, True,
              "PAPER",
              "Attached to the jetty is a piece of PAPER.",
-             "Written on the paper is a cryptic clue."
+             "Written on the paper is a cryptic clue.\n"
              "'Part of Chislehurst you can't walk away from.'")
 
 metal_box = RequiresInsert(1, True,

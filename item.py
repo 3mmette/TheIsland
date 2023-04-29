@@ -427,10 +427,18 @@ class Consumable(Movable):
 
     def inspect(self):
         """
+        Overrides Inspect()
+        Changes the description to include unknown stats.
+        :return: The description.
+        """
+        return f"{self.get_description_text()}\nFood: Unknown   Drink: Unknown"
+
+    def intelligent_inspect(self):
+        """
         Creates a string showing the description as well as the energy and hydration values.
         :return: The string
         """
-        return f"{self.get_description_text()}\nFood: {self.get_energy_value()}   Drink: {self.get_hydration_value()}."
+        return f"{self.get_description_text()}\nFood: {self.get_energy_value()}   Drink: {self.get_hydration_value()}"
 
     def get_energy_value(self):
         """
@@ -545,6 +553,7 @@ class Reveals(Item):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Gets the item it reveals and makes it visible
         :return: The description of the noun.
         """
@@ -598,6 +607,7 @@ class ConditionalReveals(Reveals, Conditional):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Once the conditional status is met, makes the item it reveals visible and returns the revealed text.
         :return: A description based on condition status.
         """
@@ -651,6 +661,7 @@ class RevealsMovable(Reveals):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Makes the item it reveals visible and returns a description based on whether the item has been taken or not.
         :return: A description based on taken status.
         """
@@ -722,6 +733,7 @@ class ConditionalRevealsMovable(RevealsMovable, Conditional):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Reveals the item once the condition has been met.
         Returns a description based on if the condition has been met and if the item has been taken.
         :return: A description.
@@ -778,6 +790,7 @@ class DualRevealsMovable(RevealsMovable):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Makes both items visible and therefor discovered.
         Returns a string based on if the description and if either or both of the items have been taken.
         :return: The string.
@@ -860,6 +873,7 @@ class RequiresInsert(Item):
 
     def inspect(self):
         """
+        Overrides Inspect()
         If the item is still empty, returns the original description, otherwise returns the full description.
         :return: The description
         """
@@ -976,6 +990,7 @@ class Dashboard(Reveals):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Makes the reveals item visible.
         Returns a different string based on the status of the number of events completed.
         :return: The sting
@@ -1207,6 +1222,7 @@ class Compartment(Item):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Returns a different string based on the items inserted into the compartment.
         :return: The sting
         """
@@ -1406,6 +1422,7 @@ class FruitTree(RevealsMovable):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Creates a string with the tree description and description for each fruit not taken.
         :return: The string.
         """
@@ -1482,13 +1499,6 @@ class Fruit(RevealedConsumable):
         super().__init__(initial_location, is_visible, energy_value, hydration_value, revealed_by, name, location_text,
                          description_text, consumed_text)
 
-    def inspect(self):
-        """
-        Changes the description and doesn't mention the consumables stats.
-        :return: The description.
-        """
-        return f"{self.get_description_text()}\n Unknown if it's edible or not..."
-
     def set_energy_value(self, value):
         """
         Sets the energy value of the consumable to the given value.
@@ -1537,6 +1547,7 @@ class Note(Item):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Changes the linked items condition to be met, making it visible and returns normal description.
         :return: The description.
         """
@@ -1583,6 +1594,7 @@ class Block(Item):
 
     def inspect(self):
         """
+        Overrides Inspect()
         Gets the description and adds to it what is in each slot.
         :return: Full description
         """
