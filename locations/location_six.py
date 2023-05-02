@@ -12,16 +12,16 @@ water_bottle = WaterBottle(6, True, 0, 10,
                            "Refreshing, it takes your thirst away.",
                            "The water bottle is empty.")
 
-beans = Consumable(6, True, 5, 1,
+beans = Consumable(6, True, 6, 1,
                    "BEANS",
                    "Jammed between two rocks is a can on BEANS.",
-                   "This is a tasty treat.",
-                   "They may make you gassy. but they are good.")
+                   "This is a tasty treat, as beans are a perfect start.",
+                   "The more you eat the more you fart, but they are delicious.")
 
 soup = Consumable(6, True, 8, 8,
                   "SOUP",
                   "A tin of SOUP lays discarded amongst the rocks.",
-                  "Hydration and calories, what more do you want.",
+                  "Energy and hydration in a can, what more do you want.",
                   "Meat, Veg and Soup. What a great meal.")
 
 buoy = DualRevealsMovable(6, True, [],

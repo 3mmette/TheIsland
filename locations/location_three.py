@@ -14,7 +14,7 @@ driftwood = RevealsMovable(3, True, None,
 
 tension_rod = RevealedMovable(3, False, driftwood,
                               "TENSION ROD",
-                              "Amongst the DRIFTWOOD lies a TENSION ROD.",
+                              "Amongst the driftwood lies a TENSION ROD.",
                               "A rod that can be used to apply pressure to a key chamber.")
 driftwood.set_revealed_item(tension_rod)
 

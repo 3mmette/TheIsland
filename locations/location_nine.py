@@ -20,10 +20,10 @@ coin = ConditionalRevealedMovable(9, False, ship,
                                   "Made of solid gold, and a decent size.")
 ship.set_revealed_item(coin)
 
-crackers = RevealedConsumable(9, False, 5, 0, ship,
+crackers = RevealedConsumable(9, False, 10, 0, ship,
                               "CRACKERS",
                               "Just inside the hull sits a packet of CRACKERS.",
-                              "A small packet of crackers, from the company Polly.",
+                              "A big packet of crackers, from the company Polly.",
                               "A little dry, but still tasty.")
 ship.set_revealed_item(crackers)
 

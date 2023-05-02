@@ -14,9 +14,9 @@ tree = RevealsMovable(5, True, None,
 
 key_rake = RevealedMovable(5, False, tree,
                            "KEY RAKE",
-                           "Stuck into the side of the TREE is a KEY RAKE.",
+                           "Stuck into the side of the tree is a KEY RAKE.",
                            "A rake that can be used to depress pins in a key chamber.")
-tree.set_revealed_item(tree)
+tree.set_revealed_item(key_rake)
 
 parrot = Npc(5, True,
              "PARROT",

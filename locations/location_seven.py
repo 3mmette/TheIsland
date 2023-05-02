@@ -1,9 +1,8 @@
-import random
-
 from location import *
 from item import *
 from locations.location_four import spring
 from random import randint
+from random import sample
 
 fruit_colours = ["RED FRUIT", "ORANGE FRUIT", "YELLOW FRUIT", "GREEN FRUIT", "BLUE FRUIT", "PURPLE FRUIT"]
 death_index = randint(0, 5)
@@ -73,55 +72,55 @@ fruit_tree = FruitTree(7, True, [],
 body = Reveals(7, True, None,
                "BODY",
                "There is a BODY lying on the ground.",
-               f"In one hand is a {death[0]} piece of fruit.\n"
+               f"In one hand is a piece of {death[0]}.\n"
                "In the other is a NOTE.")
 
 note = Note(7, False, spring,
             "NOTE",
             "In one hand of the body is a NOTE.",
-            "It says 'You will find the key at the source'")
+            "It says 'You will find the key at the source, not at the mouth'")
 body.set_revealed_item(note)
 
-red_fruit = Fruit(7, False, 0, 0, fruit_tree,
-                  "RED FRUIT",
-                  "On one of the trees is a single RED FRUIT",
-                  "A round, smooth piece of fruit. The skin is red.",
-                  "")
+red_fruit = RevealedConsumable(7, False, 0, 0, fruit_tree,
+                               "RED FRUIT",
+                               "On one of the trees is a single RED FRUIT",
+                               "A round, smooth piece of fruit. The skin is red.",
+                               "")
 fruit_tree.set_revealed_item(red_fruit)
 
-orange_fruit = Fruit(7, False, 0, 0, fruit_tree,
-                     "ORANGE FRUIT",
-                     "On one of the trees is a single ORANGE FRUIT",
-                     "A round, smooth piece of fruit. The skin is orange.",
-                     "")
+orange_fruit = RevealedConsumable(7, False, 0, 0, fruit_tree,
+                                  "ORANGE FRUIT",
+                                  "On one of the trees is a single ORANGE FRUIT",
+                                  "A round, smooth piece of fruit. The skin is orange.",
+                                  "")
 fruit_tree.set_revealed_item(orange_fruit)
 
-yellow_fruit = Fruit(7, False, 0, 0, fruit_tree,
-                     "YELLOW FRUIT",
-                     "On one of the trees is a single YELLOW FRUIT",
-                     "A round, smooth piece of fruit. The skin is yellow.",
-                     "")
+yellow_fruit = RevealedConsumable(7, False, 0, 0, fruit_tree,
+                                  "YELLOW FRUIT",
+                                  "On one of the trees is a single YELLOW FRUIT",
+                                  "A round, smooth piece of fruit. The skin is yellow.",
+                                  "")
 fruit_tree.set_revealed_item(yellow_fruit)
 
-green_fruit = Fruit(7, False, 0, 0, fruit_tree,
-                    "GREEN FRUIT",
-                    "On one of the trees is a single GREEN FRUIT",
-                    "A round, smooth piece of fruit. The skin is green.",
-                    "")
+green_fruit = RevealedConsumable(7, False, 0, 0, fruit_tree,
+                                 "GREEN FRUIT",
+                                 "On one of the trees is a single GREEN FRUIT",
+                                 "A round, smooth piece of fruit. The skin is green.",
+                                 "")
 fruit_tree.set_revealed_item(green_fruit)
 
-blue_fruit = Fruit(7, False, 0, 0, fruit_tree,
-                   "BLUE FRUIT",
-                   "On one of the trees is a single BLUE FRUIT",
-                   "A round, smooth piece of fruit. The skin is blue.",
-                   "")
+blue_fruit = RevealedConsumable(7, False, 0, 0, fruit_tree,
+                                "BLUE FRUIT",
+                                "On one of the trees is a single BLUE FRUIT",
+                                "A round, smooth piece of fruit. The skin is blue.",
+                                "")
 fruit_tree.set_revealed_item(blue_fruit)
 
-purple_fruit = Fruit(7, False, 0, 0, fruit_tree,
-                     "PURPLE FRUIT",
-                     "On one of the trees is a single PURPLE FRUIT",
-                     "A round, smooth piece of fruit. The skin is purple.",
-                     "")
+purple_fruit = RevealedConsumable(7, False, 0, 0, fruit_tree,
+                                  "PURPLE FRUIT",
+                                  "On one of the trees is a single PURPLE FRUIT",
+                                  "A round, smooth piece of fruit. The skin is purple.",
+                                  "")
 fruit_tree.set_revealed_item(purple_fruit)
 
 block_seven = Movable(7, True,
@@ -136,4 +135,4 @@ for fruit in fruit_tree.get_revealed_item():
             fruit.set_hydration_value(fruit_values[2])
             fruit.set_consumed_text(fruit_values[3])
 
-fruit_tree.set_reveals_items_list(random.sample(fruit_tree.get_revealed_item(), len(fruit_tree.get_revealed_item())))
+fruit_tree.set_reveals_items_list(sample(fruit_tree.get_revealed_item(), len(fruit_tree.get_revealed_item())))

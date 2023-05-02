@@ -28,7 +28,17 @@ class BackPack:
         self._coconut = False
 
     def set_capacity(self, capacity):
+        """
+        Sets the number of items the backpack can hold.
+        """
         self._capacity = capacity
+
+    def get_capacity(self):
+        """
+        Gets the number of items the backpack can hold.
+        :return: The list.
+        """
+        return self._capacity
 
     def items(self):
         """

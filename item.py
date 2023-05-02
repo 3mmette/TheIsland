@@ -70,12 +70,24 @@ class Item:
         """
         return self._location_text
 
+    def set_location_description_text(self, text):
+        """
+        Sets the description of where the item is located.
+        """
+        self._location_text = text
+
     def get_description_text(self):
         """
         Gets the description of the item.
         :return: The description.
         """
         return self._description_text
+
+    def set_description_text(self, description):
+        """
+        Sets the description of the item.
+        """
+        self._description_text = f"On the paper is a cryptic clue.\n'{description}'"
 
     def get_discovery_status(self):
         """
@@ -155,22 +167,15 @@ class Container(Item):
             self.get_revealed_item().make_visible()
 
         if self.get_locked_status():
-            return f"{self.get_description_text()}.\nIt's Locked."
+            return f"{self.get_description_text()}\nIt's Locked."
         elif not self.get_open_status():
-            return f"{self.get_description_text()}.\nIt's Closed."
+            return f"{self.get_description_text()}\nIt's Closed."
         else:
-            if self.get_item_inside() is not None:
-                self.get_item_inside().make_visible()
+            if self.get_holds_item() is not None:
+                self.get_holds_item().make_visible()
                 return f"{self.get_description_text()}\n{self.get_full_container_text()}"
             else:
                 return f"{self.get_description_text()}\n{self.get_empty_container_text()}"
-
-    def get_revealed_item(self):
-        """
-        Gets the item that the container reveals.
-        :return: The noun.
-        """
-        return self._reveals_item
 
     def set_revealed_item(self, item):
         """
@@ -179,6 +184,13 @@ class Container(Item):
         """
         self._reveals_item = item
 
+    def get_revealed_item(self):
+        """
+        Gets the item that the container reveals.
+        :return: The noun.
+        """
+        return self._reveals_item
+
     def set_holds_item(self, item):
         """
         Sets the item the container holds.
@@ -186,7 +198,7 @@ class Container(Item):
         """
         self._holds_item = item
 
-    def get_item_inside(self):
+    def get_holds_item(self):
         """
         Gets the item that is inside the container.
         :return: The noun.
@@ -235,7 +247,12 @@ class Container(Item):
         :return: The container opened.
         """
         self._open_status = True
+        if self.get_holds_item() is not None:
+            self.get_holds_item().make_visible()
         return f"{self.get_name()} opened.\n{self.get_full_container_text()}"
+
+    def item_one_taken(self):
+        self.set_holds_item(None)
 
 
 class Conditional(Item):
@@ -504,24 +521,23 @@ class RevealedConsumable(Consumable):
         """
         return self._revealed_by
 
+    def set_energy_value(self, value):
+        """
+        Sets the energy value of the consumable to the given value.
+        """
+        self._energy_value = value
 
-class ConditionalRevealedConsumable(RevealedConsumable, Conditional):
-    def __init__(self, initial_location: int, is_visible: bool, energy_value: int, hydration_value: int,
-                 revealed_by: type(Item), name: str, location_text: str, description_text: str, consumed_text):
+    def set_hydration_value(self, value):
         """
-        Initialize a new revealed consumable item.
-        :param initial_location: The unique ID of the location the consumable spawns.
-        :param is_visible: Whether the consumable can initially be seen or not.
-        :param energy_value: The value of energy points gained from consuming the consumable.
-        :param hydration_value: The value of hydration points gained from consuming the consumable.
-        :param revealed_by: The noun that reveals the consumable.
-        :param name: The name of the consumable.
-        :param location_text: A description of where the consumable is located.
-        :param description_text: A description of the consumable.
-        :param consumed_text: A description of eating the consumable.
+        Sets the hydration value of the consumable to the given value.
         """
-        super().__init__(initial_location, is_visible, energy_value, hydration_value, revealed_by, name, location_text,
-                         description_text, consumed_text)
+        self._hydration_value = value
+
+    def set_consumed_text(self, text):
+        """
+        Sets the consumed text of the consumable to the given text.
+        """
+        self._consumed_text = text
 
 
 class Reveals(Item):
@@ -638,7 +654,7 @@ class RevealsMovable(Reveals):
         _description_text (str): A description of the item.
         _item_one_true_text (str): An extension of the description if the item it reveals is there.
         _item_one_false_text (str): An extension of the description if the item it reveals is no longer there.
-        _item_one_taken (bool): The status on if the item has been taken or not.
+        _item_one_taken_status (bool): The status on if the item has been taken or not.
         _discovery_status (bool): Has the player discovered the item.
     """
     def __init__(self, initial_location: int, is_visible: bool, reveals: type(Item), name: str, location_text: str,
@@ -657,7 +673,7 @@ class RevealsMovable(Reveals):
         super().__init__(initial_location, is_visible, reveals, name, location_text, description_text)
         self._item_one_true_text = item_one_true_text
         self._item_one_false_text = item_one_false_text
-        self._item_one_status = False
+        self._item_one_taken_status = False
 
     def inspect(self):
         """
@@ -665,11 +681,11 @@ class RevealsMovable(Reveals):
         Makes the item it reveals visible and returns a description based on whether the item has been taken or not.
         :return: A description based on taken status.
         """
-        self._reveals_item.make_visible()
+        self.get_revealed_item().make_visible()
         if not self.item_one_taken_status():
-            return f"{self._description_text}\n{self._item_one_true_text}"
+            return f"{self.get_description_text()}\n{self.get_item_one_true_text()}"
         else:
-            return f"{self._description_text}\n{self._item_one_false_text}"
+            return f"{self.get_description_text()}\n{self.get_item_one_false_text()}"
 
     def get_item_one_true_text(self):
         """
@@ -690,13 +706,13 @@ class RevealsMovable(Reveals):
         Gets the status on if the item has been taken or not.
         :return: The status.
         """
-        return self._item_one_status
+        return self._item_one_taken_status
 
     def item_one_taken(self):
         """
         Sets the status to True once the item is taken.
         """
-        self._item_one_status = True
+        self._item_one_taken_status = True
 
 
 class ConditionalRevealsMovable(RevealsMovable, Conditional):
@@ -1324,6 +1340,67 @@ class Keypad(Item):
         """
         return self._access_code
 
+    def set_access_code(self, code):
+        """
+        Sets the required access code.
+        """
+        self._access_code = code
+
+
+class Coconut(RevealedConsumable, Conditional):
+    """
+    This class represents a coconut that is revealed and can be taken once a condition is met.
+    It inherits off revealed consumable and conditional.
+    It has the following attributes.
+        _initial_location (int): The unique ID of the location the coconut spawns.
+        _is_visible (bool): Whether the coconut can initially be seen or not.
+        _energy_value: The value of energy points gained from consuming the coconut.
+        _hydration_value: The value of hydration points gained from consuming the coconut.
+        _revealed_by (type(Item)): The item that reveals the coconut.
+        _name (str): The name of the coconut.
+        _location_text (str): A description of where the coconut is located.
+        _description_text (str): A description of the coconut.
+        _coconut_hint_text (str): An extension of the description to help the player get it.
+        _coconut_ground_text (str): A different description once it has been knocked down.
+        _consumed_text (str): A description of eating the consumable.
+        _discovery_status (bool): Has the player discovered the item.
+        _moved_status (bool): Has the consumable been picked up by the player.
+        _condition_status (bool): Has the condition been met for another event can take place.
+    """
+    def __init__(self, initial_location: int, is_visible: bool, energy_value: int, hydration_value: int,
+                 revealed_by: type(Item), name: str, location_text: str, description_text: str, coconut_hint_text: str,
+                 coconut_ground_text: str, consumed_text: str):
+        """
+        Initialize a new revealed consumable item.
+        :param initial_location: The unique ID of the location the consumable spawns.
+        :param is_visible: Whether the consumable can initially be seen or not.
+        :param energy_value: The value of energy points gained from consuming the consumable.
+        :param hydration_value: The value of hydration points gained from consuming the consumable.
+        :param revealed_by: The noun that reveals the consumable.
+        :param name: The name of the consumable.
+        :param location_text: A description of where the consumable is located.
+        :param description_text: A description of the consumable.
+        :param coconut_hint_text: An extension of the description to help the player get it.
+        :param coconut_ground_text: A different description once it has been knocked down.
+        :param consumed_text: A description of eating the consumable.
+        """
+        super().__init__(initial_location, is_visible, energy_value, hydration_value, revealed_by, name, location_text,
+                         description_text, consumed_text)
+        self._coconut_hint_text = coconut_hint_text
+        self._coconut_ground_text = coconut_ground_text
+
+    def inspect(self):
+        if not self.get_condition_status():
+            return f"{self.get_description_text()}\n{self.get_coconut_hint_text()}"
+        else:
+            return f"{self.get_description_text()}"
+
+    def get_coconut_hint_text(self):
+        return self._coconut_hint_text
+
+    def get_coconut_ground_text(self):
+        return self._coconut_ground_text
+
 
 class WaterBottle(Consumable):
     """
@@ -1463,59 +1540,6 @@ class FruitTree(RevealsMovable):
         :param item_list: Items to be revealed.
         """
         self._reveals_item = item_list
-
-
-class Fruit(RevealedConsumable):
-    """
-    This class represents a revealed consumable fruit that can be consumed for energy and hydration.
-    It inherits off revealed consumable.
-    It has the following attributes.
-        _initial_location (int): The unique ID of the location the consumable spawns.
-        _is_visible (bool): Whether the consumable can initially be seen or not.
-        _energy_value (int): The value of energy points gained from consuming the consumable.
-        _hydration_value (int): The value of hydration points gained from consuming the consumable.
-        _revealed_by (type(Noun)): The noun that reveals the consumable.
-        _name (str): The name of the consumable.
-        _location_text (str): A description of where the consumable is located.
-        _description_text (str): A description of the consumable.
-        _consumed_text (str): A description of eating the consumable.
-        _discovery_status (bool): Has the player discovered the consumable.
-        _moved_status (bool): Has the consumable been picked up by the player.
-    """
-    def __init__(self, initial_location: int, is_visible: bool, energy_value: int, hydration_value: int,
-                 revealed_by: type(Item), name: str, location_text: str, description_text: str, consumed_text):
-        """
-        Initialize a new revealed consumable item.
-        :param initial_location: The unique ID of the location the consumable spawns.
-        :param is_visible: Whether the consumable can initially be seen or not.
-        :param energy_value: The value of energy points gained from consuming the consumable.
-        :param hydration_value: The value of hydration points gained from consuming the consumable.
-        :param revealed_by: The noun that reveals the consumable.
-        :param name: The name of the consumable.
-        :param location_text: A description of where the consumable is located.
-        :param description_text: A description of the consumable.
-        :param consumed_text: A description of eating the consumable.
-        """
-        super().__init__(initial_location, is_visible, energy_value, hydration_value, revealed_by, name, location_text,
-                         description_text, consumed_text)
-
-    def set_energy_value(self, value):
-        """
-        Sets the energy value of the consumable to the given value.
-        """
-        self._energy_value = value
-
-    def set_hydration_value(self, value):
-        """
-        Sets the hydration value of the consumable to the given value.
-        """
-        self._hydration_value = value
-
-    def set_consumed_text(self, text):
-        """
-        Sets the consumed text of the consumable to the given text.
-        """
-        self._consumed_text = text
 
 
 class Note(Item):

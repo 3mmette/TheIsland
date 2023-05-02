@@ -8,7 +8,8 @@ loc_ten = ExplorableLocation(10, "PENINSULA", 11, 11, 8, 11,
 block = Block(10, True,
               "BLOCK",
               "At the end of the peninsula is a rectangular BLOCK.",
-              "Made of granite, there are three slots to insert items...")
+              "Made of granite, there are three slots to insert items.\n"
+              "You could interact with it, if you have the right items...")
 
 shadow = Reveals(10, True, None,
                  "SHADOW",
