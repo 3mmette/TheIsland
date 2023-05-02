@@ -2,10 +2,12 @@
 |                                         The Island                                         |
 |--------------------------------------------------------------------------------------------|
 |- Ocean -----------------------------------------------------------------------------Ocean- |
-|- Ocean ------------------ Ocean -|   UNKNOWN LAND  [ ]   |- Ocean ----------------- Ocean -|
-|- Ocean ---|  UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ] |--- Ocean -|
-|- Ocean ---|  UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ] |--- Ocean -|
-|- Ocean ---|  UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ] |--- Ocean -|
-|- Ocean ---|  UNKNOWN LAND  [ ]   |- Ocean ----------------------------------------- Ocean -|
+|- Ocean --------------------------|   UNKNOWN LAND  [ ]   |------------------------- Ocean -|
+|- Ocean ---|  UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ]       SHIPWRECK     [X] |--- Ocean -|
+|- Ocean ---|  FRESH STREAM  [ ]       CRATER HILL   [ ]       ROCKY SHORE   [ ] |--- Ocean -|
+|- Ocean ---|  GRANITE SIGN  [ ]       UNKNOWN LAND  [ ]       UNKNOWN LAND  [ ] |--- Ocean -|
+|- Ocean ---|  THE BOAT      [ ]   |------------------------------------------------- Ocean -|
 |- Ocean ---------------------------------------------------------------------------- Ocean -|
+|--------------------------------------------------------------------------------------------|
+| Legend: Current Location = X                                                               |
 |--------------------------------------------------------------------------------------------|

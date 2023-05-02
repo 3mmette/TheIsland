@@ -159,6 +159,8 @@ if __name__ == '__main__':
                 # Mark location as discovered on chart.
                 if not current_location.get_discovery_status():
                     chart.location_discovered(current_location)
+                else:
+                    chart.add_player_location(current_location)
 
                 # Starting text for first location the first time.
                 if moves == 0:
@@ -410,6 +412,7 @@ if __name__ == '__main__':
                                     ocean_death_end = True
                                 # If North goes to an explorable location.
                                 else:
+                                    chart.remove_player_location(current_location)
                                     current_location_index = location.get_north_id()
                                     current_location = Location.locations[current_location_index]
 
@@ -427,6 +430,7 @@ if __name__ == '__main__':
 
                                 # If East goes to an explorable location.
                                 else:
+                                    chart.remove_player_location(current_location)
                                     current_location_index = location.get_east_id()
                                     current_location = Location.locations[current_location_index]
 
@@ -444,6 +448,7 @@ if __name__ == '__main__':
 
                                 # If South goes to an explorable location.
                                 else:
+                                    chart.remove_player_location(current_location)
                                     current_location_index = location.get_south_id()
                                     current_location = Location.locations[current_location_index]
 
@@ -461,6 +466,7 @@ if __name__ == '__main__':
 
                                 # If West goes to an explorable location.
                                 else:
+                                    chart.remove_player_location(current_location)
                                     current_location_index = location.get_west_id()
                                     current_location = Location.locations[current_location_index]
 

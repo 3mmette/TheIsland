@@ -252,6 +252,9 @@ class Container(Item):
         return f"{self.get_name()} opened.\n{self.get_full_container_text()}"
 
     def item_one_taken(self):
+        """
+        Sets the hold item to None once it is taken.
+        """
         self.set_holds_item(None)
 
 
@@ -1390,15 +1393,28 @@ class Coconut(RevealedConsumable, Conditional):
         self._coconut_ground_text = coconut_ground_text
 
     def inspect(self):
+        """
+        Overrides Inspect()
+        Gets the description depending on the status.
+        :return: The description
+        """
         if not self.get_condition_status():
             return f"{self.get_description_text()}\n{self.get_coconut_hint_text()}"
         else:
             return f"{self.get_description_text()}"
 
     def get_coconut_hint_text(self):
+        """
+        Gets the hint text for the coconut.
+        :return: The text.
+        """
         return self._coconut_hint_text
 
     def get_coconut_ground_text(self):
+        """
+        Gets the text once the coconut has been knocked down.
+        :return: The text.
+        """
         return self._coconut_ground_text
 
 

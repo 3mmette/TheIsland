@@ -127,18 +127,38 @@ class ExplorableLocation(Location):
         self._location_items = list()
 
     def get_chart_location_byte(self):
+        """
+        Gets the number of bytes needed to access the correct location on the chart.
+        :return: The number of bytes.
+        """
         return self._chart_location_byte
 
     def get_north_id(self):
+        """
+        Gets the location ID of the location to the north.
+        :return: The location ID.
+        """
         return self._north_id
 
     def get_east_id(self):
+        """
+        Gets the location ID of the location to the east.
+        :return: The location ID.
+        """
         return self._east_id
 
     def get_south_id(self):
+        """
+        Gets the location ID of the location to the south.
+        :return: The location ID.
+        """
         return self._south_id
 
     def get_west_id(self):
+        """
+        Gets the location ID of the location to the west.
+        :return: The location ID.
+        """
         return self._west_id
 
     def add_item_to_location(self, item):
