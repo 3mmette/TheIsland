@@ -1,4 +1,4 @@
-from location import SeaLocation
+from classes.location import SeaLocation
 
 location_eleven = SeaLocation(11,
                               "NORTHERN OCEAN",

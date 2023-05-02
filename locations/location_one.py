@@ -1,9 +1,9 @@
 from random import randint
-from location import *
-from item import *
+from classes.location import *
+from classes.item import *
 from locations.location_zero import keypad
 
-loc_one = ExplorableLocation(1, "SIGN", 4, 2, 0, 13,
+loc_one = ExplorableLocation(1, 687, "GRANITE SIGN", 4, 2, 0, 13,
                              "there is a sandy beach with a jetty.",
                              "the sandy beach.\nA small wooden jetty extends into the water where the boat is tied.")
 

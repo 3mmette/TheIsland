@@ -1,10 +1,12 @@
-from location import *
-from item import *
-from backpack import BackPack
+from classes.location import *
+from classes.item import *
+from classes.backpack import BackPack
+from classes.chart import Chart
 
 backpack = BackPack()
+chart = Chart()
 
-location_zero = StartLocation(0, "BOAT", 1, 13, 13, 13,
+location_zero = StartLocation(0, 783, "THE BOAT", 1, 13, 13, 13,
                               "there is a boat, tied to the small jetty.",
                               "the boat.\nIt slowly rocks back and forth in the ocean.",
                               "a boat.\nIt slowly rocks back and forth in the ocean.\n"

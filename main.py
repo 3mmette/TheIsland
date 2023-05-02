@@ -58,10 +58,10 @@ def load_location_items(load_location):
     print(f"\nYou currently have enough energy for {energy} moves.")
     print(f"You currently have enough hydration for {hydration} moves")
     # Options for movement.
-    print(f"\nTo the NORTH {Location.locations[location.get_north_id()].get_cardinal_description_text()}")
-    print(f"To the EAST {Location.locations[location.get_east_id()].get_cardinal_description_text()}")
-    print(f"To the SOUTH {Location.locations[location.get_south_id()].get_cardinal_description_text()}")
-    print(f"To the WEST {Location.locations[location.get_west_id()].get_cardinal_description_text()}")
+    print(f"\nTo the NORTH (N) {Location.locations[location.get_north_id()].get_cardinal_description_text()}")
+    print(f"To the EAST (E) {Location.locations[location.get_east_id()].get_cardinal_description_text()}")
+    print(f"To the SOUTH (S) {Location.locations[location.get_south_id()].get_cardinal_description_text()}")
+    print(f"To the WEST (W) {Location.locations[location.get_west_id()].get_cardinal_description_text()}")
 
 
 if __name__ == '__main__':
@@ -77,6 +77,9 @@ if __name__ == '__main__':
     moves = 0
     energy = 10
     hydration = 10
+
+    # Reset Chart
+    chart.reset_chart(Location.locations)
 
     # Keep track of the current location.
     current_location_index = 0
@@ -153,6 +156,10 @@ if __name__ == '__main__':
                 # Set or reset move to false.
                 move = False
                 clear_screen()
+                # Mark location as discovered on chart.
+                if not current_location.get_discovery_status():
+                    chart.location_discovered(current_location)
+
                 # Starting text for first location the first time.
                 if moves == 0:
                     print(f"You look around and realise you're on {location.get_start_text()}")
@@ -340,7 +347,7 @@ if __name__ == '__main__':
                         # If the player wants to open their chart.
                         elif player_input[0] == "CHART" or player_input[0] == "C":
                             # Open chart.
-                            pass
+                            print(chart.show_chart())
 
                         # Any other one word input.
                         else:

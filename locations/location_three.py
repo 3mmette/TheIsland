@@ -1,7 +1,7 @@
-from location import *
-from item import *
+from classes.location import *
+from classes.item import *
 
-loc_three = ExplorableLocation(3, "SHELL BEACH", 6, 13, 13, 2,
+loc_three = ExplorableLocation(3, 735, "SHELL BEACH", 6, 13, 13, 2,
                                "there is a shell beach.",
                                "the shell beach.\nSmall crabs scatter in all directions.")
 

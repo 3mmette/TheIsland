@@ -1,7 +1,7 @@
 class Location:
     """
     This class represents a generic location that all other locations inherit off.
-    It keeps track of all created location objects.
+    It keeps track of all created location classes.
     It has the following attributes.
         _location_id (int): The unique ID of the location.
         _name (str): The name of the location.
@@ -25,7 +25,7 @@ class Location:
         self._location_description_text = location_description_text
         self._discovered_status = False
         self.locations.append(self)
-        self.locations.sort(key=lambda x: x._location_id)
+        self.locations.sort(key=lambda x: x.get_location_id())
 
     def get_location_id(self):
         """
@@ -33,6 +33,13 @@ class Location:
         :return: The locations unique ID.
         """
         return self._location_id
+
+    def get_name(self):
+        """
+        Gets the name of the location.
+        :return: The name.
+        """
+        return self._name
 
     def get_cardinal_description_text(self):
         """
@@ -96,9 +103,9 @@ class ExplorableLocation(Location):
         _cardinal_description_text (str): A short description of what the location looks like from afar.
         _location_description_text (str): A longer description for when the player is in the location.
         _discovered_status (bool): Has the player been there before.
-        _location_items (list): Contains all the base objects in the location.
+        _location_items (list): Contains all the base classes in the location.
     """
-    def __init__(self, location_id: int, name: str, north_id: int, east_id: int, south_id: int, west_id: int,
+    def __init__(self, location_id: int, chart_location_byte: int, name: str, north_id: int, east_id: int, south_id: int, west_id: int,
                  cardinal_description_text: str, location_description_text: str):
         """
         Initialize a new explorable location.
@@ -112,11 +119,15 @@ class ExplorableLocation(Location):
         :param location_description_text: A longer description for when the player is in the location.
         """
         super().__init__(location_id, name, cardinal_description_text, location_description_text)
+        self._chart_location_byte = chart_location_byte
         self._north_id = north_id
         self._east_id = east_id
         self._south_id = south_id
         self._west_id = west_id
         self._location_items = list()
+
+    def get_chart_location_byte(self):
+        return self._chart_location_byte
 
     def get_north_id(self):
         return self._north_id
@@ -169,9 +180,9 @@ class StartLocation(ExplorableLocation):
         _location_description_text (str): A longer description for when the player is in the location.
         _start_text (str): An initial longer description for when the player starts the game.
         _discovered_status (bool): Has the player been there before.
-        _location_items (list): Contains all the base objects in the location.
+        _location_items (list): Contains all the base classes in the location.
     """
-    def __init__(self, location_id: int, name: str, north_id: int, east_id: int, south_id: int, west_id: int,
+    def __init__(self, location_id: int, chart_location_byte: int, name: str, north_id: int, east_id: int, south_id: int, west_id: int,
                  cardinal_description_text: str, location_description_text: str, start_text: str):
         """
         Initialize a new start location.
@@ -185,7 +196,7 @@ class StartLocation(ExplorableLocation):
         :param location_description_text: A longer description for when the player is in the location.
         :param start_text: An initial longer description for when the player starts the game.
         """
-        super().__init__(location_id, name, north_id, east_id, south_id, west_id, cardinal_description_text,
+        super().__init__(location_id, chart_location_byte,  name, north_id, east_id, south_id, west_id, cardinal_description_text,
                          location_description_text)
         self._start_text = start_text
 

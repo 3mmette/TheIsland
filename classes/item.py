@@ -1,7 +1,7 @@
 class Item:
     """
     This class represents a generic item that all other will inherit off.
-    It keeps track of all created items objects.
+    It keeps track of all created items classes.
     It has the following attributes.
         _initial_location (int): The unique ID of the location the item spawn.
         _is_visible (bool): Whether the item can initially be seen or not.
@@ -9,7 +9,7 @@ class Item:
         _location_text (str): A description of where the item is located.
         _description_text (str): A description of the item.
         _discovery_status (bool): Has the player discovered the item.
-        nouns (list): A list of all item objects.
+        nouns (list): A list of all item classes.
     """
     items = list()
 
@@ -114,7 +114,7 @@ class Container(Item):
     """
     This class represents a container that can unlocked and opened.
     It inherits off item.
-    It keeps track of all created container objects.
+    It keeps track of all created container classes.
     It has the following attributes.
         _initial_location (int): The unique ID of the location the container spawns.
         _is_visible (bool): Whether the container can initially be seen or not.
@@ -128,7 +128,7 @@ class Container(Item):
         _empty_text (str): A description when the container is empty.
         _discovery_status (bool): Has the player discovered the container.
         _open_status (bool): Whether the container is open or not.
-        container_nouns (list): A list of all container item objects.
+        container_nouns (list): A list of all container item classes.
     """
     containers = list()
 
@@ -298,7 +298,7 @@ class Movable(Item):
     """
     This class represents a generic movable item that can be picked up and moved.
     It inherits off item.
-    It keeps track of all created movable item objects.
+    It keeps track of all created movable item classes.
     It has the following attributes.
         _initial_location (int): The unique ID of the location the item spawns.
         _is_visible (bool): Whether the item can initially be seen or not.
@@ -307,7 +307,7 @@ class Movable(Item):
         _description_text (str): A description of the item.
         _discovery_status (bool): Has the player discovered the item.
         _moved_status (bool): Has the item been picked up by the player.
-        movable_nouns (list): A list of all movable item objects.
+        movable_nouns (list): A list of all movable item classes.
     """
     movable_nouns = list()
 
@@ -407,7 +407,7 @@ class Consumable(Movable):
     """
     This class represents a generic consumable item that can be consumed for energy and hydration.
     It inherits off movable.
-    It keeps track of all created consumable item objects.
+    It keeps track of all created consumable item classes.
     It has the following attributes.
         _initial_location (int): The unique ID of the location the consumable spawns.
         _is_visible (bool): Whether the consumable can initially be seen or not.
@@ -419,7 +419,7 @@ class Consumable(Movable):
         _consumed_text (str): A description of eating the consumable.
         _discovery_status (bool): Has the player discovered the consumable.
         _moved_status (bool): Has the consumable been picked up by the player.
-        consumable_nouns (list): A list of all consumable noun objects.
+        consumable_nouns (list): A list of all consumable noun classes.
     """
     consumable_nouns = list()
 

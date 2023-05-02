@@ -1,7 +1,7 @@
-from location import *
-from item import *
+from classes.location import *
+from classes.item import *
 
-loc_eight = ExplorableLocation(8, "PLAIN", 10, 9, 5, 7,
+loc_eight = ExplorableLocation(8, 519, "FLAT PLAIN", 10, 9, 5, 7,
                                "there is a large area of flat, smooth rock.",
                                "the flat area.\nThe rock almost seems polished smooth.")
 

@@ -1,7 +1,7 @@
-from location import *
-from item import *
+from classes.location import *
+from classes.item import *
 
-loc_ten = ExplorableLocation(10, "PENINSULA", 11, 11, 8, 11,
+loc_ten = ExplorableLocation(10, 423, "GRANITE BLOCK", 11, 11, 8, 11,
                              "there is a small peninsula.",
                              "the peninsula.\nIt extends out a short distance into the ocean.")
 
