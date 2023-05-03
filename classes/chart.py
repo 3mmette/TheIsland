@@ -14,7 +14,7 @@ class Chart:
         """
         Initialize a new chart. All parameters are prefilled.
         """
-        self._file_name = "chart.txt"
+        self._file_name = "game_files/chart.txt"
         self._extra_bytes_to_current_location_mark = 15
         self._bytes_for_location_name = 14
 
