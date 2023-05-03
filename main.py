@@ -285,7 +285,7 @@ if __name__ == '__main__':
                                             typing("'And you think you can use it with another item. Break'")
                                             typing("'Or you need to enter a code or something. Break")
                                             typing("'It needs a subject ie. Interact Ball / I Ball. Break")
-                                            typing("'and will only work if you have the bat in your bag. Break")
+                                            typing("'And will only work if you have the bat in your bag. Break")
                                             typing("'Do you need more information on any others. Over")
                                         # Open action
                                         elif response == "OPEN":

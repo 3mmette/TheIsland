@@ -44,10 +44,9 @@ class Chart:
         Reads the file and creates a string to display the chart.
         :return: The string.
         """
-        chart_string = ""
         file = open(self.get_file_name(), "r")
-        for line in file:
-            chart_string += f"{line}"
+        chart_string = file.read()
+        file.close()
         return chart_string
 
     def location_discovered(self, location):

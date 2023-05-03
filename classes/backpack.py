@@ -24,8 +24,6 @@ class BackPack:
         """
         self._capacity = 5
         self._backpack = list()
-        self._rock = False
-        self._coconut = False
 
     def set_capacity(self, capacity):
         """
