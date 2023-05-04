@@ -40,6 +40,10 @@ def clear_screen():
 
 
 def load_location_items(load_location):
+    """
+    Prints a complete description for the locations items, current energy and hydration levels, and surroundings.
+    :param load_location: The location that is being loaded.
+    """
     # Display all static items
     for location_item in load_location.get_location_items():
         if location_item.get_visibility_status() and not isinstance(location_item, Movable):
@@ -473,7 +477,7 @@ if __name__ == '__main__':
                             # Invalid noun with action MOVE.
                             else:
                                 print(f"The input {noun} is not a valid direction.\n"
-                                      f"I you want to move, "
+                                      f"If you want to move, "
                                       f"please choose on of the following (North / East / South / West)")
                                 continue
 
@@ -485,6 +489,11 @@ if __name__ == '__main__':
                             else:
                                 energy -= 1
                                 hydration -= 1
+
+                            # Allow time to ready final text.
+                            if ocean_death_end:
+                                print("\nPress [ENTER] to continue.")
+                                input("- ")
 
                         # If the player wants to interact with something.
                         elif action == "INTERACT" or action == "I":
@@ -630,7 +639,10 @@ if __name__ == '__main__':
                                     # All conditions met to start boat.
                                     if dashboard.get_key_status() and dashboard.get_power_status() \
                                             and dashboard.get_fuel_status():
+                                        print("\nThe boat engine roars to life as you cast of the rope.")
                                         boat_end = True
+                                        print("\nPress [ENTER] to continue.")
+                                        input("- ")
                                         break
                                     else:
                                         print("Nothing happens...")
@@ -692,8 +704,21 @@ if __name__ == '__main__':
                             elif noun == "BLOCK":
                                 # Is the noun here?
                                 if block in current_location.get_location_items():
-                                    # Loop to do multiple inserts or takes at a time.
-                                    while True:
+
+                                    # Get numbered blocks in bag.
+                                    numbered_blocks = []
+                                    numbered_blocks_string = ""
+                                    for item in backpack.items():
+                                        if item.get_name().startswith("BLOCK"):
+                                            numbered_blocks.append(item)
+                                    if len(numbered_blocks) == 0 and all(
+                                            slot is None for slot in block.list_slot_items()):
+                                        print("You don't have any granite blocks to insert.\n"
+                                              "There are no granite blocks inserted for you to take.")
+                                    else:
+                                        for numbered_block in numbered_blocks:
+                                            numbered_blocks_string += f"{numbered_block.get_name().split()[1]} / "
+
                                         # Get available and occupied slots.
                                         slots = block.list_slot_items()
                                         available_slots = []
@@ -705,85 +730,97 @@ if __name__ == '__main__':
                                                 available_slots.append(str(i))
                                                 available_slots_string += f"{str(i)} / "
                                             else:
-                                                occupied_slots.append(str(i + 1))
-                                                occupied_slots_string = f"{str(i + 1)} / "
-                                        # Get numbered blocks in bag.
-                                        numbered_blocks = []
-                                        for item in backpack.items():
-                                            if item.get_name().startswith("BLOCK"):
-                                                numbered_blocks.append(item)
-                                        numbered_blocks_string = " / ".join(
-                                            numbered_block.get_name().split()[1]
-                                            for numbered_block in numbered_blocks)
+                                                occupied_slots.append(str(i))
+                                                occupied_slots_string += f"{str(i)} / "
+                                        # Get interation options.
+                                        interact_options_string = ""
+                                        if len(numbered_blocks) > 0 and any(
+                                                slot is not None for slot in block.list_slot_items()):
+                                            interact_options_string = "Insert / Take / "
+                                        elif len(numbered_blocks) > 0 and all(
+                                                slot is None for slot in block.list_slot_items()):
+                                            interact_options_string = "Insert / "
+                                        elif len(numbered_blocks) == 0 and any(
+                                                slot is not None for slot in block.list_slot_items()):
+                                            interact_options_string = "Take / "
+                                        else:
+                                            pass
                                         # Initial options
-                                        print(f"Would you like to insert or take a BLOCK? "
-                                              f"(Insert / Take / Leave)")
+                                        print(f"What would you like to do? "
+                                              f"({interact_options_string}Leave)")
                                         action_choice = input("- ").upper().strip()
                                         # Insert
-                                        if action_choice == "INSERT":
+                                        if action_choice == "INSERT" and len(numbered_blocks) > 0:
                                             # Slot options
-                                            print(f"Into which slot would you like to insert a block? "
+                                            print(f"\nInto which slot would you like to insert a block? "
                                                   f"({available_slots_string}Leave)")
                                             slot_choice = input("- ").upper().strip()
                                             # Valid.
                                             if slot_choice in available_slots:
                                                 # Option to insert
-                                                print(f"Which block would you like to insert? "
-                                                      f"({numbered_blocks_string} / Leave)")
+                                                print(f"\nWhich block would you like to insert? "
+                                                      f"({numbered_blocks_string}Leave)")
                                                 numbered_block_choice = input("- ").upper().strip()
                                                 # Valid.
-                                                if numbered_block_choice in [numbered_block.get_name().split()[1]
-                                                                             for numbered_block in numbered_blocks]:
+                                                if numbered_block_choice in [numbered_block.get_name().split()[1] for
+                                                                             numbered_block in numbered_blocks]:
                                                     for numbered_block in numbered_blocks:
                                                         if numbered_block_choice == numbered_block.get_name().split()[1]:
                                                             # Insert into slot 1.
-                                                            if slot_choice == "1":
-                                                                print(backpack.remove(numbered_block, current_location))
+                                                            if slot_choice == "1" and block.get_slot_one_item() is None:
+                                                                print(
+                                                                    f"\n{backpack.remove(numbered_block, current_location)}")
                                                                 current_location.remove_location_item(numbered_block)
                                                                 block.set_slot_one_item(numbered_block)
                                                                 print(
                                                                     f"Slot 1 now contains {numbered_block.get_name()}")
-                                                                break
                                                             # Insert into slot 2.
-                                                            elif slot_choice == "2":
-                                                                print(backpack.remove(numbered_block, current_location))
+                                                            elif slot_choice == "2" and block.get_slot_two_item() is None:
+                                                                print(
+                                                                    f"\n{backpack.remove(numbered_block, current_location)}")
                                                                 current_location.remove_location_item(numbered_block)
                                                                 block.set_slot_two_item(numbered_block)
                                                                 print(
                                                                     f"Slot 2 now contains {numbered_block.get_name()}")
-                                                                break
                                                             # Insert into slot 3.
-                                                            elif slot_choice == "3":
-                                                                print(backpack.remove(numbered_block, current_location))
+                                                            elif slot_choice == "3" and block.get_slot_three_item() is None:
+                                                                print(
+                                                                    f"\n{backpack.remove(numbered_block, current_location)}")
                                                                 current_location.remove_location_item(numbered_block)
                                                                 block.set_slot_three_item(numbered_block)
                                                                 print(
                                                                     f"Slot 3 now contains {numbered_block.get_name()}")
-                                                                break
-                                                            # Break loop
-                                                            elif slot_choice == "LEAVE":
-                                                                break
-                                                            else:
-                                                                pass
                                                 # Break loop.
                                                 elif numbered_block_choice == "LEAVE":
-                                                    break
+                                                    pass
                                                 # Invalid.
                                                 else:
-                                                    print(f"Block {numbered_block_choice} is not a valid option.")
+                                                    print(f"\nBlock {numbered_block_choice} is not in your bag.")
                                             # Break loop.
                                             elif slot_choice == "LEAVE":
-                                                break
+                                                pass
                                             # Invalid.
                                             else:
                                                 print(f"Slot {slot_choice} is not a valid option.")
+
                                             # After block insert
                                             # If three blocks inserted and correct.
                                             if block.get_slot_one_item() == block_six and \
                                                     block.get_slot_two_item() == block_zero and \
                                                     block.get_slot_three_item() == block_five:
+                                                print("\nWell that's all the slots filled...")
+                                                print(f"{block.get_slot_items()}")
+                                                time.sleep(2)
                                                 # Complete puzzle and game. Break loop.
+                                                print("\nA giant tentacle pulls you forward and over the cliff.\n"
+                                                      "It holds you just above the water..\n"
+                                                      "In your head you hear a voice...\n"
+                                                      "You have solved the puzzle, so shall help you.\n"
+                                                      "I know where you need to go, I've been watching them too.\n"
+                                                      "You move around The Island and to the South in the Krakens grasp.")
                                                 kraken_end = True
+                                                print("\nPress [ENTER] to continue.")
+                                                input("- ")
                                                 break
                                             # If three blocks inserted and incorrect.
                                             elif all(slot is not None for slot in block.list_slot_items()):
@@ -791,9 +828,14 @@ if __name__ == '__main__':
                                                 if kraken_block_attempts < 2:
                                                     kraken_block_attempts += 1
                                                     move = True
+                                                    chart.remove_player_location(current_location)
                                                     current_location_index = location.get_south_id()
                                                     current_location = Location.locations[current_location_index]
-                                                    print("I giant tentacle knocks you back into another location")
+                                                    print("\nWell that's all the slots filled...")
+                                                    print(f"{block.get_slot_items()}")
+                                                    time.sleep(2)
+                                                    print("The water in front of you explodes")
+                                                    print("I giant tentacle knocks you back onto the flat plain.")
                                                     loc_eight.add_item_to_location(block.get_slot_one_item())
                                                     loc_eight.add_item_to_location(block.get_slot_two_item())
                                                     loc_eight.add_item_to_location(block.get_slot_three_item())
@@ -801,49 +843,59 @@ if __name__ == '__main__':
                                                     block.set_slot_two_item(None)
                                                     block.set_slot_three_item(None)
                                                     print("The blocks you had previously inserted land around you.")
+                                                    print("\nPress [ENTER] to continue.")
+                                                    input("- ")
                                                     break
                                                 # Too many attempts and lose game.
                                                 else:
-                                                    print("This time the giant tentacle pulls you forward.\n"
+                                                    print("\nWell that's all the slots filled...")
+                                                    print(f"{block.get_slot_items()}")
+                                                    time.sleep(2)
+                                                    print("The water in front of you explodes.\n"
+                                                          "This time the giant tentacle pulls you forward.\n"
                                                           "You're plunged into the endless abyss below the cliff.\n"
                                                           "Descending fast, the light soon disappears.\n"
                                                           "You lose consciousness surrounded by darkness...")
                                                     ocean_death_end = True
+                                                    print("\nPress [ENTER] to continue.")
+                                                    input("- ")
                                                     break
                                         # Take
-                                        elif action_choice == "TAKE":
+                                        elif action_choice == "TAKE" and any(
+                                                slot is not None for slot in block.list_slot_items()):
                                             # Slot option
-                                            print(block.get_slot_items())
+                                            print(f"\n{block.get_slot_items()}")
                                             print(f"Which slot do you want to take a BLOCK from? "
                                                   f"({occupied_slots_string}Leave)")
                                             take_choice = input("- ").upper().strip()
                                             # From slot 1.
-                                            if take_choice == "1":
-                                                print(backpack.add(block.get_slot_one_item()))
+                                            if take_choice == "1" and block.get_slot_one_item() is not None:
+                                                print(f"\n{backpack.add(block.get_slot_one_item())}")
                                                 block.set_slot_one_item(None)
                                                 print(f"Slot 1 is now empty")
                                             # From slot 2.
-                                            elif take_choice == "2":
-                                                print(backpack.add(block.get_slot_two_item()))
+                                            elif take_choice == "2" and block.get_slot_two_item() is not None:
+                                                print(f"\n{backpack.add(block.get_slot_two_item())}")
                                                 block.set_slot_two_item(None)
                                                 print(f"Slot 2 is now empty")
                                             # From slot 3.
-                                            elif take_choice == "3":
-                                                print(backpack.add(block.get_slot_three_item()))
+                                            elif take_choice == "3" and block.get_slot_three_item() is not None:
+                                                print(f"\n{backpack.add(block.get_slot_three_item())}")
                                                 block.set_slot_three_item(None)
                                                 print(f"Slot 3 is now empty")
                                             # Break loop
                                             elif take_choice == "LEAVE":
-                                                break
+                                                pass
                                             # Invalid.
                                             else:
-                                                print(f"Slot {take_choice} is not a valid option.")
+                                                print(f"\nSlot {take_choice} is not a valid option.")
                                         # Break loop
                                         elif action_choice == "LEAVE":
-                                            break
+                                            pass
                                         # Invalid
                                         else:
-                                            print(f"{action_choice} is not a valid input.")
+                                            print(f"\n{action_choice} isn't a valid choice.")
+
                                 # Wrong location.
                                 else:
                                     print(f"The is no {noun} here.")
@@ -910,7 +962,7 @@ if __name__ == '__main__':
                                                     if water_bottle in backpack.items():
                                                         # If the water bottle is already full.
                                                         if water_bottle.get_water_bottle_status():
-                                                            print("The water bottle is already full")
+                                                            print("The water bottle is already full.")
                                                         # If the water bottle is empty.
                                                         else:
                                                             # Fill up the water bottle.
@@ -1002,7 +1054,7 @@ if __name__ == '__main__':
                                                         print("There is a lost Trident and Coin on The Island.\n"
                                                               "If you bring me either of them, I will help you.")
                                                     else:
-                                                        print("Come back when you have something to trade")
+                                                        print("Come back when you have something to trade.")
                                                 # Item in bag to trade.
                                                 else:
                                                     # Get items available to trade.
@@ -1229,13 +1281,20 @@ if __name__ == '__main__':
 
                         # Varify energy and hydration for another move.
                         if energy < 0:
+                            print("Starvation takes hold as you try to get to the next location."
+                                  "With no energy to continue, you close your eyes for the last time...")
                             land_death_end = True
-                        if hydration < 0:
+                            print(f"\nPress [ENTER] to continue.")
+                            input("- ")
+                        elif hydration < 0:
+                            print("Dehydration takes hold as you try to get to the next location."
+                                  "The world is spinning as you close your eyes for the last time...")
                             land_death_end = True
+                            print(f"\nPress [ENTER] to continue.")
+                            input("- ")
 
     # Complete game by taking boat.
     if boat_end:
-        print("\nThe boat engine roars to life as you cast of the rope.")
         typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'")
         typing(f"'{player_name}. This is Coastguard. Receiving. Over'")
         typing(f"'{player_name}. I have found a boat and got it started. Break'")
@@ -1245,12 +1304,6 @@ if __name__ == '__main__':
         print(f"\nCongratulations {player_name}. You have successfully made it off The Island.")
     # Complete game by taking kraken.
     elif kraken_end:
-        print("\nA giant tentacle pulls you forward and over the cliff.\n"
-              "It holds you just above the water..\n"
-              "In your head you hear a voice...\n"
-              "You have solved the puzzle, so shall help you.\n"
-              "I know where you need to go, I've been watching them too.\n"
-              "You move around The Island and to the South in the Krakens grasp.")
         typing(f"\n'Coastguard. This is {player_name}. Are you receiving. Over'")
         typing(f"'{player_name}. This is Coastguard. Receiving. Over'")
         typing(f"'{player_name}. Making my way to your position now. Break'")
@@ -1277,5 +1330,3 @@ if __name__ == '__main__':
         typing("'Zero Alpha. Acknowledged. You're clear to return to base. Over'")
         typing("'Coastguard. Roger. Out'")
         print(f"\nGAME OVER {player_name}. You didn't make it off The Island alive.")
-    else:
-        "I don't know how you got here..."

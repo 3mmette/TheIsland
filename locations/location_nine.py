@@ -16,7 +16,7 @@ ship = DualRevealsMovable(9, True, [],
 
 coin = ConditionalRevealedMovable(9, False, ship,
                                   "COIN",
-                                  "Laying in a little patch of sunlight in the hull glints a gold COIN",
+                                  "Far inside the ship, in a little patch of sunlight glints a gold COIN.",
                                   "Made of solid gold, and a decent size.")
 ship.set_revealed_item(coin)
 

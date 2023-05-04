@@ -19,7 +19,7 @@ shadow = Reveals(10, True, None,
 kraken = Npc(10, False,
              "KRAKEN",
              "From just under the water, an eye of a KRAKEN watches you.",
-             "It watches you intensely, almost lke it wants to tell you something",
+             "It watches you intensely, almost lke it wants to tell you something...",
              "In your head you hear a voice...\n"
              "Get the BLOCK right, and help you I might.\n"
              "Get it wrong, and in the depths you'll belong.")

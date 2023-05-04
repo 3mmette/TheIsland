@@ -18,7 +18,7 @@ sword = Movable(8, True,
 shovel = Movable(8, True,
                  "SHOVEL",
                  "Among some seaweed is a SHOVEL.",
-                 "A standard shovel, with a long wooden handle.")
+                 "A standard shovel for digging, with a long wooden handle.")
 
 block_eight = Movable(8, True,
                       "BLOCK 8",

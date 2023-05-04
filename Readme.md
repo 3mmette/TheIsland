@@ -23,7 +23,7 @@ You will also need the game files. Download the game and place it in an easily a
 ## **Starting the Game**
 
 Navigate to the folder containing the game files.   
-Left click on the address bar at the top of the screen and copy the address.   
+Left-click on the address bar at the top of the screen and copy the address.   
 Search your computer for command prompt and open it.   
 In the command line, type: cd (paste the copied address) - then press enter.  
 Use the following command to start the game: python main.py
@@ -46,7 +46,7 @@ Everyone is good at something. At the start of the game you will be given a choi
 
 >### **Dexterity**
 >
->By default, every time you move to a new location, you lose a point from you energy and hydration reserves.  
+>By default, every time you move to a new location, you lose a point from your energy and hydration reserves.  
 By specializing in dexterity, you will now lose a point of energy and hydration every second move.
 
 >### **Charisma**
@@ -61,7 +61,7 @@ By specializing in intelligence, you can now see the energy and hydration values
 
 ## **Actions**
 
-There are four actions that take a single keyword / letter command.
+There are four actions that take a single keyword / letter command as an input.
 
 >### **Help (H)**
 >  
@@ -75,7 +75,7 @@ Type 'Refresh' or 'R', followed by the [ENTER] key.
 
 >### **Bag (B)**  
 >
->You will need to carry things around while adventuring on The Island. You have a bag with you that is able to store items. If there is room in your bag and you take an item, it will be stored here for later use. You can use the 'Bag' or 'B' command to open you bag and see how many items are in it, and what they are. You can use items while they are in your bag.  
+>You will need to carry things around while adventuring on The Island. You have a bag with you that is able to store items. If there is room in your bag, and you take an item, it will be stored here for later use. You can use the 'Bag' or 'B' command to open you bag and see how many items are in it, and what they are. You can use items while they are in your bag.  
 Type 'Bag' or 'B', followed by the [ENTER] key.
 
 >### **Chart (C)**
@@ -83,14 +83,14 @@ Type 'Bag' or 'B', followed by the [ENTER] key.
 >You will be exploring the unknown lands of The Island and have a chart to show you where you are on The Island, and what is around you. As you move around more location names will be revealed. You can open the chart and look at its contents by using the 'Chart' or 'C' command.  
 Type 'Refresh' or 'R', followed by the [ENTER] key.
 
-There are eight commands that require dual inputs.
+There are eight commands that require the dual input of an action and a noun.
 
 >### **Move (M) + Cardinal Direction** 
 >
 >You will need to move around The Island to discover items and places that will help you escape. Each location will provide a brief description of what is located around you, and it is up to you to choose which direction to move in. Cardinal directions, like on a compass, are used to choose which way to go. You will use the 'Move' or 'M' command followed by the cardinal direction.  
 Type 'Move' or 'M', followed by either 'North' or 'N', 'East' or 'E', 'South' or 'S' or 'West' or 'W', followed by the [ENTER] key.
 
-The remaining dual input commands are used with an interactive noun in the game. These nouns written in ***ALL CAPITAL LETTERS***. You can use the following commands on them, depending on what they are.  
+The remaining dual input commands are used with an interactive noun in the game. These nouns are written in ***ALL CAPITAL LETTERS***. You can use the following commands on them, depending on what they are.  
 
 >### **Look (L) + Capitalized Noun**
 >
@@ -99,7 +99,7 @@ Type 'Look' or 'L', followed by the 'Capitalized Noun', followed by the [ENTER] 
 
 >### **Interact (I) + Capitalized Noun**
 >
->You will need to interact with your surroundings to be able to get off The Island. Interactions can come in many forms, whether you want to use an item you have in your bag with an object in front of you, enter a code or do anything with an object, you will use the 'Interact' or 'I' command. The will be a hint in the description if you are able to interact with an item.  
+>You will need to interact with your surroundings to be able to get off The Island. Interactions can come in many forms, whether you want to use an item you have in your bag with an object in front of you, enter a code or do anything with an object, you will use the 'Interact' or 'I' command. There will be a hint in the description if you are able to interact with an item.  
 Type 'Interact' or 'I', followed by the 'Capitalized Noun', followed by the [ENTER] key.
 
 >### **Open (O) + Capitalized Noun**
@@ -124,7 +124,7 @@ Type 'Speak' or 'S', followed by the 'Capitalized Noun of Non Player Character',
 
 >### **Eat (E) + Capitalized Noun**
 >
->Adventuring can be exhausting, and unless you're light on your feet, you're going to need to eat and drink often. You will find items that you can eat to refuel your energy and stay hydrated. But be warned, not everything you can eat and drink should be eaten an drunk. Use the 'Eat' or 'E' command to eat or drink a edible item.  
+>Adventuring can be exhausting, and unless you're light on your feet, you're going to need to eat and drink often. You will find items that you can eat to refuel your energy and stay hydrated. But be warned, not everything you can eat and drink should be eaten or drunk. Use the 'Eat' or 'E' command to eat or drink an edible item.  
 Type 'Eat' or 'E', followed by the 'Capitalized Noun', followed by the ENTER key.
 
 ## **Conclusion**

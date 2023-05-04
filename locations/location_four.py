@@ -25,7 +25,7 @@ rock = Movable(4, True,
 
 boat_key = ConditionalRevealedMovable(4, False, spring,
                                       "BOAT KEY",
-                                      "The BOAT KEY rests in the water near the start.",
+                                      "The BOAT KEY rests underwater in the sand at the source of the stream.",
                                       "A medium sized key, with a tag that says 'For Boat'.")
 spring.set_revealed_item(boat_key)
 

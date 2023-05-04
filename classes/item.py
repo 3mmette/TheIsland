@@ -1645,7 +1645,7 @@ class Block(Item):
                 description += f"Slot {i} is empty.\n"
             else:
                 description += f"Slot {i} contains {item.get_name()}.\n"
-        return description
+        return description.strip()
 
     def get_slot_items(self):
         """

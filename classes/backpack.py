@@ -64,7 +64,7 @@ class BackPack:
         'You have a ____'
         :return: The string of items.
         """
-        items = f"Your are currently carrying {self.count()} / {self._capacity} items.\n"
+        items = f"You are currently carrying {self.count()} / {self._capacity} items.\n"
         for item in self._backpack:
             items += f"You have a {item.get_name()}.\n"
         return items.strip()

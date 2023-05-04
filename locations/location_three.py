@@ -21,7 +21,7 @@ driftwood.set_revealed_item(tension_rod)
 merman = Npc(3, True,
              "MERMAN",
              "On the shore with his tail in the water sits a MERMAN.",
-             "The top half of a God with a blue fish tail, he says 'Hello'",
+             "The top half of a God with a blue fish tail, he says 'Hello'.",
              "What's a Human like you doing in a place like this?\nDo you need help?")
 
 block_three = Movable(3, True,

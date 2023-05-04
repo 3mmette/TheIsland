@@ -22,7 +22,7 @@ parrot = Npc(5, True,
              "PARROT",
              "A PARROT is sitting in the tree watching you.",
              "A green bird with a patch over one eye.\nIt squawks 'Hello'.",
-             "Polly wants a cracker")
+             "Polly wants a cracker.")
 
 block_five = Movable(5, True,
                      "BLOCK 5",

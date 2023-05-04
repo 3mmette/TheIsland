@@ -24,7 +24,7 @@ palm.set_revealed_item(coconut)
 sand = ConditionalReveals(2, True, None,
                           "SAND",
                           "There is a patch of SAND that is slightly different.",
-                          "There are razor sharp shells mixed into the sand, but something lies underneath\n"
+                          "There are razor sharp shells mixed into the sand, but something lies underneath.\n"
                           "You could interact with it, if you have the right item...",
                           "A WOODEN CHEST lies at the bottom of the hole in the sand.")
 
