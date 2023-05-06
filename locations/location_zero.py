@@ -19,11 +19,11 @@ dashboard = Dashboard(0, True, None,
                       "There is a BUTTON to start the boat",
                       "There is a slot to insert a key\n"
                       "You could interact to turn the chamber, if you have the right items...",
-                      "You are able to turn the key slot",
+                      "You are able to turn the key slot, this step is complete.",
                       "The dashboard lies dormant, without any power running to it.",
-                      "The dashboards lights are on.",
+                      "The dashboards lights are on, this step is complete.",
                       "The fuel gauge is sitting on empty.",
-                      "The fuel gauge is on full")
+                      "The fuel gauge is on full, this step is complete.")
 
 compartment = Compartment(0, True,
                           "COMPARTMENT",

@@ -1294,6 +1294,7 @@ if __name__ == '__main__':
                             input("- ")
 
     # Complete game by taking boat.
+    clear_screen()
     if boat_end:
         typing(f"'Coastguard. This is {player_name}. Are you receiving. Over'")
         typing(f"'{player_name}. This is Coastguard. Receiving. Over'")
