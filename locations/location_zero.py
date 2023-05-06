@@ -14,7 +14,8 @@ location_zero = StartLocation(0, 783, "THE BOAT", 1, 13, 13, 13,
 
 dashboard = Dashboard(0, True, None,
                       "DASHBOARD",
-                      "At the front of the boat there is a DASHBOARD.",
+                      "At the front of the boat there is a DASHBOARD.\n"
+                      "It shows the status of a few things to get the boat started.",
                       "There is a BUTTON to start the boat",
                       "There is a slot to insert a key\n"
                       "You could interact to turn the chamber, if you have the right items...",

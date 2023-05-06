@@ -7,7 +7,7 @@ loc_nine = ExplorableLocation(9, 543, "SHIPWRECK", 11, 12, 6, 8,
 
 ship = DualRevealsMovable(9, True, [],
                           "SHIP",
-                          "The bow of a the SHIP 'Seas The Day' is laying broken on the rocks.",
+                          "The bow of a SHIP is laying broken on the rocks.",
                           "Through a small hole you can see inside the hull.",
                           "A packet of CRACKERS lies just within reach.",
                           "There is nothing is close inside the hole.",

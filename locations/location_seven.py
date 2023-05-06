@@ -9,8 +9,8 @@ death_index = randint(0, 5)
 death = [None, -100, -100, "Poisonous from the first bite, death comes swiftly."]
 bad_one = [None, -5, -5, "It makes you sick."]
 bad_two = [None, -5, -5, "It makes you sick."]
-good_one = [None, 5, 3, "Sweet and delicious."]
-good_two = [None, 5, 3, "Sweet and delicious."]
+good_one = [None, 6, 3, "Sweet and delicious."]
+good_two = [None, 6, 3, "Sweet and delicious."]
 best = [None, 10, 6, "The best piece of fruit you have ever eaten."]
 if death_index == 0:
     death[0] = fruit_colours[0]

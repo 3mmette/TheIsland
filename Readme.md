@@ -6,7 +6,7 @@
 
 ## **Introduction**
 
-Welcome to The Island, a text based adventure game where you must find a way back to civilisation when you find yourself stranded on a mysterious island.  
+Welcome to The Island, a text based adventure game where you must find a way back to civilisation after finding yourself stranded on a mysterious island.  
 This document is intended to provide users with all the required information to install and play the game.  
 Any errors or mistakes found within this documentation or game may be sent to the author of this document, Emmette Taylor.
 
@@ -16,8 +16,8 @@ This program should work on all modern operating systems.
 To run the game, it is a requirement to have the Python 3 interpreter installed on your computer.  
 It can be downloaded from following website:  
 https://www.python.org/downloads/   
-Simply choose the latest version for your operating system and follow the prompts.  
-You will also need the game files. Download the game and place it in an easily accessible folder.
+Choose the latest version for your operating system and follow the prompts.  
+You will also need the game files. Download the zipped game files and extract them to an easily accessible folder.
 
 
 ## **Starting the Game**
@@ -31,6 +31,7 @@ Use the following command to start the game: python main.py
 ## **Overview**
 You awake on a small boat tied to a jetty on The Island, and rescue can't come to you, so you're going to have to help yourself.  
 The boat you are on doesn't seem to be working, so you're going to have to get it working or find some other way to escape.  
+Check the dashboard on the boat to see what you need to get working to start the boat.  
 The Island itself is surrounded by harsh ocean so swimming won't work. If you enter the water, it's certain death.  
 The only things you have with you are an empty bag and a blank chart that will be filled in as you explore The Island.  
 You have full energy and hydration for now, but that won't last long. Find things to eat and drink if you want to keep moving and survive. 
@@ -128,4 +129,4 @@ Type 'Speak' or 'S', followed by the 'Capitalized Noun of Non Player Character',
 Type 'Eat' or 'E', followed by the 'Capitalized Noun', followed by the ENTER key.
 
 ## **Conclusion**
-Get off The Island.
+Get off The Island, alive. It's that simple.
