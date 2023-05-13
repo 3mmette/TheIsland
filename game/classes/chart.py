@@ -59,14 +59,15 @@ class Chart:
             # Get the variables needed.
             location_name = location.get_name()
             spacing = self.get_bytes_for_location_name() - len(location_name)
+            byte = int(location.get_chart_location_byte() / 100)
             chart_index = location.get_chart_location_byte()
             # Writes to chart file.
             with open(self.get_file_name(), "rb+") as file:
                 # Location name.
-                file.seek(chart_index)
+                file.seek(chart_index - byte)
                 file.write((location_name + (" " * spacing)).encode())
                 # Current location mark.
-                file.seek(chart_index + self.get_extra_bytes_to_current_location_mark())
+                file.seek(chart_index - byte + self.get_extra_bytes_to_current_location_mark())
                 file.write(b"X")
 
     def remove_player_location(self, location):
@@ -77,11 +78,12 @@ class Chart:
         # Is it a location the player can explore.
         if isinstance(location, ExplorableLocation):
             # Get the variables needed.
+            byte = int(location.get_chart_location_byte() / 100)
             chart_index = location.get_chart_location_byte()
             # Writes to chart file.
             with open(self.get_file_name(), "rb+") as file:
                 # Removes location mark.
-                file.seek(chart_index + self.get_extra_bytes_to_current_location_mark())
+                file.seek(chart_index - byte + self.get_extra_bytes_to_current_location_mark())
                 file.write(b" ")
 
     def add_player_location(self, location):
@@ -92,11 +94,12 @@ class Chart:
         # Is it a location the player can explore.
         if isinstance(location, ExplorableLocation):
             # Get the variables needed.
+            byte = int(location.get_chart_location_byte() / 100)
             chart_index = location.get_chart_location_byte()
             # Writes to chart file.
             with open(self.get_file_name(), "rb+") as file:
                 # Current location mark.
-                file.seek(chart_index + self.get_extra_bytes_to_current_location_mark())
+                file.seek(chart_index - byte + self.get_extra_bytes_to_current_location_mark())
                 file.write(b"X")
 
     def reset_chart(self, locations):

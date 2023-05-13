@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82fabfca-73e9-42f3-aa42-f9ec0557f745" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/game/game_files/original_chart.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/classes/chart.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/classes/chart.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/game_files/chart.txt" beforeDir="false" afterPath="$PROJECT_DIR$/game/game_files/chart.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
