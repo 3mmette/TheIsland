@@ -550,10 +550,10 @@ if __name__ == '__main__':
                                 if dashboard in current_location.get_location_items():
                                     # Do you have the required item?
                                     if boat_key in backpack.items():
+                                        print(backpack.remove(boat_key, current_location))
                                         print(f"{boat_key.get_name()} inserted!\n{dashboard.get_key_true_text()}")
                                         dashboard.key_inserted()
                                         # Removes item from the game.
-                                        print(backpack.remove(boat_key, current_location))
                                         current_location.remove_location_item(boat_key)
                                     # Do you have the required items?
                                     elif tension_rod in backpack.items() and key_rake in backpack.items():
@@ -580,12 +580,12 @@ if __name__ == '__main__':
                                 if compartment in current_location.get_location_items():
                                     # Do you have the required item?
                                     if battery in backpack.items():
+                                        print(f"{backpack.remove(battery, current_location)}")
                                         print(f"{battery.get_name()} inserted!\n"
                                               f"{compartment.get_battery_true_text()}")
                                         compartment.battery_inserted()
                                         dashboard.dashboard_powered()
                                         # Removes item from the game.
-                                        backpack.remove(battery, current_location)
                                         current_location.remove_location_item(battery)
                                     # Do you have the required item?
                                     elif cable in backpack.items():
@@ -594,6 +594,7 @@ if __name__ == '__main__':
                                               f"{compartment.get_cable_true_text()}")
                                         # If the cable is plugged into the metal box.
                                         if metal_box.get_insert_status():
+                                            print(f"{backpack.remove(cable, current_location)}")
                                             dashboard.dashboard_powered()
                                             # Removes item from the game.
                                             backpack.remove(cable, current_location)
@@ -615,20 +616,21 @@ if __name__ == '__main__':
                                     # Do you have the required item?
                                     if jerry in backpack.items():
                                         dashboard.boat_fueled()
+                                        print(backpack.remove(jerry, current_location))
                                         fuel_tank.item_inserted()
                                         print(f"{jerry.get_name()} emptied into the fuel tank.\n"
                                               f"{fuel_tank.get_full_text()}")
                                         # Removes item from the game.
-                                        print(backpack.remove(jerry, current_location))
                                         current_location.remove_location_item(jerry)
                                     # Do you have the required item?
                                     elif alcohol in backpack.items():
                                         dashboard.boat_fueled()
+                                        print(backpack.remove(alcohol, current_location))
                                         fuel_tank.item_inserted()
                                         print(f"{alcohol.get_name()} emptied into the fuel tank.\n"
                                               f"{fuel_tank.get_full_text()}")
                                         # Removes item from the game.
-                                        print(backpack.remove(alcohol, current_location))
+
                                         current_location.remove_location_item(alcohol)
                                     # Doesn't have the required item.
                                     else:
@@ -686,7 +688,7 @@ if __name__ == '__main__':
                                     # All conditions met to start boat.
                                     if dashboard.get_key_status() and dashboard.get_power_status() \
                                             and dashboard.get_fuel_status():
-                                        print("\nThe boat engine roars to life as you cast of the rope.")
+                                        print("The boat engine roars to life as you cast of the rope.")
                                         boat_end = True
                                         print("\nPress [ENTER] to continue.")
                                         input("- ")
@@ -1203,11 +1205,12 @@ if __name__ == '__main__':
                                         # Do you have crackers?
                                         if crackers in backpack.items():
                                             # Get input.
+                                            print(f"{parrot.get_initial_dialogue()}")
                                             print(f"Give CRACKERS (Yes / No)")
                                             response = input("- ").upper().strip()
                                             # Give crackers.
                                             if response == "YES":
-                                                print(backpack.remove(crackers, current_location))
+                                                print(f"\n{backpack.remove(crackers, current_location)}")
                                                 current_location.remove_location_item(crackers)
                                                 print("Squawk. Let me give you something in return.")
                                                 print("Be right back.")

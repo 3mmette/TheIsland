@@ -1394,14 +1394,26 @@ class Coconut(RevealedConsumable, Conditional):
 
     def inspect(self):
         """
-        Overrides Inspect()
+        Overrides inspect()
         Gets the description depending on the status.
         :return: The description
         """
         if not self.get_condition_status():
             return f"{self.get_description_text()}\n{self.get_coconut_hint_text()}"
         else:
-            return f"{self.get_description_text()}"
+            return f"{self.get_description_text()}\nFood: Unknown   Drink: Unknown"
+
+    def intelligent_inspect(self):
+        """
+        Overrides intelligent inspect()
+        Gets the description depending on the status.
+        Creates a string showing the description as well as the energy and hydration values if condition met.
+        :return: The string
+        """
+        if not self.get_condition_status():
+            return f"{self.get_description_text()}\n{self.get_coconut_hint_text()}"
+        else:
+            return f"{self.get_description_text()}\nFood: {self.get_energy_value()}   Drink: {self.get_hydration_value()}"
 
     def get_coconut_hint_text(self):
         """

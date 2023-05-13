@@ -64,7 +64,8 @@ loc_seven = ExplorableLocation(7, 528, "FRUIT ORCHID", 11, 8, 4, 12,
 fruit_tree = FruitTree(7, True, [],
                        "FRUIT TREE",
                        "Most of the vegetation is FRUIT TREE.",
-                       "It looks like someone has been cross breeding fruit trees.",
+                       "It looks like someone has been cross breeding fruit trees.\n"
+                       "Related colours should indicate related effects.",
                        "There is a fruit for every color of the rainbow.",
                        "There are still some fruit on the trees.",
                        "All the fruit has been taken.")

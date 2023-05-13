@@ -5,6 +5,8 @@
 2. Fruit in 'BODY' hand is capitalised. - Fixed
 3. Chart file doesn't display properly when downloaded from GitHub. - Work Around complete
 4. Merman doesn't retrieve items - Fixed
+5. Coconut doesn't have food values - Fixed
 
 ## **Improvements**
 1. Add an 'Are you sure?' when moving to a ocean location to stop accidental deaths. - Changed
+2. Fruit puzzle needs a more of a hint - Changed

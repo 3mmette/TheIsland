@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82fabfca-73e9-42f3-aa42-f9ec0557f745" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test/ManualTestingFeedback.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/ReadMe.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/classes/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/classes/item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/game_files/chart.txt" beforeDir="false" afterPath="$PROJECT_DIR$/game/game_files/chart.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/manual_test_feedback" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_seven.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_seven.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ManualTestingFeedback.md" beforeDir="false" afterPath="$PROJECT_DIR$/test/ManualTestingFeedback.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/the_island.py" beforeDir="false" afterPath="$PROJECT_DIR$/the_island.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
