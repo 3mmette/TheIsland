@@ -94,7 +94,6 @@ if __name__ == '__main__':
         for item in Item.items:
             if item.get_initial_location_id() == location.get_location_id():
                 location.add_item_to_location(item)
-
     # Start
     clear_screen()
     typing("'Any callsign. This is Coastguard. Are you receiving. Over'")
@@ -110,12 +109,14 @@ if __name__ == '__main__':
     time.sleep(1)
     typing("'Coastguard. This is...'")
     time.sleep(1)
+    # Get players name.
     player_name = ""
     while player_name == "":
         print("Who am I again?")
         player_name = input("- ").capitalize().strip()
     clear_screen()
     time.sleep(1)
+    # Set goals
     typing(f"'Coastguard. This is {player_name}. Receiving. Over'")
     typing(f"'Coastguard. Glad we found you {player_name}. We have been looking for you for days. Break'")
     typing("'We can't make it to The Island, you're going to have to get to us. Break'")
@@ -126,6 +127,7 @@ if __name__ == '__main__':
     print("\nPress [ENTER] to continue.")
     input("- ")
 
+    # Choose specialty.
     clear_screen()
     print("More memories coming flooding back. I remember I was good at something...")
     time.sleep(1)
@@ -151,6 +153,7 @@ if __name__ == '__main__':
     print(f"Ah yes, I have elite levels of {ability.lower()}.")
     time.sleep(1)
 
+    # Start game.
     print("\nPress [ENTER] to begin your adventure on The Island.")
     input("- ")
     while boat_end is False and kraken_end is False and ocean_death_end is False and land_death_end is False:
@@ -1077,19 +1080,19 @@ if __name__ == '__main__':
                                             if ability == "CHARISMA":
                                                 jerry.make_visible()
                                                 cable.make_visible()
-                                                print("I can't help you escape this island, "
+                                                print("\nI can't help you escape this island, "
                                                       "you're too weak in the water.\n"
                                                       "I saw a jerry and a cable in the water to the North though.")
 
                                             # If items he can help get haven't been discovered.
                                             if not jerry.get_visibility_status() \
                                                     and not cable.get_visibility_status():
-                                                print("I can't help you escape this island, "
+                                                print("\nI can't help you escape this island, "
                                                       "you're too weak in the water.\n"
                                                       "If there is something else, come back and see me.")
                                             # Items discovered.
                                             else:
-                                                print("I could help you get the jerry or cable, "
+                                                print("\nI could help you get the jerry or cable, "
                                                       "but it will cost you a some gold.")
                                                 # Nothing in bag to trade.
                                                 if coin not in backpack.items() \
@@ -1113,11 +1116,11 @@ if __name__ == '__main__':
                                                     # Get items available to get from the ocean.
                                                     ocean_items = []
                                                     ocean_items_string = ""
-                                                    if not buoy.item_one_taken():
+                                                    if not buoy.get_item_one_taken_status():
                                                         ocean_items.append(buoy.get_revealed_item()[0])
                                                         ocean_items_string += \
                                                             f"{buoy.get_revealed_item()[0].get_name().capitalize()} / "
-                                                    if not buoy.item_two_taken():
+                                                    if not buoy.get_item_two_taken_status():
                                                         ocean_items.append(buoy.get_revealed_item()[1])
                                                         ocean_items_string += \
                                                             f"{buoy.get_revealed_item()[1].get_name().capitalize()} / "
@@ -1129,42 +1132,53 @@ if __name__ == '__main__':
                                                     payment_item = None
                                                     # Trade coin.
                                                     if payment == "COIN" and coin in trade_items:
-                                                        print(backpack.remove(coin, current_location))
+                                                        print(f"\n{backpack.remove(coin, current_location)}")
                                                         current_location.remove_location_item(coin)
                                                         payment_item = coin
 
                                                     # Trade trident.
                                                     elif payment == "TRIDENT" and trident in trade_items:
-                                                        print(backpack.remove(trident, current_location))
+                                                        print(f"\n{backpack.remove(trident, current_location)}")
                                                         current_location.remove_location_item(trident)
                                                         payment_item = trident
+
+                                                    # Try to trade coin but don't have it.
+                                                    elif payment == "COIN" and coin not in trade_items:
+                                                        print("\nYou don't have a coin.\n"
+                                                              f"Return when you have something.")
+
+                                                    # Try to trade trident but don't have it.
+                                                    elif payment == "TRIDENT" and trident not in trade_items:
+                                                        print("\nYou don't have a trident.\n"
+                                                              f"Return when you have something.")
+
                                                     # Invalid
                                                     else:
-                                                        print(f"{payment} is worthless to me.\n"
+                                                        print(f"\n{payment} is worthless to me.\n"
                                                               f"Return when you have something better.")
 
                                                     if payment_item is not None:
-                                                        print(f"Want me to get the CABLE or the JERRY? "
+                                                        print(f"\nWant me to get the CABLE or the JERRY? "
                                                               f"({ocean_items_string[:-3]})")
                                                         response = input("- ").upper().strip()
                                                         # Want cable.
-                                                        if response == "CABLE" and not buoy.item_one_taken_status():
-                                                            print("I'll be back in a minute.")
+                                                        if response == "CABLE" and not buoy.get_item_one_taken_status():
+                                                            print("\nI'll be back in a minute.")
                                                             time.sleep(1)
                                                             print(backpack.add(cable))
                                                             buoy.item_one_taken()
                                                             loc_six.remove_location_item(cable)
                                                             print("Pleasure doing business with you.")
                                                         # Want jerry.
-                                                        elif response == "JERRY" and not buoy.item_two_taken_status():
-                                                            print("I'll be back in a minute.")
+                                                        elif response == "JERRY" and not buoy.get_item_two_taken_status():
+                                                            print("\nI'll be back in a minute.")
                                                             time.sleep(1)
                                                             print(backpack.add(jerry))
                                                             buoy.item_two_taken()
                                                             loc_six.remove_location_item(jerry)
                                                             print("Pleasure doing business with you.")
                                                         else:
-                                                            print(f"There isn't a {response} underwater.\n"
+                                                            print(f"\nThere isn't a {response} underwater.\n"
                                                                   f"Take your {payment} back.")
                                                             print(backpack.add(payment_item))
                                                         payment_item = None
@@ -1185,7 +1199,7 @@ if __name__ == '__main__':
                                 # Is the noun here?
                                 if parrot in current_location.get_location_items():
                                     # If the coin is still there.
-                                    if not ship.item_two_taken_status():
+                                    if not ship.get_item_two_taken_status():
                                         # Do you have crackers?
                                         if crackers in backpack.items():
                                             # Get input.

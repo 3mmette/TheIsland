@@ -685,7 +685,7 @@ class RevealsMovable(Reveals):
         :return: A description based on taken status.
         """
         self.get_revealed_item().make_visible()
-        if not self.item_one_taken_status():
+        if not self.get_item_one_taken_status():
             return f"{self.get_description_text()}\n{self.get_item_one_true_text()}"
         else:
             return f"{self.get_description_text()}\n{self.get_item_one_false_text()}"
@@ -704,7 +704,7 @@ class RevealsMovable(Reveals):
         """
         return self._item_one_false_text
 
-    def item_one_taken_status(self):
+    def get_item_one_taken_status(self):
         """
         Gets the status on if the item has been taken or not.
         :return: The status.
@@ -759,10 +759,10 @@ class ConditionalRevealsMovable(RevealsMovable, Conditional):
         """
         if not self.get_condition_status():
             return f"{self.get_description_text()}\n{self.get_item_one_false_text()}"
-        elif self.get_condition_status() and not self.item_one_taken_status():
+        elif self.get_condition_status() and not self.get_item_one_taken_status():
             self.get_revealed_item().make_visible()
             return f"{self.get_description_text()}\n{self.get_item_one_true_text()}"
-        elif self.get_condition_status() and self.item_one_taken_status():
+        elif self.get_condition_status() and self.get_item_one_taken_status():
             return f"{self.get_description_text()}\n{self.get_item_one_false_text()}"
 
 
@@ -779,10 +779,10 @@ class DualRevealsMovable(RevealsMovable):
         _description_text (str): A description of the item.
         _item_one_true_text (str): An extension of the description if the first item it reveals is there.
         _item_one_false_text (str): An extension of the description if the first item it reveals is no longer there.
-        _item_one_taken (bool): The status on if the item has been taken or not.
+        _item_one_taken_status (bool): The status on if the item has been taken or not.
         _item_two_true_text (str): An extension of the description if the second item it reveals is there.
         _item_two_false_text (str): An extension of the description if the second item it reveals is no longer there.
-        _item_two_taken (bool): The status on if the second item has been taken or not.
+        _item_two_taken_status (bool): The status on if the second item has been taken or not.
         _discovery_status (bool): Has the player discovered the item.
     """
     def __init__(self, initial_location: int, is_visible: bool, reveals: list[type(Item)], name: str,
@@ -805,7 +805,7 @@ class DualRevealsMovable(RevealsMovable):
                          item_one_true_text, item_one_false_text)
         self._item_two_true_text = item_two_true_text
         self._item_two_false_text = item_two_false_text
-        self._item_two_status = False
+        self._item_two_taken_status = False
 
     def inspect(self):
         """
@@ -816,13 +816,13 @@ class DualRevealsMovable(RevealsMovable):
         """
         for item in self.get_revealed_item():
             item.make_visible()
-        if not self.item_one_taken_status() and not self.item_two_taken_status():
+        if not self.get_item_one_taken_status() and not self.get_item_two_taken_status():
             return f"{self.get_description_text()}\n{self.get_item_one_true_text()}\n{self.get_item_two_true_text()}"
-        elif not self.item_one_taken_status() and self.item_two_taken_status():
+        elif not self.get_item_one_taken_status() and self.get_item_two_taken_status():
             return f"{self.get_description_text()}\n{self.get_item_one_true_text()}\n{self.get_item_two_false_text()}"
-        elif self.item_one_taken_status() and not self.item_two_taken_status():
+        elif self.get_item_one_taken_status() and not self.get_item_two_taken_status():
             return f"{self.get_description_text()}\n{self.get_item_one_false_text()}\n{self.get_item_two_true_text()}"
-        elif self.item_one_taken_status() and self.item_two_taken_status():
+        elif self.get_item_one_taken_status() and self.get_item_two_taken_status():
             return f"{self.get_description_text()}\n{self.get_item_one_false_text()}\n{self.get_item_two_false_text()}"
 
     def get_item_two_true_text(self):
@@ -839,18 +839,18 @@ class DualRevealsMovable(RevealsMovable):
         """
         return self._item_two_false_text
 
-    def item_two_taken_status(self):
+    def get_item_two_taken_status(self):
         """
         Gets the status on if the item has been taken or not.
         :return: The status.
         """
-        return self._item_two_status
+        return self._item_two_taken_status
 
     def item_two_taken(self):
         """
         Sets the status to True once the item is taken.
         """
-        self._item_two_status = True
+        self._item_two_taken_status = True
 
     def set_revealed_item(self, item):
         """
