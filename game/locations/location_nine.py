@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_nine = ExplorableLocation(9, 567, "SHIPWRECK", 11, 12, 6, 8,
+loc_nine = ExplorableLocation(9, 576, "SHIPWRECK", 11, 12, 6, 8,
                               "there is a shipwreck on the rocks.",
                               "the shipwreck.\nWaves crash violently onto the rocks.")
 

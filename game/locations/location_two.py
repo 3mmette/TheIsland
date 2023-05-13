@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_two = ExplorableLocation(2, 743, "SANDY BEACH", 5, 3, 13, 1,
+loc_two = ExplorableLocation(2, 756, "SANDY BEACH", 5, 3, 13, 1,
                              "there is a sandy beach with some palms.",
                              "the sandy beach.\nSmall waves crash onto the white sand.")
 

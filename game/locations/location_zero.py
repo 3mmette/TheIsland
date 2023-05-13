@@ -6,7 +6,7 @@ from game.classes.chart import Chart
 backpack = BackPack()
 chart = Chart()
 
-location_zero = StartLocation(0, 819, "THE BOAT", 1, 13, 13, 13,
+location_zero = StartLocation(0, 834, "THE BOAT", 1, 13, 13, 13,
                               "there is a boat, tied to the small jetty.",
                               "the boat.\nIt slowly rocks back and forth in the ocean.",
                               "a boat.\nIt slowly rocks back and forth in the ocean.\n"

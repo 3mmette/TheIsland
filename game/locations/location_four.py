@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_four = ExplorableLocation(4, 619, "FRESH STREAM", 7, 5, 1, 12,
+loc_four = ExplorableLocation(4, 630, "FRESH STREAM", 7, 5, 1, 12,
                               "there is a area with a small stream.",
                               "the stream.\nThe stream runs through the area, from east to west.")
 

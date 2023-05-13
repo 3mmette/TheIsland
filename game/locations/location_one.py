@@ -3,7 +3,7 @@ from game.classes.location import *
 from game.classes.item import *
 from game.locations.location_zero import keypad
 
-loc_one = ExplorableLocation(1, 719, "GRANITE SIGN", 4, 2, 0, 13,
+loc_one = ExplorableLocation(1, 732, "GRANITE SIGN", 4, 2, 0, 13,
                              "there is a sandy beach with a jetty.",
                              "the sandy beach.\nA small wooden jetty extends into the water where the boat is tied.")
 

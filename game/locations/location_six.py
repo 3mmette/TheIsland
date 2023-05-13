@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_six = ExplorableLocation(6, 667, "ROCKY SHORE", 9, 12, 3, 5,
+loc_six = ExplorableLocation(6, 678, "ROCKY SHORE", 9, 12, 3, 5,
                              "there is a rocky shoreline.",
                              "the rocky shoreline.\nThe tide must be low as there are many things washed ashore.")
 

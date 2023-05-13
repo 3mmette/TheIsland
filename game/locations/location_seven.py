@@ -57,7 +57,7 @@ elif death_index == 5:
 
 fruits = [death, bad_one, bad_two, good_one, good_two, best]
 
-loc_seven = ExplorableLocation(7, 519, "FRUIT ORCHID", 11, 8, 4, 12,
+loc_seven = ExplorableLocation(7, 528, "FRUIT ORCHID", 11, 8, 4, 12,
                                "there is a vegetated area with some medium sized trees.",
                                "the vegetated area.\nThe area seems too neat to be natural.")
 

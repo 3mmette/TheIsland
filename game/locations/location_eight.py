@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_eight = ExplorableLocation(8, 543, "FLAT PLAIN", 10, 9, 5, 7,
+loc_eight = ExplorableLocation(8, 552, "FLAT PLAIN", 10, 9, 5, 7,
                                "there is a large area of flat, smooth rock.",
                                "the flat area.\nThe rock almost seems polished smooth.")
 

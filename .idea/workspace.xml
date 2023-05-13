@@ -5,34 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82fabfca-73e9-42f3-aa42-f9ec0557f745" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test/manual_test_feedback" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test_backpack.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test_explorable_location.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test_item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TheIsland.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TheIsland.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/backpack.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/chart.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/item.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/location.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_files/chart.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_eight.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_five.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_four.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_nine.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_one.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_seven.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_six.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_ten.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_three.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_two.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/location_zero.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/locations/locations_surrounding.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/the_island.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/game_files/chart.txt" beforeDir="false" afterPath="$PROJECT_DIR$/game/game_files/chart.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_eight.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_eight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_five.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_five.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_four.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_four.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_nine.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_nine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_one.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_seven.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_seven.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_six.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_six.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_ten.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_ten.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_three.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_three.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_two.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_two.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_zero.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_zero.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_ten = ExplorableLocation(10, 443, "GRANITE BLOCK", 11, 11, 8, 11,
+loc_ten = ExplorableLocation(10, 450, "GRANITE BLOCK", 11, 11, 8, 11,
                              "there is a small peninsula.",
                              "the peninsula.\nIt extends out a short distance into the ocean.")
 

@@ -17,7 +17,7 @@ To run the game, it is a requirement to have the Python 3 interpreter installed 
 It can be downloaded from following website:  
 https://www.python.org/downloads/   
 Choose the latest version for your operating system and follow the prompts.  
-You will also need the game files. Download the zipped game files and extract them to an easily accessible folder.
+You will also need the game files. Download the zipped game from GitHub and extract them to an easily accessible folder.
 
 
 ## **Starting the Game**

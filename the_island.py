@@ -94,7 +94,7 @@ if __name__ == '__main__':
         for item in Item.items:
             if item.get_initial_location_id() == location.get_location_id():
                 location.add_item_to_location(item)
-    """
+
     # Start
     clear_screen()
     typing("'Any callsign. This is Coastguard. Are you receiving. Over'")
@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
     print(f"Ah yes, I have elite levels of {ability.lower()}.")
     time.sleep(1)
-    """
+
     print("\nPress [ENTER] to begin your adventure on The Island.")
     input("- ")
     while boat_end is False and kraken_end is False and ocean_death_end is False and land_death_end is False:
@@ -438,10 +438,21 @@ if __name__ == '__main__':
                                 moves += 1
                                 # If East goes to sea location and death.
                                 if type(Location.locations[location.get_east_id()]) is SeaLocation:
-                                    clear_screen()
-                                    print(Location.locations[location.get_east_id()].
-                                          get_location_description_text())
-                                    ocean_death_end = True
+                                    while True:
+                                        print(f"Please confirm the move, as "
+                                              f"{Location.locations[location.get_east_id()].get_cardinal_description_text()} "
+                                              f"(Yes / No)")
+                                        confirm = input("- ").strip().upper()
+                                        if confirm == "YES":
+                                            clear_screen()
+                                            print(Location.locations[location.get_east_id()].
+                                                  get_location_description_text())
+                                            ocean_death_end = True
+                                            break
+                                        elif confirm == "NO":
+                                            break
+                                        else:
+                                            print("\nYou must confirm either Yes or No.")
 
                                 # If East goes to an explorable location.
                                 else:
@@ -456,10 +467,21 @@ if __name__ == '__main__':
                                 moves += 1
                                 # If South goes to sea location and death.
                                 if type(Location.locations[location.get_south_id()]) is SeaLocation:
-                                    clear_screen()
-                                    print(Location.locations[location.get_south_id()].
-                                          get_location_description_text())
-                                    ocean_death_end = True
+                                    while True:
+                                        print(f"Please confirm the move, as "
+                                              f"{Location.locations[location.get_south_id()].get_cardinal_description_text()} "
+                                              f"(Yes / No)")
+                                        confirm = input("- ").strip().upper()
+                                        if confirm == "YES":
+                                            clear_screen()
+                                            print(Location.locations[location.get_south_id()].
+                                                  get_location_description_text())
+                                            ocean_death_end = True
+                                            break
+                                        elif confirm == "NO":
+                                            break
+                                        else:
+                                            print("\nYou must confirm either Yes or No.")
 
                                 # If South goes to an explorable location.
                                 else:
@@ -474,10 +496,21 @@ if __name__ == '__main__':
                                 moves += 1
                                 # If West goes to sea location and death.
                                 if type(Location.locations[location.get_west_id()]) is SeaLocation:
-                                    clear_screen()
-                                    print(Location.locations[location.get_west_id()].
-                                          get_location_description_text())
-                                    ocean_death_end = True
+                                    while True:
+                                        print(f"Please confirm the move, as "
+                                              f"{Location.locations[location.get_west_id()].get_cardinal_description_text()} "
+                                              f"(Yes / No)")
+                                        confirm = input("- ").strip().upper()
+                                        if confirm == "YES":
+                                            clear_screen()
+                                            print(Location.locations[location.get_west_id()].
+                                                  get_location_description_text())
+                                            ocean_death_end = True
+                                            break
+                                        elif confirm == "NO":
+                                            break
+                                        else:
+                                            print("\nYou must confirm either Yes or No.")
 
                                 # If West goes to an explorable location.
                                 else:

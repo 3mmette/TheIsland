@@ -1,7 +1,7 @@
 from game.classes.location import *
 from game.classes.item import *
 
-loc_five = ExplorableLocation(5, 643, "CRATER HILL", 8, 6, 2, 4,
+loc_five = ExplorableLocation(5, 654, "CRATER HILL", 8, 6, 2, 4,
                               "there is a hill rising in front of you.",
                               "the top of the hill.\nThere is a crater in the centre and the ground feels warm.")
 
