@@ -110,9 +110,11 @@ class Chart:
             for location in locations:
                 # Is it a location the player can explore.
                 if isinstance(location, ExplorableLocation):
+                    # Add extra byte from GitHub
+                    byte = int(location.get_chart_location_byte() / 100)
                     # Unknown land for location name.
-                    file.seek(location.get_chart_location_byte())
+                    file.seek(location.get_chart_location_byte() - byte)
                     file.write(b"UNKNOWN LAND  ")
                     # Blank for current location.
-                    file.seek(location.get_chart_location_byte() + self.get_extra_bytes_to_current_location_mark())
+                    file.seek(location.get_chart_location_byte() - byte + self.get_extra_bytes_to_current_location_mark())
                     file.write(b" ")
