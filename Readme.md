@@ -26,7 +26,7 @@ Navigate to the folder containing the game files.
 Left-click on the address bar at the top of the screen and copy the address.   
 Search your computer for command prompt and open it.   
 In the command line, type: cd (paste the copied address) - then press enter.  
-Use the following command to start the game: python main.py
+Use the following command to start the game: python the_island.py
 
 ## **Overview**
 You awake on a small boat tied to a jetty on The Island, and rescue can't come to you, so you're going to have to help yourself.  
