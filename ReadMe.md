@@ -22,7 +22,7 @@ You will also need the game files. Download the zipped game from GitHub and extr
 
 ## **Starting the Game**
 
-Navigate to the folder containing the game files.   
+Navigate so that you are in the TheIsland folder.    
 Left-click on the address bar at the top of the screen and copy the address.   
 Search your computer for command prompt and open it.   
 In the command line, type: cd (paste the copied address) - then press enter.  
@@ -62,7 +62,7 @@ By specializing in intelligence, you can now see the energy and hydration values
 
 ## **Actions**
 
-There are four actions that take a single keyword / letter command as an input.
+There are five actions that take a single keyword / letter command as an input.
 
 >### **Help (H)**
 >  
@@ -82,9 +82,14 @@ Type 'Bag' or 'B', followed by the [ENTER] key.
 >### **Chart (C)**
 >
 >You will be exploring the unknown lands of The Island and have a chart to show you where you are on The Island, and what is around you. As you move around more location names will be revealed. You can open the chart and look at its contents by using the 'Chart' or 'C' command.  
-Type 'Refresh' or 'R', followed by the [ENTER] key.
+Type 'Chart' or 'C', followed by the [ENTER] key.
 
-There are eight commands that require the dual input of an action and a noun.
+>### **Quit (Q)**
+>
+>Sometimes it all gets too much on The Island, or you need to leave the adventure. You can use the 'Quit' or 'Q' command to leave the game.    
+Type 'Quit' or 'Q', followed by the [ENTER] key.
+
+There are eight commands that require the dual input of an action and a noun, with a space separating them.
 
 >### **Move (M) + Cardinal Direction** 
 >

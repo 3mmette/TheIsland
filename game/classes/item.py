@@ -33,7 +33,7 @@ class Item:
     def get_initial_location_id(self):
         """
         Gets the unique ID of the location the item spawns.
-        :return: The items initial locations unique ID.
+        :return: The items initial game_files unique ID.
         """
         return self._initial_location
 
@@ -87,7 +87,7 @@ class Item:
         """
         Sets the description of the item.
         """
-        self._description_text = f"On the paper is a cryptic clue.\n'{description}'"
+        self._description_text = description
 
     def get_discovery_status(self):
         """
@@ -376,6 +376,13 @@ class RevealedMovable(Movable):
         """
         return self._revealed_by
 
+    def set_item_revealed_by(self, item):
+        """
+        Sets what reveals the item.
+        :param item: Item that reveals this item.
+        """
+        self._revealed_by = item
+
 
 class ConditionalRevealedMovable(RevealedMovable, Conditional):
     """
@@ -523,6 +530,13 @@ class RevealedConsumable(Consumable):
         :return: The revealing noun.
         """
         return self._revealed_by
+
+    def set_item_revealed_by(self, item):
+        """
+        Sets what reveals the item.
+        :param item: Item that reveals this item.
+        """
+        self._revealed_by = item
 
     def set_energy_value(self, value):
         """
@@ -873,7 +887,7 @@ class RequiresInsert(Item):
         _description_text (str): A description of the item.
         _full_text (str): A new description for after an item has been inserted.
         _discovery_status (bool): Has the player discovered the item.
-        _insert (bool): Has a item been inserted or not.
+        _insert (bool): Has an item been inserted or not.
     """
     def __init__(self, initial_location: int, is_visible: bool, name: str, location_text: str, description_text: str,
                  full_text: str):
@@ -916,7 +930,7 @@ class RequiresInsert(Item):
 
     def get_full_text(self):
         """
-        Gets the description for if the item has been inserted..
+        Gets the description for if the item has been inserted.
         :return: The description.
         """
         return self._full_text
@@ -1539,11 +1553,11 @@ class FruitTree(RevealsMovable):
                 count += 1
                 fruit_trees += f"{fruit.get_location_description_text()}\n"
         if count == 6:
-            return f"{self.get_description_text()}\n{self.get_item_one_true_text()}\n{fruit_trees}"
+            return f"{self.get_description_text()}\n{self.get_item_one_true_text()}\n{fruit_trees.strip()}"
         elif 0 < count < 6:
-            return f"{self.get_description_text()}\n{self.get_item_one_partial_text()}\n{fruit_trees}"
+            return f"{self.get_description_text()}\n{self.get_item_one_partial_text()}\n{fruit_trees.strip()}"
         elif count == 0:
-            return f"{self.get_description_text()}\n{self.get_item_one_false_text()}\n{fruit_trees}"
+            return f"{self.get_description_text()}\n{self.get_item_one_false_text()}\n{fruit_trees.strip()}"
         else:
             return "An error has occurred. Please report this to the game design team."
 
@@ -1567,6 +1581,7 @@ class FruitTree(RevealsMovable):
         Sets a list of fruit to reveal.
         :param item_list: Items to be revealed.
         """
+        self._reveals_item = list()
         self._reveals_item = item_list
 
 
@@ -1613,6 +1628,13 @@ class Note(Item):
         :return: The revealing noun.
         """
         return self._linked
+
+    def set_linked_item(self, item):
+        """
+        Sets what items it's linked to.
+        :param item: The Item.
+        """
+        self._linked = item
 
 
 class Block(Item):

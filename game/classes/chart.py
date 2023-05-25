@@ -3,7 +3,7 @@ from game.classes.location import ExplorableLocation
 
 class Chart:
     """
-    This class represents a chart that tracks locations that have been discovered and the players' location.
+    This class represents a chart that tracks game_files that have been discovered and the players' location.
     It uses a random access technique to read and write to a file.
     It has the following attributes.
         _file_name (str): The name of the file to read and write to.
@@ -105,7 +105,7 @@ class Chart:
     def reset_chart(self, locations):
         """
         At the start of the game, resets the chart to ensure all location are unknown land and the is no location mark.
-        :param locations: List of all locations.
+        :param locations: List of all game_files.
         """
         # Writes to chart file.
         with open(self.get_file_name(), "rb+") as file:

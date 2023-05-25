@@ -1,6 +1,6 @@
 class Location:
     """
-    This class represents a generic location that all other locations inherit off.
+    This class represents a generic location that all other game_files inherit off.
     It keeps track of all created location classes.
     It has the following attributes.
         _location_id (int): The unique ID of the location.
@@ -30,7 +30,7 @@ class Location:
     def get_location_id(self):
         """
         Gets the unique ID of the location.
-        :return: The locations unique ID.
+        :return: The game_files unique ID.
         """
         return self._location_id
 
@@ -105,6 +105,8 @@ class ExplorableLocation(Location):
         _discovered_status (bool): Has the player been there before.
         _location_items (list): Contains all the base classes in the location.
     """
+    explorable_locations = list()
+
     def __init__(self, location_id: int, chart_location_byte: int, name: str, north_id: int, east_id: int, south_id: int, west_id: int,
                  cardinal_description_text: str, location_description_text: str):
         """
@@ -125,6 +127,8 @@ class ExplorableLocation(Location):
         self._south_id = south_id
         self._west_id = west_id
         self._location_items = list()
+        self.explorable_locations.append(self)
+        self.explorable_locations.sort(key=lambda x: x.get_location_id())
 
     def get_chart_location_byte(self):
         """
@@ -184,6 +188,12 @@ class ExplorableLocation(Location):
             for location_item in self._location_items:
                 if item == location_item:
                     self._location_items.remove(item)
+
+    def clear_location_items(self):
+        """
+        Clears all items from a location to reset.
+        """
+        self._location_items.clear()
 
 
 class StartLocation(ExplorableLocation):

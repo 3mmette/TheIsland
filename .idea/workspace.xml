@@ -5,10 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82fabfca-73e9-42f3-aa42-f9ec0557f745" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/game/classes/game.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_eight.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_five.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_four.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_nine.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_one.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_seven.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_six.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_ten.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_three.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_two.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/location_zero.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/game_files/locations_surrounding.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/ReadMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/classes/chart.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/classes/chart.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/classes/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/classes/item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/locations/location_seven.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/locations/location_seven.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ManualTestingFeedback.md" beforeDir="false" afterPath="$PROJECT_DIR$/test/ManualTestingFeedback.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/classes/location.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/classes/location.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/game_files/chart.txt" beforeDir="false" afterPath="$PROJECT_DIR$/game/game_files/chart.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/game_files/original_chart.txt" beforeDir="false" afterPath="$PROJECT_DIR$/game/game_files/original_chart.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_eight.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_five.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_four.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_nine.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_one.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_seven.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_six.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_ten.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_three.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_two.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/location_zero.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/locations/locations_surrounding.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/the_island.py" beforeDir="false" afterPath="$PROJECT_DIR$/the_island.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,12 +67,19 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/emmet/Documents/Tafe/Applied Python Programming/Assessments/AT3 Project/TheIsland&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/emmet/Documents/Tafe/Applied Python Programming/Assessments/AT3 Project/TheIsland/game/game_files&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\emmet\Documents\Tafe\Applied Python Programming\Assessments\AT3 Project\TheIsland\game\game_files" />
+      <recent name="C:\Users\emmet\Documents\Tafe\Applied Python Programming\Assessments\AT3 Project\TheIsland\game\start_state" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\emmet\Documents\Tafe\Applied Python Programming\Assessments\AT3 Project\TheIsland\game\game_files" />
+      <recent name="C:\Users\emmet\Documents\Tafe\Applied Python Programming\Assessments\AT3 Project\TheIsland\game\locations" />
       <recent name="C:\Users\emmet\Documents\Tafe\Applied Python Programming\Assessments\AT3 Project\TheIsland" />
+      <recent name="C:\Users\emmet\Documents\Tafe\Applied Python Programming\Assessments\AT3 Project\TheIsland\game\start_state" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
