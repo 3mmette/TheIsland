@@ -19,10 +19,17 @@ from game.game_files.locations_surrounding import *
 
 
 class Game:
+    """
+    This class represents the game itself. All parts of the game are run by this class.
+    It creates a copy of all items to use within the game, so original files and items are not changed.
+    """
     game_locations = list()
     game_items = list()
 
     def __init__(self):
+        """
+        Initialize all variables and items for the game.
+        """
         self.player_name = ""
         self.ability = None
         self.energy = 10
@@ -42,39 +49,23 @@ class Game:
         self.kraken_block_attempts = 0
 
         # Game Locations.
-        self.location_zero = copy.copy(original_location_zero)
-        self.location_one = copy.copy(original_location_one)
-        self.location_two = copy.copy(original_location_two)
-        self.location_three = copy.copy(original_location_three)
-        self.location_four = copy.copy(original_location_four)
-        self.location_five = copy.copy(original_location_five)
-        self.location_six = copy.copy(original_location_six)
-        self.location_seven = copy.copy(original_location_seven)
-        self.location_eight = copy.copy(original_location_eight)
-        self.location_nine = copy.copy(original_location_nine)
-        self.location_ten = copy.copy(original_location_ten)
-        self.location_eleven = copy.copy(original_location_eleven)
-        self.location_twelve = copy.copy(original_location_twelve)
-        self.location_thirteen = copy.copy(original_location_thirteen)
+        self.location_zero = None
+        self.location_one = None
+        self.location_two = None
+        self.location_three = None
+        self.location_four = None
+        self.location_five = None
+        self.location_six = None
+        self.location_seven = None
+        self.location_eight = None
+        self.location_nine = None
+        self.location_ten = None
+        self.location_eleven = None
+        self.location_twelve = None
+        self.location_thirteen = None
 
-        self.game_locations.append(self.location_zero)
-        self.game_locations.append(self.location_one)
-        self.game_locations.append(self.location_two)
-        self.game_locations.append(self.location_three)
-        self.game_locations.append(self.location_four)
-        self.game_locations.append(self.location_five)
-        self.game_locations.append(self.location_six)
-        self.game_locations.append(self.location_seven)
-        self.game_locations.append(self.location_eight)
-        self.game_locations.append(self.location_nine)
-        self.game_locations.append(self.location_ten)
-        self.game_locations.append(self.location_eleven)
-        self.game_locations.append(self.location_twelve)
-        self.game_locations.append(self.location_thirteen)
-        self.game_locations.sort(key=lambda x: x.get_location_id())
-
-        self.current_location_index = 0
-        self.current_location = self.game_locations[self.current_location_index]
+        self.current_location_index = None
+        self.current_location = None
 
         self.current_location_index = None
         self.current_location = None
@@ -190,7 +181,11 @@ class Game:
         print()
 
     def reset_game(self):
+        """
+        Resets all variables and creates a new copy of all items to use in the current game.
+        """
         self.game_items = list()
+        self.game_locations = list()
 
         self.ability = None
         self.energy = 10
@@ -208,6 +203,38 @@ class Game:
         self.moved = False
         self.moves = 0
         self.kraken_block_attempts = 0
+
+        # Game Locations.
+        self.location_zero = copy.copy(original_location_zero)
+        self.location_one = copy.copy(original_location_one)
+        self.location_two = copy.copy(original_location_two)
+        self.location_three = copy.copy(original_location_three)
+        self.location_four = copy.copy(original_location_four)
+        self.location_five = copy.copy(original_location_five)
+        self.location_six = copy.copy(original_location_six)
+        self.location_seven = copy.copy(original_location_seven)
+        self.location_eight = copy.copy(original_location_eight)
+        self.location_nine = copy.copy(original_location_nine)
+        self.location_ten = copy.copy(original_location_ten)
+        self.location_eleven = copy.copy(original_location_eleven)
+        self.location_twelve = copy.copy(original_location_twelve)
+        self.location_thirteen = copy.copy(original_location_thirteen)
+
+        self.game_locations.append(self.location_zero)
+        self.game_locations.append(self.location_one)
+        self.game_locations.append(self.location_two)
+        self.game_locations.append(self.location_three)
+        self.game_locations.append(self.location_four)
+        self.game_locations.append(self.location_five)
+        self.game_locations.append(self.location_six)
+        self.game_locations.append(self.location_seven)
+        self.game_locations.append(self.location_eight)
+        self.game_locations.append(self.location_nine)
+        self.game_locations.append(self.location_ten)
+        self.game_locations.append(self.location_eleven)
+        self.game_locations.append(self.location_twelve)
+        self.game_locations.append(self.location_thirteen)
+        self.game_locations.sort(key=lambda x: x.get_location_id())
 
         self.current_location_index = 0
         self.current_location = self.game_locations[self.current_location_index]
@@ -253,7 +280,7 @@ class Game:
         self.block_one = copy.copy(original_block_one)
 
         # Link any items.
-        self.set_cryptic_keypad_puzzle()
+        self.select_and_set_cryptic_keypad_puzzle()
 
         # Add to game items list.
         self.game_items.append(self.sign)
@@ -386,7 +413,7 @@ class Game:
         self.blue_fruit.set_item_revealed_by(self.fruit_tree)
         self.fruit_tree.set_revealed_item(self.purple_fruit)
         self.purple_fruit.set_item_revealed_by(self.fruit_tree)
-        self.randomize_fruit_puzzle()
+        self.randomize_and_set_fruit_puzzle()
 
         # Add to game items list.
         self.game_items.append(self.fruit_tree)
@@ -445,7 +472,10 @@ class Game:
         self.game_items.append(self.shadow)
         self.game_items.append(self.kraken)
 
-    def set_cryptic_keypad_puzzle(self):
+    def select_and_set_cryptic_keypad_puzzle(self):
+        """
+        Selects and sets one of ten cryptic answers and clues within the game.
+        """
         cryptic_answer_and_clue = {"ISLE": "Part of Chislehurst you can't walk away from. (4)",
                                    "SAND": "Hazard constructed in bricks and mortar. (4)",
                                    "PALM": "Handy source of coconuts. (4)",
@@ -465,7 +495,10 @@ class Game:
                 self.paper.set_description_text(f"On the paper is a cryptic clue.\n'{clue}'")
             count_track += 1
 
-    def randomize_fruit_puzzle(self):
+    def randomize_and_set_fruit_puzzle(self):
+        """
+        Randomly selects and sets the deadly fruit, and sets the other fruit accordingly.
+        """
         all_fruit_colours = ["RED FRUIT", "ORANGE FRUIT", "YELLOW FRUIT", "GREEN FRUIT", "BLUE FRUIT", "PURPLE FRUIT"]
         random_death_index = randint(0, 5)
         death_fruit = [None, -100, -100, "Poisonous from the first bite, death comes swiftly."]
@@ -529,7 +562,10 @@ class Game:
         self.fruit_tree.set_reveals_items_list(sample(self.fruit_tree.get_revealed_item(), len(self.fruit_tree.get_revealed_item())))
         self.body.set_description_text(f"In one hand is a piece of {death_fruit[0].lower()}.\nIn the other is a NOTE.")
 
-    def introduction_to_get_players_name(self):
+    def introduction_to_set_players_name(self):
+        """
+        Story to set the players name.
+        """
         self.clear_screen()
         self.typing("'Any callsign. This is Coastguard. Are you receiving. Over'")
         time.sleep(1)
@@ -550,6 +586,9 @@ class Game:
             self.player_name = input("- ").capitalize().strip()
 
     def introduction_and_goals(self):
+        """
+        Give the player a goal.
+        """
         self.clear_screen()
         self.typing(f"'Coastguard. This is {self.player_name}. Receiving. Over'")
         self.typing(f"'Coastguard. Glad we found you {self.player_name}. We have been looking for you for days. Break'")
@@ -561,13 +600,16 @@ class Game:
         print("\nPress [ENTER] to continue.")
         input("- ")
 
-    def get_players_special_ability(self):
+    def get_and_set_players_special_ability(self):
+        """
+        Allows the player to select a special ability of their choosing.
+        """
         self.clear_screen()
         print("More memories coming flooding back. I remember I was good at something...")
         time.sleep(1)
         print("\nStrength: You have the strength of an Ox, you can carry 10 items in your backpack instead of 5.")
         print("Dexterity: You are light on your feet, moving only takes energy and hydration every second turn.")
-        print("Charisma: You speak well and seem to be liked naturally, other want to help you more.")
+        print("Charisma: You speak well and seem to be liked naturally, others want to help you more.")
         print("Intelligence: You just seem to know more, food and drink items now have statistics.")
 
         while True:
@@ -592,6 +634,9 @@ class Game:
         input("- ")
 
     def set_all_items_in_game(self):
+        """
+        Places all items in their respective locations by matching ID's.
+        """
         for location in self.game_locations:
             if isinstance(location, ExplorableLocation):
                 location.clear_location_items()
@@ -599,7 +644,10 @@ class Game:
                     if item.get_initial_location_id() == location.get_location_id():
                         location.add_item_to_location(item)
 
-    def show_location_introduction(self):
+    def show_location_introduction_on_move(self):
+        """
+        When a player moves to a new location, shows the generic location information depending on its discovery status.
+        """
         for location in self.game_locations:
             if location.get_location_id() == self.current_location_index:
                 # Set or reset move to false.
@@ -628,6 +676,9 @@ class Game:
                         print(f"You return to {location.get_location_description_text()}")
 
     def show_location_items_information(self):
+        """
+        Shows all the items located in a location.
+        """
         # Display all static items
         for item in self.current_location.get_location_items():
             if item.get_visibility_status() and not isinstance(item, Movable):
@@ -642,20 +693,25 @@ class Game:
                 print(f"On the ground lies the dropped {item.get_name()}")
 
     def show_energy_and_hydration_information(self):
+        """
+        Shows how much energy and hydration the player has remaining.
+        """
         print(f"\nYou currently have enough energy for {self.energy} moves.")
         print(f"You currently have enough hydration for {self.hydration} moves")
 
     def show_options_for_movement(self):
-        print(
-            f"\nTo the NORTH (N) {self.game_locations[self.current_location.get_north_id()].get_cardinal_description_text()}")
-        print(
-            f"To the EAST (E) {self.game_locations[self.current_location.get_east_id()].get_cardinal_description_text()}")
-        print(
-            f"To the SOUTH (S) {self.game_locations[self.current_location.get_south_id()].get_cardinal_description_text()}")
-        print(
-            f"To the WEST (W) {self.game_locations[self.current_location.get_west_id()].get_cardinal_description_text()}")
+        """
+        Shows what is located in the surrounding locations the player can move to.
+        """
+        print(f"\nTo the NORTH (N) {self.game_locations[self.current_location.get_north_id()].get_cardinal_description_text()}")
+        print(f"To the EAST (E) {self.game_locations[self.current_location.get_east_id()].get_cardinal_description_text()}")
+        print(f"To the SOUTH (S) {self.game_locations[self.current_location.get_south_id()].get_cardinal_description_text()}")
+        print(f"To the WEST (W) {self.game_locations[self.current_location.get_west_id()].get_cardinal_description_text()}")
 
     def get_players_input_on_what_they_want_to_do(self):
+        """
+        Get what the player wants to do.
+        """
         # Ask the player what they want to do.
         print("\nWhat do you want to do now?")
         print("Help (H) / Refresh (R) / Bag (B) / Chart (C) / Quit (Q)")
@@ -665,7 +721,9 @@ class Game:
         print("")
 
     def player_needs_help(self):
-
+        """
+        If they require assistance on what to do or how to do things.
+        """
         # Contact helper.
         self.typing(f"'Coastguard. This is {self.player_name}. Are you receiving. Over'")
         self.typing(f"'{self.player_name}. This is Coastguard. Receiving. How can we help. Over'")
@@ -810,18 +868,30 @@ class Game:
                 self.typing(f"'Coastguard. You are broken and unreadable. Say again. Over'")
 
     def clear_page_and_redisplay_information(self):
+        """
+        If the player wants to refresh the page, back to when they arrived in the location, with the changes they have made.
+        """
         self.clear_screen()
         self.show_location_items_information()
         self.show_energy_and_hydration_information()
         self.show_options_for_movement()
 
     def display_bag_contents(self):
+        """
+        Show how many spots in the bag are taken up and what's in the bag.
+        """
         print(self.backpack.list())
 
     def display_chart(self):
+        """
+        Show the chart so the player can get a sense of where they are.
+        """
         print(self.chart.show_chart())
 
     def quit_game_option(self):
+        """
+        Quit the game, but they can start again.
+        """
         while True:
             print("Are you sure you want to quit the game? (Yes / No)")
             quit_game = input("- ").strip().upper()
@@ -838,6 +908,9 @@ class Game:
                 print("\nYou must confirm either Yes or No.")
 
     def look_at_an_item(self):
+        """
+        If the player wants more information on an item.
+        """
         # Is the noun an item?
         if self.current_input_noun in [item.get_name() for item in self.game_items]:
             # Is the noun located in the current location?
@@ -872,6 +945,9 @@ class Game:
             print(f"{self.current_input_noun} is not a valid item to {self.current_input_action}.")
 
     def move_to_a_new_location(self):
+        """
+        If the player wants to move to a different location.
+        """
         # To move to the location to the North.
         if self.current_input_noun == "NORTH" or self.current_input_noun == "N":
             # Movement is true and add one to move tally.
@@ -1018,6 +1094,9 @@ class Game:
             input("- ")
 
     def interact_with_the_dashboard(self):
+        """
+        If the player wants to interact with the dashboard.
+        """
         # Is the noun here?
         if self.dashboard in self.current_location.get_location_items():
             # Do you have the required item?
@@ -1047,6 +1126,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_compartment(self):
+        """
+        If the player wants to interact with the compartment.
+        """
         # Is the noun here?
         if self.compartment in self.current_location.get_location_items():
             # Do you have the required item?
@@ -1075,12 +1157,15 @@ class Game:
                     print(f"Now to find somewhere to plug other other end...")
             # Doesn't have the required item.
             else:
-                print("I have any way to supply power in my bag...")
+                print("I don't have any way to supply power in my bag...")
         # Wrong location.
         else:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_fuel_tank(self):
+        """
+        If the player wants to interact with the fuel tank.
+        """
         # Is the noun here?
         if self.fuel_tank in self.current_location.get_location_items():
             # Do you have the required item?
@@ -1110,6 +1195,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_keypad(self):
+        """
+        If the player wants to interact with the keypad.
+        """
         # Is the noun here?
         if self.keypad in self.current_location.get_location_items():
             # Is it visible?
@@ -1128,11 +1216,15 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_button(self):
+        """
+        If the player wants to interact with the button.
+        """
         # Is the noun here?
         if self.button in self.current_location.get_location_items():
             # All conditions met to start boat.
             if self.dashboard.get_key_status() and self.dashboard.get_power_status() and self.dashboard.get_fuel_status():
-                print("The boat engine roars to life as you cast of the rope.")
+                print("The boat engine roars to life as you cast off the rope.")
+                self.moved = True
                 self.boat_end = True
                 print("\nPress [ENTER] to continue.")
                 input("- ")
@@ -1143,6 +1235,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_metal_box(self):
+        """
+        If the player wants to interact with the metal box.
+        """
         # Is the noun here?
         if self.metal_box in self.current_location.get_location_items():
             # Do you have the required item?
@@ -1166,6 +1261,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_coconut(self):
+        """
+        If the player wants to interact with the coconut.
+        """
         # Is the noun here?
         if self.coconut in self.current_location.get_location_items():
             # Is it visible?
@@ -1192,6 +1290,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_sand(self):
+        """
+        If the player wants to interact with the sand.
+        """
         # Is the noun here?
         if self.sand in self.current_location.get_location_items():
             # Do you have the required item?
@@ -1214,6 +1315,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def interact_with_the_block(self):
+        """
+        If the player wants to interact with the block.
+        """
         # Is the noun here?
         if self.block in self.current_location.get_location_items():
             # Get numbered blocks in bag.
@@ -1403,6 +1507,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def open_an_item(self):
+        """
+        If the player wants to open a container to reveal what's inside. Must be unlocked.
+        """
         # Is the noun an item.
         if self.current_input_noun in [item.get_name() for item in self.game_items]:
             # Is the noun here?
@@ -1432,6 +1539,9 @@ class Game:
             print(f"{self.current_input_noun} is not a valid item.")
 
     def take_an_item_and_put_it_in_the_players_bag(self):
+        """
+        If the player wants to take an item to put in their bag. They can use it at a later stage.
+        """
         # Is the noun an item?
         if self.current_input_noun in [item.get_name() for item in self.game_items]:
             # Is the subject located in the current location?
@@ -1443,48 +1553,50 @@ class Game:
                         if item.get_visibility_status():
                             # Is it movable.
                             if isinstance(item, Movable):
-                                # If getting the item has a condition to meet before being taken.
-                                if isinstance(item, Conditional):
-                                    if item.get_condition_status():
+                                if self.backpack.count() < self.backpack.get_capacity():
+                                    # If getting the item has a condition to meet before being taken.
+                                    if isinstance(item, Conditional):
+                                        if item.get_condition_status():
+                                            # Add it to your bag.
+                                            print(self.backpack.add(item))
+                                            self.current_location.remove_location_item(item)
+                                            # If it was revealed by another item.
+                                            if isinstance(item, RevealedMovable):
+                                                taken_from = item.get_item_revealed_by()
+                                                taken_from.item_one_taken()
+                                        else:
+                                            # New text against what happens
+                                            print(f"{item.get_name()} is out of reach.")
+                                    # Trying to take water.
+                                    elif item.get_name() == "WATER":
+                                        # Does the player have a water bottle?
+                                        if self.water_bottle in self.backpack.items():
+                                            # If the water bottle is already full.
+                                            if self.water_bottle.get_water_bottle_status():
+                                                print("The water bottle is already full.")
+                                            # If the water bottle is empty.
+                                            else:
+                                                # Fill up the water bottle.
+                                                print(self.water_bottle.fill_water_bottle())
+                                        # No water bottle.
+                                        else:
+                                            # Give clue.
+                                            print("I can't just put water in my bag...\n"
+                                                  "If only I had a water bottle.")
+                                    # Take the item.
+                                    else:
                                         # Add it to your bag.
                                         print(self.backpack.add(item))
                                         self.current_location.remove_location_item(item)
                                         # If it was revealed by another item.
-                                        if isinstance(item, RevealedMovable):
+                                        if isinstance(item, RevealedMovable) or \
+                                                isinstance(item, RevealedConsumable):
                                             taken_from = item.get_item_revealed_by()
                                             taken_from.item_one_taken()
-                                    else:
-                                        # New text against what happens
-                                        print(f"{item.get_name()} is out of reach.")
-                                # Trying to take water.
-                                elif item.get_name() == "WATER":
-                                    # Does the player have a water bottle?
-                                    if self.water_bottle in self.backpack.items():
-                                        # If the water bottle is already full.
-                                        if self.water_bottle.get_water_bottle_status():
-                                            print("The water bottle is already full.")
-                                        # If the water bottle is empty.
-                                        else:
-                                            # Fill up the water bottle.
-                                            print(self.water_bottle.fill_water_bottle())
-                                    # No water bottle.
-                                    else:
-                                        # Give clue.
-                                        print("I can't just put water in my bag...\n"
-                                              "If only I had a water bottle.")
-                                # Take the item.
+                                            if isinstance(item, DualRevealsMovable):
+                                                taken_from.item_two_taken()
                                 else:
-                                    # Add it to your bag.
-                                    print(self.backpack.add(item))
-                                    self.current_location.remove_location_item(item)
-                                    # If it was revealed by another item.
-                                    if isinstance(item, RevealedMovable) or \
-                                            isinstance(item, RevealedConsumable):
-                                        taken_from = item.get_item_revealed_by()
-                                        taken_from.item_one_taken()
-                                        if isinstance(item, DualRevealsMovable):
-                                            taken_from.item_two_taken()
-                                    break
+                                    print("Your bag is full. Drop an item first.")
                             else:
                                 print(f"{self.current_input_noun} can't be taken.")
                         else:
@@ -1499,6 +1611,9 @@ class Game:
             print(f"{self.current_input_noun} is not a valid item.")
 
     def drop_something_from_the_players_bag(self):
+        """
+        If the player wants to  drop something from their bag. Item will remain on the ground where they dropped it.
+        """
         # Is the noun an item?
         if self.current_input_noun in [item.get_name() for item in self.game_items]:
             # Is the noun in the bag?
@@ -1517,6 +1632,9 @@ class Game:
             print(f"{self.current_input_noun} is not a valid item.")
 
     def speak_with_merman(self):
+        """
+        If the player wants to speak with the merman to retrieve an item.
+        """
         # Is the noun here?
         if self.merman in self.current_location.get_location_items():
             # Is it visible?
@@ -1531,7 +1649,7 @@ class Game:
                         self.jerry.make_visible()
                         self.cable.make_visible()
                         print("\nI can't help you escape this island, you're too weak in the water.\n"
-                              "I saw a jerry and a cable in the water to the North though.")
+                              "I saw some things in the water to the North though.")
 
                     # If items he can help get haven't been discovered.
                     if not self.jerry.get_visibility_status() and not self.cable.get_visibility_status():
@@ -1539,7 +1657,7 @@ class Game:
                               "If there is something else, come back and see me.")
                     # Items discovered.
                     else:
-                        print("\nI could help you get the jerry or cable, but it will cost you a some gold.")
+                        print("\nI could retrieve something from the water for you, but it will cost you a some gold.")
                         # Nothing in bag to trade.
                         if self.coin not in self.backpack.items() and self.trident not in self.backpack.items():
                             if self.ability == "CHARISMA":
@@ -1596,7 +1714,7 @@ class Game:
                                 print(f"\n{payment} is worthless to me.\nReturn when you have something better.")
 
                             if payment_item is not None:
-                                print(f"\nWant me to get the CABLE or the JERRY? "
+                                print(f"\nWhat do you want me to retrieve for you? "
                                       f"({ocean_items_string[:-3]})")
                                 response = input("- ").upper().strip()
                                 # Want cable.
@@ -1632,6 +1750,9 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def speak_with_parrot(self):
+        """
+        If the player wants to speak with the parrot to retrieve an item.
+        """
         # Is the noun here?
         if self.parrot in self.current_location.get_location_items():
             # If the coin is still there.
@@ -1698,10 +1819,16 @@ class Game:
             print(f"The is no {self.current_input_noun} here.")
 
     def speak_with_kraken(self):
+        """
+        If the player wants to speak with the kraken to get how many chances they have left with the block.
+        """
         print(f"{self.kraken.get_initial_dialogue()}\n"
               f"You have {2 - self.kraken_block_attempts} attempts left.")
 
     def eat_or_drink_a_consumable_item(self):
+        """
+        If the player wants to eat or drink something to replenish energy and hydration levels. May also subtract.
+        """
         # Is the noun an item.
         if self.current_input_noun in [item.get_name() for item in self.game_items]:
             # Is the noun here?
@@ -1767,8 +1894,11 @@ class Game:
             print(f"{self.current_input_noun} is not a valid item.")
 
     def play(self):
+        """
+        Cycle the gameplay until and ending is achieved or the player quits.
+        """
         while not self.boat_end and not self.kraken_end and not self.ocean_death_end and not self.land_death_end and not self.quit_end:
-            self.show_location_introduction()
+            self.show_location_introduction_on_move()
             self.show_location_items_information()
             self.show_energy_and_hydration_information()
             self.show_options_for_movement()
@@ -1866,6 +1996,9 @@ class Game:
                         print(f"{self.current_input_action} is not a valid action to use with a CAPITALIZED NOUN.")
 
     def check_and_display_boat_end(self):
+        """
+        If the boat end it true.
+        """
         # Complete game by taking boat.
         if self.boat_end:
             self.clear_screen()
@@ -1878,6 +2011,9 @@ class Game:
             print(f"\nCongratulations {self.player_name}. You have successfully made it off The Island.")
 
     def check_and_display_kraken_end(self):
+        """
+        If the kraken end it true.
+        """
         # Complete game by taking kraken.
         if self.kraken_end:
             self.clear_screen()
@@ -1890,6 +2026,9 @@ class Game:
             print(f"\nCongratulations {self.player_name}. You have successfully made it off The Island.")
 
     def check_and_display_ocean_death_end(self):
+        """
+        If the ocean death end it true.
+        """
         # Lose game by dying in the ocean.
         if self.ocean_death_end:
             self.clear_screen()
@@ -1902,6 +2041,9 @@ class Game:
             print(f"\nGAME OVER {self.player_name}. You didn't make it off The Island alive.")
 
     def check_and_display_land_death_end(self):
+        """
+        If the land death end it true.
+        """
         # Lose game by dying on land.
         if self.land_death_end:
             self.clear_screen()
@@ -1915,12 +2057,18 @@ class Game:
             print(f"\nGAME OVER {self.player_name}. You didn't make it off The Island alive.")
 
     def check_and_display_quit_end(self):
+        """
+        If the player quit.
+        """
         # Quit the game.
         if self.quit_end:
             self.clear_screen()
             print(f"GAME OVER {self.player_name}. You quit the game.")
 
     def check_play_again(self):
+        """
+        Gives the player a choice to play again.
+        """
         while True:
             print(f"\n{self.player_name}, do you want to play again? (Yes / No)")
             play_again_input = input("- ").strip().upper()
@@ -1932,4 +2080,7 @@ class Game:
                 print("\nYou must confirm either Yes or No.")
 
     def exit_game(self):
+        """
+        Final sign off if the player no longer wants to play.
+        """
         print(f"\nThanks for playing {self.player_name}.\nCome back and adventure on The Island again soon.")

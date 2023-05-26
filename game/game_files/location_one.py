@@ -12,7 +12,8 @@ original_sign = Item(1, True,
                      "Large rocks have been placed on the beach to form what seems to be an 'SOS' SIGN.",
                      "The rocks are large and are made of granite.\n"
                      "The corners of the letters are fairly square.\n"
-                     "There are a few extra rocks to the bottom left.")
+                     "The first 'S' looks strange, as the tail connects back to the centre.\n"
+                     "Maybe the sign isn't a signal for help...")
 
 original_paper = Item(1, True,
                       "PAPER",

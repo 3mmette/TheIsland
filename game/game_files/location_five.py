@@ -9,7 +9,7 @@ original_tree = RevealsMovable(5, True, None,
                                "TREE",
                                "On the side of the crater is a large dead TREE.",
                                "The dead limbs stretch up towards the sky.",
-                               "Stuck in the truck is a KEY RAKE.",
+                               "Stuck in the trunk is a KEY RAKE.",
                                "It creates a beautiful silhouette.")
 
 original_key_rake = RevealedMovable(5, False, None,

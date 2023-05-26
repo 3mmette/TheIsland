@@ -59,7 +59,9 @@ class Chart:
             # Get the variables needed.
             location_name = location.get_name()
             spacing = self.get_bytes_for_location_name() - len(location_name)
+            # Workaround after problem with downloaded GitHub file.
             byte = int(location.get_chart_location_byte() / 100)
+
             chart_index = location.get_chart_location_byte()
             # Writes to chart file.
             with open(self.get_file_name(), "rb+") as file:
@@ -77,8 +79,9 @@ class Chart:
         """
         # Is it a location the player can explore.
         if isinstance(location, ExplorableLocation):
-            # Get the variables needed.
+            # Workaround after problem with downloaded GitHub file.
             byte = int(location.get_chart_location_byte() / 100)
+            # Get the variables needed.
             chart_index = location.get_chart_location_byte()
             # Writes to chart file.
             with open(self.get_file_name(), "rb+") as file:
@@ -93,8 +96,9 @@ class Chart:
         """
         # Is it a location the player can explore.
         if isinstance(location, ExplorableLocation):
-            # Get the variables needed.
+            # Workaround after problem with downloaded GitHub file.
             byte = int(location.get_chart_location_byte() / 100)
+            # Get the variables needed.
             chart_index = location.get_chart_location_byte()
             # Writes to chart file.
             with open(self.get_file_name(), "rb+") as file:
@@ -113,7 +117,7 @@ class Chart:
             for location in locations:
                 # Is it a location the player can explore.
                 if isinstance(location, ExplorableLocation):
-                    # Add extra byte from GitHub
+                    # Workaround after problem with downloaded GitHub file.
                     byte = int(location.get_chart_location_byte() / 100)
                     # Unknown land for location name.
                     file.seek(location.get_chart_location_byte() - byte)

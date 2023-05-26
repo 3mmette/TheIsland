@@ -4,7 +4,7 @@ from game.classes.game import Game
 if __name__ == '__main__':
     game = Game()
 
-    game.introduction_to_get_players_name()
+    game.introduction_to_set_players_name()
 
     game.introduction_and_goals()
 
@@ -12,7 +12,7 @@ if __name__ == '__main__':
     while play_again:
         game.reset_game()
 
-        game.get_players_special_ability()
+        game.get_and_set_players_special_ability()
 
         game.set_all_items_in_game()
 
