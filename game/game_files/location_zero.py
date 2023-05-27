@@ -12,7 +12,7 @@ original_dashboard = Dashboard(0, True, None,
                                "At the front of the boat there is a DASHBOARD.\n"
                                "It shows the status of a few things to get the boat started.",
                                "There is a BUTTON to start the boat",
-                               "There is a slot to insert a key\n"
+                               "There is a chamber to insert a key\n"
                                "You could interact to turn the chamber, if you have the right items...",
                                "You are able to turn the key slot, this step is complete.",
                                "The dashboard lies dormant, without any power running to it.",

@@ -13,3 +13,5 @@
 1. Add an 'Are you sure?' when moving to an ocean location to stop accidental deaths. - Changed
 2. Fruit puzzle needs a more of a hint. - Changed
 3. Block puzzle too hard. - Changed
+4. More of a hint that the alcohol could be used as fuel - Changed
+5. Make merman disappear after he helps, unless charisma active - Changed

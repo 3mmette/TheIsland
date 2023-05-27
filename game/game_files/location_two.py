@@ -37,7 +37,7 @@ original_wooden_chest = Container(2, False, None, None, False,
 original_alcohol = RevealedConsumable(2, False, 0, -5, None,
                                       "ALCOHOL",
                                       "In the chest lies bottles of ALCOHOL",
-                                      "This stuff is pure, you could run a rocket of it.",
+                                      "This stuff is pure, you could run a rocket of it... or a boat.",
                                       "It's way too string, making you throw up.")
 
 original_block_two = Movable(2, True,

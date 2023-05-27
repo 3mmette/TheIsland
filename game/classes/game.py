@@ -935,8 +935,14 @@ class Game:
                 # Find the item.
                 for item in self.backpack.items():
                     if item.get_name() == self.current_input_noun:
-                        # Inspect it.
-                        print(item.inspect())
+                        if isinstance(item, Consumable):
+                            if self.ability == "INTELLIGENCE":
+                                print(item.intelligent_inspect())
+                            else:
+                                print(item.inspect())
+                        else:
+                            # Inspect it.
+                            print(item.inspect())
             # The noun isn't located in the current location or the players bag.
             else:
                 print(f"{self.current_input_noun} isn't located here or in your bag.")
@@ -1725,6 +1731,9 @@ class Game:
                                     self.buoy.item_one_taken()
                                     self.location_six.remove_location_item(self.cable)
                                     print("Pleasure doing business with you.")
+                                    if not self.ability == "CHARISMA":
+                                        print("I must return home now, good luck on your adventure.")
+                                        self.merman.make_invisible()
                                 # Want jerry.
                                 elif response == "JERRY" and not self.buoy.get_item_two_taken_status():
                                     print("\nI'll be back in a minute.")
@@ -1733,6 +1742,9 @@ class Game:
                                     self.buoy.item_two_taken()
                                     self.location_six.remove_location_item(self.jerry)
                                     print("Pleasure doing business with you.")
+                                    if not self.ability == "CHARISMA":
+                                        print("I must return home now, good luck on your adventure.")
+                                        self.merman.make_invisible()
                                 else:
                                     print(f"\nThere isn't a {response} underwater.\nTake your {payment} back.")
                                     print(self.backpack.add(payment_item))
